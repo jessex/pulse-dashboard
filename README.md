@@ -30,7 +30,7 @@ That's it! We suggest installing a linting package for your preferred code edito
 #### Environment variables
 Second and last, set up your environment variables.
 
-For the frontend: copy the `.env.example` file and set variables accordingly per environment. At the moment, the app is deployed to both staging and production environments. Staging relies on environment variables stored in `.env.development` and production relies on variables in `.env.production`. Local relies on `.env.development.local`.
+For the frontend: copy the `.env.frontend.example` file and set variables accordingly per environment. At the moment, the app is deployed to both staging and production environments. Staging relies on environment variables stored in `.env.development` and production relies on variables in `.env.production`. Local relies on `.env.development.local`.
 
 Expected frontend environment variables include:
 * `REACT_APP_API_URL` - the base URL of the backend API server.
@@ -38,7 +38,7 @@ Expected frontend environment variables include:
 
 The build process, as described below, ensures that the proper values are compiled and included in the static bundle at build time, for the right environment.
 
-For the backend: environment variables are managed inside of the Google App Engine yaml files, described below.
+For the backend: copy the `.env.backend.example` file into `.env` and set variables appropriate for your local environment. Set these same variables in your Google App Engine yaml files, if deploying to GAE. Those files are described later on.
 
 Expected backend environment variables include:
 * `AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. Either "development" or "production". Must match the frontend `REACT_APP_AUTH_ENV` variable.
