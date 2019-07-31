@@ -43,6 +43,7 @@ For the backend: environment variables are managed inside of the Google App Engi
 Expected backend environment variables include:
 * `AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. Either "development" or "production". Must match the frontend `REACT_APP_AUTH_ENV` variable.
 * `GOOGLE_APPLICATION_CREDENTIALS` - a relative path pointing to the JSON file containing the credentials of the service account used to communicate with Google Cloud Storage, for metric retrieval.
+* `METRIC_BUCKET` - the name of the Google Cloud Storage bucket where the metrics reside.
 
 ### Authentication
 The backend API server and most frontend views in the app are authenticated via [Auth0](https://auth0.com/). You can control which views are authenticated by specifying `Route` versus `PrivateRoute` in `src/App.js`. If you are setting this app up completely fresh, you will need to create your own Auth0 account and set the relevant details in `src/auth_config_dev.json` and `src/auth_config_production.json`. See `src/auth_config.json.example`.

@@ -13,7 +13,7 @@
     "test": "react-scripts test",
     "spa": "react-scripts start",
     "server": "node server.js",
-    "server:dev": "AUTH_ENV=development GOOGLE_APPLICATION_CREDENTIALS=./recidiviz-staging-service-account.json nodemon server.js",
+    "server:dev": "AUTH_ENV=development GOOGLE_APPLICATION_CREDENTIALS=./recidiviz-dev-service-account.json METRIC_BUCKET=recidiviz-staging-dashboard-data nodemon server.js",
     "dev": "npm-run-all --parallel spa server:dev"
   },
   "dependencies": {

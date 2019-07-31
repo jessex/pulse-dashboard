@@ -10,7 +10,7 @@
 var objectStorage = require('./objectStorage');
 var cacheManager = require('cache-manager');
 
-const BUCKET_NAME = 'recidiviz-staging-dashboard-data';
+const BUCKET_NAME = process.env.METRIC_BUCKET;
 const METRIC_CACHE_TTL_SECONDS = 60 * 60;  // Expire items in the cache after 1 hour
 
 var memoryCache = cacheManager.caching({ store: 'memory', ttl: METRIC_CACHE_TTL_SECONDS });
