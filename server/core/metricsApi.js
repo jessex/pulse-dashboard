@@ -35,6 +35,14 @@ const FILES_BY_METRIC_TYPE = {
   ],
 }
 
+/**
+ * Retrieves all metric files for the given metric type from Google Cloud Storage.
+ *
+ * Returns a list of Promises, one per metric file for the given type, where each Promise will
+ * eventually return either an error or an object with two keys:
+ *   - `fileKey`: a unique key for identifying the metric file, e.g. 'revocations_by_month'
+ *   - `contents`: the contents of the file deserialized into JS objects/arrays
+ */
 function fetchMetricsFromGCS(metricType) {
   const promises = [];
 
@@ -49,6 +57,17 @@ function fetchMetricsFromGCS(metricType) {
   return promises;
 }
 
+/**
+ * Retrieves the metrics for the given metric type and passes them into the given callback.
+ *
+ * The callback should be a function with a signature of `function (error, results)`. `results` is
+ * a single object with keys mapping to individual metric files and values corresponding to the
+ * deserialized contents of those files.
+ *
+ * First checks the cache to see if the metrics with the given type are already in memory and not
+ * expired beyond the configured TTL. If not, then fetches the metrics for that type from the
+ * appropriate files and invokes the callback only once all files have been retrieved.
+ */
 function fetchMetrics(metricType, callback) {
   return memoryCache.wrap(metricType, function (cacheCb) {
       console.log(`Fetching ${metricType} metrics from GCS...`);
@@ -67,6 +86,9 @@ function fetchMetrics(metricType, callback) {
   }, callback);
 }
 
+/**
+ * Converts the given contents, a Buffer of bytes, into a JS object or array.
+ */
 function convertDownloadToJson(contents) {
   const stringContents = contents.toString();
   if (!stringContents || stringContents.length === 0) {
