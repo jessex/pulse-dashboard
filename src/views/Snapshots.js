@@ -82,6 +82,23 @@ const Snapshots = () => {
                     </div>
                   </div>
                 </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologySupervisionSuccessSnapshot">
+                  <div className="mb-0" id="methodologyHeadingSupervisionSuccessSnapshot">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologySupervisionSuccessSnapshot" aria-expanded="true" aria-controls="collapseMethodologySupervisionSuccessSnapshot">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologySupervisionSuccessSnapshot" aria-labelledby="methodologyHeadingSupervisionSuccessSnapshot" data-parent="#methodologySupervisionSuccessSnapshot">
+                    <div>
+                      <ul>
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
+                        <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -117,6 +134,23 @@ const Snapshots = () => {
                         revocationAdmissionsByMonth={apiData.admissions_by_type_by_month}
                         header="revocationAdmissionsSnapshot-header"
                       />
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationAdmissionsSnapshot">
+                  <div className="mb-0" id="methodologyHeadingRevocationAdmissionsSnapshot">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationAdmissionsSnapshot" aria-expanded="true" aria-controls="collapseMethodologyRevocationAdmissionsSnapshot">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyRevocationAdmissionsSnapshot" aria-labelledby="methodologyHeadingRevocationAdmissionsSnapshot" data-parent="#methodologyRevocationAdmissionsSnapshot">
+                    <div>
+                      <ul>
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
+                        <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -158,6 +192,23 @@ const Snapshots = () => {
                     </div>
                   </div>
                 </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyDaysAtLibertySnapshot">
+                  <div className="mb-0" id="methodologyHeadingDaysAtLibertySnapshot">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyDaysAtLibertySnapshot" aria-expanded="true" aria-controls="collapseMethodologyDaysAtLibertySnapshot">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyDaysAtLibertySnapshot" aria-labelledby="methodologyHeadingDaysAtLibertySnapshot" data-parent="#methodologyDaysAtLibertySnapshot">
+                    <div>
+                      <ul>
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
+                        <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -193,6 +244,23 @@ const Snapshots = () => {
                         lsirScoreChangeByMonth={apiData.average_change_lsir_score_by_month}
                         header="lsirScoreChangeSnapshot-header"
                       />
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyLsirScoreChangeSnapshot">
+                  <div className="mb-0" id="methodologyHeadingLsirScoreChangeSnapshot">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyLsirScoreChangeSnapshot" aria-expanded="true" aria-controls="collapseMethodologyLsirScoreChangeSnapshot">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyLsirScoreChangeSnapshot" aria-labelledby="methodologyHeadingLsirScoreChangeSnapshot" data-parent="#methodologyLsirScoreChangeSnapshot">
+                    <div>
+                      <ul>
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
+                        <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
