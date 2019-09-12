@@ -73,13 +73,13 @@ class RevocationsByCounty extends Component {
           projection={geoAlbersUsa}
           projectionConfig={{ scale: 1000 }}
           width={980}
-          height={551}
+          height={500}
           style={{
             width: '100%',
             height: 'auto',
           }}
         >
-          <ZoomableGroup center={[-101, 47]} zoom={6} disablePanning>
+          <ZoomableGroup center={[-101, 47.3]} zoom={7} disablePanning>
             <Geographies geography={geographyObject}>
               {(geographies, projection) => geographies.map((geography, i) => (
                 <Geography
@@ -103,6 +103,12 @@ class RevocationsByCounty extends Component {
                       strokeWidth: 0.2,
                       outline: 'none',
                     },
+                    pressed: {
+                      fill: colorForCounty(this.chartDataPoints,
+                        this.revocationsByCounty,
+                        geography.properties.NAME),
+                      outline: 'none',
+                    }
                   }}
                 />
               ))

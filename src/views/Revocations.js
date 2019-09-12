@@ -295,7 +295,7 @@ const Revocations = () => {
           </div>
 
           {/* #Revocations by county chart ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="masonry-item col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -318,7 +318,7 @@ const Revocations = () => {
                     <div>
                       <ul>
                         <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
-                        <li>The race proportions for the population of North Dakota were taken from the U.S. Census Bureau.</li>
+                        <li>The county is the recorded county where the supervision was terminated.</li>
                       </ul>
                     </div>
                   </div>
