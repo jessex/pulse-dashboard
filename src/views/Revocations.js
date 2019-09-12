@@ -10,6 +10,7 @@ import RevocationCountByViolationType from "../components/charts/revocations/Rev
 import RevocationCountByOfficer from "../components/charts/revocations/RevocationCountByOfficer";
 import AdmissionTypeProportions from "../components/charts/revocations/AdmissionTypeProportions";
 import RevocationProportionByRace from "../components/charts/revocations/RevocationProportionByRace";
+import RevocationsByCounty from "../components/charts/revocations/RevocationsByCounty";
 
 const Revocations = () => {
   const { loading, user, getTokenSilently } = useAuth0();
@@ -271,6 +272,49 @@ const Revocations = () => {
                     </div>
                   </div>
                   <div className="collapse" id="collapseMethodologyRevocationsByRace" aria-labelledby="methodologyHeadingRevocationsByRace" data-parent="#methodologyRevocationsByRace">
+                    <div>
+                      <ul>
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
+                        <li>The race proportions for the population of North Dakota were taken from the U.S. Census Bureau.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100">
+                  <div className="peers ai-c jc-c gapX-20">
+                    <div className="peer fw-600">
+                      <span className="fsz-def fw-600 mR-10 c-grey-800">
+                        <small className="c-grey-500 fw-600">Period </small>
+                        Last 60 days
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* #Revocations by county chart ==================== */}
+          <div className="masonry-item col-md-12">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h4 className="lh-1">Revocations by county</h4>
+                </div>
+                <div className="layer w-100 pX-20 pT-20 row">
+                  <div className="layer w-100 p-20">
+                  <RevocationsByCounty revocationsByCounty={apiData.revocations_by_county_60_days} />
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByCounty">
+                  <div className="mb-0" id="methodologyHeadingsRevocationsByCounty">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsByCounty" aria-expanded="true" aria-controls="collapseMethodologyRevocationsByCounty">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyRevocationsByCounty" aria-labelledby="methodologyHeadingRevocationsByCounty" data-parent="#methodologyRevocationsByCounty">
                     <div>
                       <ul>
                         <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
