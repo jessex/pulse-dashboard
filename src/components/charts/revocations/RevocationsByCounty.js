@@ -110,7 +110,7 @@ class RevocationsByCounty extends Component {
                         this.revocationsByCounty,
                         geography.properties.NAME),
                       outline: 'none',
-                    }
+                    },
                   }}
                 />
               ))
