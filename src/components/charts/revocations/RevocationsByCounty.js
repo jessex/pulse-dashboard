@@ -33,7 +33,7 @@ function revocationCountForCounty(chartDataPoints, countyName) {
 function colorForCounty(chartDataPoints, countsByCounty, countyName) {
   const countyScale = scaleLinear()
     .domain([0, max / 2, max])
-    .range(['#E0E2E7', '#AFBDE3', COLORS['blue-standard-2']]);
+    .range(['#F5F6F7', '#9FB1E3', COLORS['blue-standard-2']]);
 
   const revocationsForCounty = revocationCountForCounty(chartDataPoints, countyName);
   return countyScale(revocationsForCounty);
@@ -87,7 +87,7 @@ class RevocationsByCounty extends Component {
                 <Geography
                   key={i}
                   data-tip={geography.properties.NAME
-                    + ' ('.concat(revocationCountForCounty(this.chartDataPoints, geography.properties.NAME), ')')}
+                    + ': '.concat(revocationCountForCounty(this.chartDataPoints, geography.properties.NAME))}
                   geography={geography}
                   projection={projection}
                   style={{
