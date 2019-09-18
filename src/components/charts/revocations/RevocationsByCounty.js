@@ -52,10 +52,12 @@ class RevocationsByCounty extends Component {
         revocation_count: revocationCount,
       } = data;
 
+      const revocationCountNum = parseInt(revocationCount, 10);
+
       if (countyCode !== 'UNKNOWN_COUNTY') {
-        if (revocationCount > max) max = revocationCount;
+        if (revocationCountNum > max) max = revocationCountNum;
         const standardCountyName = countyNameFromCode(stateCode, countyCode);
-        this.chartDataPoints[standardCountyName] = revocationCount;
+        this.chartDataPoints[standardCountyName] = revocationCountNum;
       }
     });
   }
@@ -79,7 +81,7 @@ class RevocationsByCounty extends Component {
             height: 'auto',
           }}
         >
-          <ZoomableGroup center={[-101, 47.3]} zoom={7} disablePanning>
+          <ZoomableGroup center={[-100.5, 47.3]} zoom={7} disablePanning>
             <Geographies geography={geographyObject}>
               {(geographies, projection) => geographies.map((geography, i) => (
                 <Geography
