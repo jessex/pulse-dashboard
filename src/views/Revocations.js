@@ -317,9 +317,9 @@ const Revocations = () => {
                   <div id="collapseMethodologyRevocationByOfficer" className="collapse" aria-labelledby="methodologyHeadingRevocationByOfficer" data-parent="#methodologyRevocationByOfficer">
                     <div>
                       <ul>
+                        <li>This chart displays the top 10 revocation counts of officers in the state.</li>
                         <li>Revocations are counted towards an officer if that officer is flagged as the terminating officer at the time of a person's revocation.</li>
                         <li>Revocations are included based on the date that the revocation was officially sanctioned, not the date of the causal violation or offense.</li>
-                        <li><a href="methodology.html" target="_blank">Read more...</a></li>
                       </ul>
                     </div>
                   </div>
