@@ -97,19 +97,22 @@ const RevocationCountByOfficer = (props) => {
         tooltips: {
           mode: 'index',
           intersect: false,
+          callbacks: {
+            title: (tooltipItem) => ('Officer '.concat(tooltipItem[0].label)),
+          },
         },
         scales: {
           xAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Month',
+              labelString: 'Officer ID',
             },
             stacked: true,
           }],
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Revocation counts',
+              labelString: 'Revocation count',
             },
             stacked: true,
           }],
