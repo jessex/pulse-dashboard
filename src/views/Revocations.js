@@ -167,6 +167,89 @@ const Revocations = () => {
             </div>
           </div>
 
+          {/* #Revocations by county chart ==================== */}
+          <div className="masonry-item col-md-6">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h4 className="lh-1">Revocations by county</h4>
+                </div>
+                <div className="layer w-100 pX-20 pT-20 row">
+                  <div className="layer w-100 p-20">
+                  <RevocationsByCounty revocationsByCounty={apiData.revocations_by_county_60_days} />
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByCounty">
+                  <div className="mb-0" id="methodologyHeadingsRevocationsByCounty">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsByCounty" aria-expanded="true" aria-controls="collapseMethodologyRevocationsByCounty">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyRevocationsByCounty" aria-labelledby="methodologyHeadingRevocationsByCounty" data-parent="#methodologyRevocationsByCounty">
+                    <div>
+                      <ul>
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
+                        <li>The county is the recorded county where the supervision was terminated.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100">
+                  <div className="peers ai-c jc-c gapX-20">
+                    <div className="peer fw-600">
+                      <span className="fsz-def fw-600 mR-10 c-grey-800">
+                        <small className="c-grey-500 fw-600">Period </small>
+                        Last 60 days
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* #Revocations by officer id ==================== */}
+          <div className="masonry-item col-md-6">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h4 className="lh-1">Revocations by officer</h4>
+                </div>
+                <div className="layer w-100 p-20">
+                  <RevocationCountByOfficer revocationCountsByOfficer={apiData.revocations_by_officer_60_days} />
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationByOfficer">
+                  <div className="mb-0" id="methodologyHeadingRevocationByOfficer">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationByOfficer" aria-expanded="true" aria-controls="collapseMethodologyRevocationByOfficer">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div id="collapseMethodologyRevocationByOfficer" className="collapse" aria-labelledby="methodologyHeadingRevocationByOfficer" data-parent="#methodologyRevocationByOfficer">
+                    <div>
+                      <ul>
+                        <li>This chart displays the top 10 revocation counts of officers in the state.</li>
+                        <li>Revocations are counted towards an officer if that officer is flagged as the terminating officer at the time of a person's revocation.</li>
+                        <li>Revocations are included based on the date that the revocation was officially sanctioned, not the date of the causal violation or offense.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100">
+                  <div className="peers ai-c jc-c gapX-20">
+                    <div className="peer fw-600">
+                      <small className="c-grey-500 fw-600">Period </small>
+                      <span className="fsz-def fw-600 mR-10 c-grey-800">Last 60 days</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* #Admission type proportions ==================== */}
           <div className="masonry-item col-md-6">
             <div className="bd bgc-white p-20">
@@ -246,89 +329,6 @@ const Revocations = () => {
                         <small className="c-grey-500 fw-600">Period </small>
                         Last 60 days
                       </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* #Revocations by county chart ==================== */}
-          <div className="masonry-item col-md-6">
-            <div className="bd bgc-white p-20">
-              <div className="layers">
-                <div className="layer w-100 pX-20 pT-20">
-                  <h4 className="lh-1">Revocations by county</h4>
-                </div>
-                <div className="layer w-100 pX-20 pT-20 row">
-                  <div className="layer w-100 p-20">
-                  <RevocationsByCounty revocationsByCounty={apiData.revocations_by_county_60_days} />
-                  </div>
-                </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByCounty">
-                  <div className="mb-0" id="methodologyHeadingsRevocationsByCounty">
-                    <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsByCounty" aria-expanded="true" aria-controls="collapseMethodologyRevocationsByCounty">
-                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="collapse" id="collapseMethodologyRevocationsByCounty" aria-labelledby="methodologyHeadingRevocationsByCounty" data-parent="#methodologyRevocationsByCounty">
-                    <div>
-                      <ul>
-                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
-                        <li>The county is the recorded county where the supervision was terminated.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="layer bdT p-20 w-100">
-                  <div className="peers ai-c jc-c gapX-20">
-                    <div className="peer fw-600">
-                      <span className="fsz-def fw-600 mR-10 c-grey-800">
-                        <small className="c-grey-500 fw-600">Period </small>
-                        Last 60 days
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* #Revocations by officer id ==================== */}
-          <div className="masonry-item col-md-6">
-            <div className="bd bgc-white p-20">
-              <div className="layers">
-                <div className="layer w-100 pX-20 pT-20">
-                  <h4 className="lh-1">Revocations by officer</h4>
-                </div>
-                <div className="layer w-100 p-20">
-                  <RevocationCountByOfficer revocationCountsByOfficer={apiData.revocations_by_officer_60_days} />
-                </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationByOfficer">
-                  <div className="mb-0" id="methodologyHeadingRevocationByOfficer">
-                    <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationByOfficer" aria-expanded="true" aria-controls="collapseMethodologyRevocationByOfficer">
-                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
-                      </button>
-                    </div>
-                  </div>
-                  <div id="collapseMethodologyRevocationByOfficer" className="collapse" aria-labelledby="methodologyHeadingRevocationByOfficer" data-parent="#methodologyRevocationByOfficer">
-                    <div>
-                      <ul>
-                        <li>This chart displays the top 10 revocation counts of officers in the state.</li>
-                        <li>Revocations are counted towards an officer if that officer is flagged as the terminating officer at the time of a person's revocation.</li>
-                        <li>Revocations are included based on the date that the revocation was officially sanctioned, not the date of the causal violation or offense.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="layer bdT p-20 w-100">
-                  <div className="peers ai-c jc-c gapX-20">
-                    <div className="peer fw-600">
-                      <small className="c-grey-500 fw-600">Period</small>
-                      <span className="fsz-def fw-600 mR-10 c-grey-800">Last 60 days</span>
                     </div>
                   </div>
                 </div>
