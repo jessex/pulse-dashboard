@@ -46,7 +46,6 @@ const Revocations = () => {
     <main className="main-content bgc-grey-100">
       <div id="mainContent">
         <div className="row gap-20 masonry pos-r">
-          <div className="masonry-sizer col-md-6" />
 
           {/* #Revocation driver top-line chart ==================== */}
           <div className="masonry-item col-md-12">

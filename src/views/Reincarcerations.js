@@ -44,7 +44,6 @@ const Reincarcerations = () => {
     <main className="main-content bgc-grey-100">
       <div id="mainContent">
         <div className="row gap-20 masonry pos-r">
-          <div className="masonry-sizer col-md-6" />
 
           {/* #Recidivism driver top-line chart ==================== */}
           <div className="masonry-item col-md-12">
@@ -91,7 +90,11 @@ const Reincarcerations = () => {
                   <div id="collapseMethodologyRecidivismDriver" className="collapse" aria-labelledby="methodologyHeadingRecidivismDriver" data-parent="#methodologyRecidivismDriver">
                     <div>
                       <ul>
-                        <li>An admission to prison counts as a reincarceration if the person has been incarcerated previously and if they were released from their last incarceration within 10 years of the date of the new admission.</li>
+                        <li>
+                        An admission to prison counts as a reincarceration if
+                        the person has been incarcerated previously in a North
+                        Dakota prison.
+                        </li>
                       </ul>
                     </div>
                   </div>
