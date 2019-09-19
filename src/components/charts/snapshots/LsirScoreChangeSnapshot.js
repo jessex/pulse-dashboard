@@ -17,6 +17,7 @@ const LsirScoreChangeSnapshot = (props) => {
   const [chartMaxValue, setChartMaxValue] = useState();
 
   const GOAL = getGoalForChart('US_ND', 'lsir-score-change-snapshot-chart');
+  const stepSize = 0.5;
 
   const processResponse = () => {
     const { lsirScoreChangeByMonth: changeByMonth } = props;
@@ -33,8 +34,8 @@ const LsirScoreChangeSnapshot = (props) => {
 
       const sorted = sortAndFilterMostRecentMonths(dataPoints, 13);
       const chartDataValues = sorted.map((element) => element[2]);
-      const min = getMinForGoalAndData(GOAL.value, chartDataValues, 1);
-      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, 1);
+      const min = getMinForGoalAndData(GOAL.value, chartDataValues, stepSize);
+      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, stepSize);
 
       setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), true));
       setChartDataPoints(chartDataValues);
@@ -103,6 +104,7 @@ const LsirScoreChangeSnapshot = (props) => {
               fontColor: COLORS['grey-600'],
               min: chartMinValue,
               max: chartMaxValue,
+              stepSize,
             },
             scaleLabel: {
               display: true,

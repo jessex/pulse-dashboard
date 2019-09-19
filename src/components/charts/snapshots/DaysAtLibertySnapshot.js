@@ -17,6 +17,7 @@ const DaysAtLibertySnapshot = (props) => {
   const [chartMaxValue, setChartMaxValue] = useState();
 
   const GOAL = getGoalForChart('US_ND', 'days-at-liberty-snapshot-chart');
+  const stepSize = 200;
 
   const processResponse = () => {
     const { daysAtLibertyByMonth } = props;
@@ -32,8 +33,8 @@ const DaysAtLibertySnapshot = (props) => {
 
       const sorted = sortAndFilterMostRecentMonths(dataPoints, 13);
       const chartDataValues = sorted.map((element) => element[2]);
-      const min = getMinForGoalAndData(GOAL.value, chartDataValues, 100);
-      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, 100);
+      const min = getMinForGoalAndData(GOAL.value, chartDataValues, stepSize);
+      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, stepSize);
 
       setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), true));
       setChartDataPoints(chartDataValues);
@@ -102,6 +103,7 @@ const DaysAtLibertySnapshot = (props) => {
               fontColor: COLORS['grey-600'],
               min: chartMinValue,
               max: chartMaxValue,
+              stepSize,
             },
             scaleLabel: {
               display: true,

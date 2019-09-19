@@ -15,6 +15,7 @@ const RevocationAdmissionsSnapshot = (props) => {
   const [chartMaxValue, setChartMaxValue] = useState();
 
   const GOAL = getGoalForChart('US_ND', 'revocation-admissions-snapshot-chart');
+  const stepSize = 10;
 
   const processResponse = () => {
     const { revocationAdmissionsByMonth: countsByMonth } = props;
@@ -36,8 +37,8 @@ const RevocationAdmissionsSnapshot = (props) => {
 
       const sorted = sortAndFilterMostRecentMonths(dataPoints, 13);
       const chartDataValues = sorted.map((element) => element[2]);
-      const min = getMinForGoalAndData(GOAL.value, chartDataValues, 10);
-      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, 10);
+      const min = getMinForGoalAndData(GOAL.value, chartDataValues, stepSize);
+      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, stepSize);
 
       setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), true));
       setChartDataPoints(chartDataValues);
@@ -106,6 +107,7 @@ const RevocationAdmissionsSnapshot = (props) => {
               fontColor: COLORS['grey-600'],
               min: chartMinValue,
               max: chartMaxValue,
+              stepSize,
             },
             scaleLabel: {
               display: true,

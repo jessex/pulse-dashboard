@@ -55,20 +55,20 @@ function trendlineGoalText(trendlineValues, goal) {
   return trendlineText;
 }
 
-function getMinForGoalAndData(goalValue, dataPoints, tickScale) {
+function getMinForGoalAndData(goalValue, dataPoints, stepSize) {
   let minValue = Math.min(...dataPoints);
   if (goalValue < minValue) {
     minValue = goalValue;
   }
-  return (minValue - tickScale) - ((minValue - tickScale) % tickScale);
+  return (minValue - stepSize) - ((minValue - stepSize) % stepSize);
 }
 
-function getMaxForGoalAndData(goalValue, dataPoints, tickScale) {
+function getMaxForGoalAndData(goalValue, dataPoints, stepSize) {
   let maxValue = Math.max(...dataPoints);
   if (goalValue > maxValue) {
     maxValue = goalValue;
   }
-  return (maxValue + tickScale) + (tickScale - (maxValue % tickScale));
+  return (maxValue + stepSize) + (stepSize - (maxValue % stepSize));
 }
 
 export {
