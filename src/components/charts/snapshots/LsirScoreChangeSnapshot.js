@@ -185,7 +185,7 @@ const LsirScoreChangeSnapshot = (props) => {
   const trendlineText = trendlineGoalText(trendlineValues, GOAL);
 
   if (header) {
-    const title = `The average change in LSIR scores between intake and termination of supervision has been <b style='color:#809AE5'> trending ${trendlineText}. </b>`;
+    const title = `The average change in LSIR scores between first reassessment and termination of supervision has been <b style='color:#809AE5'> trending ${trendlineText}. </b>`;
     header.innerHTML = title;
   }
 

@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
 import { COLORS } from '../../../assets/scripts/constants/colors';
-import { monthNamesWithYearsFromNumbers, monthNamesFromShortName } from '../../../utils/monthConversion';
+import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
 import { generateTrendlineDataset, getTooltipWithoutTrendline } from '../../../utils/trendline';
-import { getGoalForChart, getMinForGoalAndData, getMaxForGoalAndData } from '../../../utils/metricGoal';
+import {
+  getGoalForChart, getMinForGoalAndData, getMaxForGoalAndData, trendlineGoalText,
+} from '../../../utils/metricGoal';
 
 const SupervisionSuccessSnapshot = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -190,16 +192,12 @@ const SupervisionSuccessSnapshot = (props) => {
   configureDownloadButtons('supervisionSuccess', 'Snapshot', chart.props,
     document.getElementById('supervision-success-snapshot-chart'), exportedStructureCallback);
 
-  const chartData = chart.props.data.datasets[0].data;
-  const mostRecentValue = chartData[chartData.length - 1];
-
-  const chartDataLabels = chart.props.data.labels;
-  const mostRecentMonth = monthNamesFromShortName(chartDataLabels[chartDataLabels.length - 1]);
-
   const header = document.getElementById(props.header);
+  const trendlineValues = chart.props.data.datasets[1].data;
+  const trendlineText = trendlineGoalText(trendlineValues, GOAL);
 
-  if (header && mostRecentValue && mostRecentMonth) {
-    const title = `<b style='color:#809AE5'>${mostRecentValue}% of people</b> whose supervision was scheduled to end in ${mostRecentMonth} <b style='color:#809AE5'>successfully completed their supervision without revocation.</b>`;
+  if (header) {
+    const title = `The rate of successful completion of supervision has been <b style='color:#809AE5'>trending ${trendlineText}.</b>`;
     header.innerHTML = title;
   }
 
