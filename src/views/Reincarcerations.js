@@ -45,7 +45,7 @@ const Reincarcerations = () => {
       <div id="mainContent">
         <div className="row gap-20 masonry pos-r">
 
-          {/* #Recidivism driver top-line chart ==================== */}
+          {/* #Reincarcerations by month chart ==================== */}
           <div className="masonry-item col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
@@ -54,19 +54,19 @@ const Reincarcerations = () => {
                     REINCARCERATIONS BY MONTH
                     <span className="fa-pull-right">
                       <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-reincarcerationDrivers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-reincarcerationCountsByMonth" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Export
                         </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-reincarcerationDrivers">
-                          <a className="dropdown-item" id="downloadChartAsImage-reincarcerationDrivers" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-reincarcerationDrivers" href="javascript:void(0);">Export data</a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-reincarcerationCountsByMonth">
+                          <a className="dropdown-item" id="downloadChartAsImage-reincarcerationCountsByMonth" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-reincarcerationCountsByMonth" href="javascript:void(0);">Export data</a>
                         </div>
                       </div>
                     </span>
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="lh-1" id="reincarcerationDrivers-header">
+                  <h4 style={{ height: '20px' }} className="lh-1" id="reincarcerationCountsByMonth-header">
                   </h4>
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
@@ -74,20 +74,20 @@ const Reincarcerations = () => {
                     <div className="layer w-100 p-20">
                       <ReincarcerationCountOverTime
                         reincarcerationCountsByMonth={apiData.reincarcerations_by_month}
-                        header="reincarcerationDrivers-header"
+                        header="reincarcerationCountsByMonth-header"
                       />
                     </div>
                   </div>
                 </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRecidivismDriver">
-                  <div className="mb-0" id="methodologyHeadingRecidivismDriver">
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyReincarcerationCountsByMonth">
+                  <div className="mb-0" id="methodologyHeadingReincarcerationCountsByMonth">
                     <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRecidivismDriver" aria-expanded="true" aria-controls="collapseMethodologyRecidivismDriver">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyReincarcerationCountsByMonth" aria-expanded="true" aria-controls="collapseMethodologyReincarcerationCountsByMonth">
                         <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
                       </button>
                     </div>
                   </div>
-                  <div id="collapseMethodologyRecidivismDriver" className="collapse" aria-labelledby="methodologyHeadingRecidivismDriver" data-parent="#methodologyRecidivismDriver">
+                  <div id="collapseMethodologyReincarcerationCountsByMonth" className="collapse" aria-labelledby="methodologyHeadingReincarcerationCountsByMonth" data-parent="#methodologyReincarcerationCountsByMonth">
                     <div>
                       <ul>
                         <li>

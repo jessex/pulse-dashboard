@@ -47,7 +47,7 @@ const Revocations = () => {
       <div id="mainContent">
         <div className="row gap-20 masonry pos-r">
 
-          {/* #Revocation driver top-line chart ==================== */}
+          {/* #Revocation counts by month chart ==================== */}
           <div className="masonry-item col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
@@ -56,19 +56,19 @@ const Revocations = () => {
                     REVOCATIONS BY MONTH
                     <span className="fa-pull-right">
                       <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationDrivers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationCountsByMonth" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Export
                         </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationDrivers">
-                          <a className="dropdown-item" id="downloadChartAsImage-revocationDrivers" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-revocationDrivers" href="javascript:void(0);">Export data</a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationCountsByMonth">
+                          <a className="dropdown-item" id="downloadChartAsImage-revocationCountsByMonth" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-revocationCountsByMonth" href="javascript:void(0);">Export data</a>
                         </div>
                       </div>
                     </span>
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="lh-1" id="revocationDrivers-header">
+                  <h4 style={{ height: '20px' }} className="lh-1" id="revocationCountsByMonth-header">
                   </h4>
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
@@ -76,20 +76,20 @@ const Revocations = () => {
                     <div className="layer w-100 p-20">
                       <RevocationCountOverTime
                         revocationCountsByMonth={apiData.revocations_by_month}
-                        header="revocationDrivers-header"
+                        header="revocationCountsByMonth-header"
                       />
                     </div>
                   </div>
                 </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationDriver">
-                  <div className="mb-0" id="methodologyHeadingRevocationDriver">
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationCountsByMonth">
+                  <div className="mb-0" id="methodologyHeadingRevocationCountsByMonth">
                     <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationDriver" aria-expanded="true" aria-controls="collapseMethodologyRevocationDriver">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationCountsByMonth" aria-expanded="true" aria-controls="collapseMethodologyRevocationCountsByMonth">
                         <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
                       </button>
                     </div>
                   </div>
-                  <div id="collapseMethodologyRevocationDriver" className="collapse" aria-labelledby="methodologyHeadingRevocationDriver" data-parent="#methodologyRevocationDriver">
+                  <div id="collapseMethodologyRevocationCountsByMonth" className="collapse" aria-labelledby="methodologyHeadingRevocationCountsByMonth" data-parent="#methodologyRevocationCountsByMonth">
                     <div>
                       <ul>
                         <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
