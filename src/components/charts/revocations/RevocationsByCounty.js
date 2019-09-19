@@ -1,19 +1,18 @@
 import React, { Component, useState, useEffect } from "react"
 import {
-    ComposableMap,
-    ZoomableGroup,
-    Geographies,
-    Geography,
-    Markers,
-    Marker,
-  } from 'react-simple-maps';
+  ComposableMap,
+  ZoomableGroup,
+  Geographies,
+  Geography,
+} from 'react-simple-maps';
 import ReactTooltip from 'react-tooltip';
 import { geoAlbersUsa } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 
-let max = -1e100;
+const centerNDLong = -100.5;
+const centerNDLat = 47.3;
 
 function countyNameFromCode(stateCode, countyCode) {
   let newCountyName = countyCode.replace(stateCode.concat('_'), '');
@@ -30,9 +29,9 @@ function revocationCountForCounty(chartDataPoints, countyName) {
   return 0;
 }
 
-function colorForCounty(chartDataPoints, countsByCounty, countyName) {
+function colorForCounty(chartDataPoints, countsByCounty, countyName, maxValue) {
   const countyScale = scaleLinear()
-    .domain([0, max / 2, max])
+    .domain([0, maxValue / 8, maxValue])
     .range(['#F5F6F7', '#9FB1E3', COLORS['blue-standard-2']]);
 
   const revocationsForCounty = revocationCountForCounty(chartDataPoints, countyName);
@@ -45,6 +44,7 @@ class RevocationsByCounty extends Component {
     this.props = props;
     this.revocationsByCounty = this.props.revocationsByCounty;
     this.chartDataPoints = {};
+    this.maxValue = -1e100;
     this.revocationsByCounty.forEach((data) => {
       const {
         state_code: stateCode,
@@ -55,7 +55,9 @@ class RevocationsByCounty extends Component {
       const revocationCountNum = parseInt(revocationCount, 10);
 
       if (countyCode !== 'UNKNOWN_COUNTY') {
-        if (revocationCountNum > max) max = revocationCountNum;
+        if (revocationCountNum > this.maxValue) {
+          this.maxValue = revocationCountNum;
+        }
         const standardCountyName = countyNameFromCode(stateCode, countyCode);
         this.chartDataPoints[standardCountyName] = revocationCountNum;
       }
@@ -81,7 +83,7 @@ class RevocationsByCounty extends Component {
             height: 'auto',
           }}
         >
-          <ZoomableGroup center={[-100.5, 47.3]} zoom={7} disablePanning>
+          <ZoomableGroup center={[centerNDLong, centerNDLat]} zoom={7} disablePanning>
             <Geographies geography={geographyObject}>
               {(geographies, projection) => geographies.map((geography, i) => (
                 <Geography
@@ -94,7 +96,8 @@ class RevocationsByCounty extends Component {
                     default: {
                       fill: colorForCounty(this.chartDataPoints,
                         this.revocationsByCounty,
-                        geography.properties.NAME),
+                        geography.properties.NAME,
+                        this.maxValue),
                       stroke: COLORS['grey-700'],
                       strokeWidth: 0.2,
                       outline: 'none',

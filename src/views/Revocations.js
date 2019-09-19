@@ -191,7 +191,7 @@ const Revocations = () => {
                     <div>
                       <ul>
                         <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
-                        <li>The county is the recorded county where the supervision was terminated.</li>
+                        <li>Revocations are attributed to the county where the person&apos;s supervision was terminated.</li>
                       </ul>
                     </div>
                   </div>
@@ -231,7 +231,7 @@ const Revocations = () => {
                   <div id="collapseMethodologyRevocationByOfficer" className="collapse" aria-labelledby="methodologyHeadingRevocationByOfficer" data-parent="#methodologyRevocationByOfficer">
                     <div>
                       <ul>
-                        <li>This chart displays the top 10 revocation counts of officers in the state.</li>
+                        <li>This chart lists the 10 officers with the highest revocation counts in the state over the period.</li>
                         <li>Revocations are counted towards an officer if that officer is flagged as the terminating officer at the time of a person's revocation.</li>
                         <li>Revocations are included based on the date that the revocation was officially sanctioned, not the date of the causal violation or offense.</li>
                       </ul>

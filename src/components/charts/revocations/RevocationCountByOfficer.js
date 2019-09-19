@@ -21,7 +21,7 @@ const RevocationCountByOfficer = (props) => {
         unknown_count: unknownCount,
       } = data;
 
-      const officerDict = {
+      const violationsByType = {
         ABSCONDED: parseInt(absconsionCount, 10),
         FELONY: parseInt(felonyCount, 10),
         TECHNICAL: parseInt(technicalCount, 10),
@@ -29,11 +29,17 @@ const RevocationCountByOfficer = (props) => {
       };
 
       let overallRevocationCount = 0;
-      Object.keys(officerDict).forEach((violationType) => {
-        overallRevocationCount += officerDict[violationType];
+      Object.keys(violationsByType).forEach((violationType) => {
+        overallRevocationCount += violationsByType[violationType];
       });
 
-      if (officerID !== 'OFFICER_UNKNOWN') dataPoints.push([officerID, officerDict, overallRevocationCount]);
+      if (officerID !== 'OFFICER_UNKNOWN') {
+        dataPoints.push({
+          officerID,
+          violationsByType,
+          overallRevocationCount,
+        });
+      }
     });
 
     const officerLabels = [];
@@ -44,11 +50,12 @@ const RevocationCountByOfficer = (props) => {
       UNKNOWN_VIOLATION_TYPE: [],
     };
 
-    const sortedDataPoints = dataPoints.sort((a, b) => (b[2] - a[2]));
+    const sortedDataPoints = dataPoints.sort((a, b) => (
+      b.overallRevocationCount - a.overallRevocationCount));
 
     for (let i = 0; i < 10; i += 1) {
-      officerLabels.push(sortedDataPoints[i][0]);
-      const data = sortedDataPoints[i][1];
+      officerLabels.push(sortedDataPoints[i].officerID);
+      const data = sortedDataPoints[i].violationsByType;
       Object.keys(data).forEach((violationType) => {
         violationArrays[violationType].push(data[violationType]);
       });
@@ -115,6 +122,9 @@ const RevocationCountByOfficer = (props) => {
               labelString: 'Revocation count',
             },
             stacked: true,
+            ticks: {
+              stepSize: 1,
+            }
           }],
         },
       }}
