@@ -14,13 +14,13 @@ const GOALS = {
     },
     'revocation-admissions-snapshot-chart': {
       isUpward: false,
-      value: 40,
-      label: '40%',
+      value: 35,
+      label: '35%',
     },
     'supervision-success-snapshot-chart': {
       isUpward: true,
-      value: 70,
-      label: '70%',
+      value: 75,
+      label: '75%',
     },
   },
 };
@@ -55,7 +55,25 @@ function trendlineGoalText(trendlineValues, goal) {
   return trendlineText;
 }
 
+function getMinForGoalAndData(goalValue, dataPoints, tickScale) {
+  let minValue = Math.min(...dataPoints);
+  if (goalValue < minValue) {
+    minValue = goalValue;
+  }
+  return (minValue - tickScale) - ((minValue - tickScale) % tickScale);
+}
+
+function getMaxForGoalAndData(goalValue, dataPoints, tickScale) {
+  let maxValue = Math.max(...dataPoints);
+  if (goalValue > maxValue) {
+    maxValue = goalValue;
+  }
+  return (maxValue + tickScale) + (tickScale - (maxValue % tickScale));
+}
+
 export {
   getGoalForChart,
+  getMaxForGoalAndData,
+  getMinForGoalAndData,
   trendlineGoalText,
 };

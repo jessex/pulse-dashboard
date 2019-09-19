@@ -6,11 +6,13 @@ import { COLORS } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers, monthNamesFromShortName } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
 import { generateTrendlineDataset, getTooltipWithoutTrendline } from '../../../utils/trendline';
-import { getGoalForChart } from '../../../utils/metricGoal';
+import { getGoalForChart, getMinForGoalAndData, getMaxForGoalAndData } from '../../../utils/metricGoal';
 
 const SupervisionSuccessSnapshot = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
+  const [chartMinValue, setChartMinValue] = useState();
+  const [chartMaxValue, setChartMaxValue] = useState();
 
   const GOAL = getGoalForChart('US_ND', 'supervision-success-snapshot-chart');
 
@@ -39,9 +41,14 @@ const SupervisionSuccessSnapshot = (props) => {
       });
 
       const sorted = sortAndFilterMostRecentMonths(dataPoints, 13);
+      const chartDataValues = (sorted.map((element) => element[2]));
+      const min = getMinForGoalAndData(GOAL.value, chartDataValues, 10);
+      const max = getMaxForGoalAndData(GOAL.value, chartDataValues, 10);
 
       setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), true));
-      setChartDataPoints(sorted.map((element) => element[2]));
+      setChartDataPoints(chartDataValues);
+      setChartMinValue(min);
+      setChartMaxValue(max);
     }
   };
 
@@ -103,7 +110,8 @@ const SupervisionSuccessSnapshot = (props) => {
           yAxes: [{
             ticks: {
               fontColor: COLORS['grey-600'],
-              max: 100,
+              min: chartMinValue,
+              max: chartMaxValue,
             },
             scaleLabel: {
               display: true,
