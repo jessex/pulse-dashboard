@@ -22,14 +22,14 @@ const RevocationCountOverTime = (props) => {
     const dataPoints = [];
     countsByMonth.forEach((data) => {
       const { year, month, revocation_count: count } = data;
-      dataPoints.push([year, month, count]);
+      dataPoints.push({ year, month, count });
     });
 
     const sorted = sortAndFilterMostRecentMonths(dataPoints, 6);
-    const chartDataValues = (sorted.map((element) => element[2]));
+    const chartDataValues = (sorted.map((element) => element.count));
     const max = getMaxForGoalAndData(GOAL.value, chartDataValues, stepSize);
 
-    setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), false));
+    setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element.month), false));
     setChartDataPoints(chartDataValues);
     setChartMinValue(0);
     setChartMaxValue(max);

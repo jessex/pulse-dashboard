@@ -39,16 +39,16 @@ const SupervisionSuccessSnapshot = (props) => {
 
         // Don't add completion rates for months in the future
         if (year < yearNow || (year === yearNow && month <= monthNow)) {
-          dataPoints.push([year, month, successRate]);
+          dataPoints.push({ year, month, successRate });
         }
       });
 
       const sorted = sortAndFilterMostRecentMonths(dataPoints, 13);
-      const chartDataValues = (sorted.map((element) => element[2]));
+      const chartDataValues = (sorted.map((element) => element.successRate));
       const min = getMinForGoalAndData(GOAL.value, chartDataValues, stepSize);
       const max = getMaxForGoalAndData(GOAL.value, chartDataValues, stepSize);
 
-      setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), true));
+      setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element.month), true));
       setChartDataPoints(chartDataValues);
       setChartMinValue(min);
       setChartMaxValue(max);

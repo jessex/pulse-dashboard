@@ -34,15 +34,15 @@ const RevocationAdmissionsSnapshot = (props) => {
         const total = technicals + nonTechnicals + unknownRevocations + newAdmissions;
         const revocations = (technicals + nonTechnicals + unknownRevocations);
         const percentRevocations = (100 * (revocations / total)).toFixed(2);
-        dataPoints.push([year, month, percentRevocations]);
+        dataPoints.push({ year, month, percentRevocations });
       });
 
       const sorted = sortAndFilterMostRecentMonths(dataPoints, 13);
-      const chartDataValues = sorted.map((element) => element[2]);
+      const chartDataValues = sorted.map((element) => element.percentRevocations);
       const min = getMinForGoalAndData(GOAL.value, chartDataValues, stepSize);
       const max = getMaxForGoalAndData(GOAL.value, chartDataValues, stepSize);
 
-      setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element[1]), true));
+      setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element.month), true));
       setChartDataPoints(chartDataValues);
       setChartMinValue(min);
       setChartMaxValue(max);
