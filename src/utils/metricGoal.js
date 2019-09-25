@@ -1,5 +1,6 @@
 import { trendlineSlope } from './trendline';
 
+// TODO(75): Retrieve these dynamically using the API
 const GOALS = {
   US_ND: {
     'days-at-liberty-snapshot-chart': {
@@ -46,6 +47,10 @@ function getGoalForChart(stateCode, chartName) {
   return new Goal(goalDict.isUpward, goalDict.value, goalDict.label);
 }
 
+function goalLabelContentString(goal) {
+  return 'goal: '.concat(goal.label);
+}
+
 /**
  * Returns the string value describing whether the data is trending towards
  * or away from the goal.
@@ -65,6 +70,12 @@ function trendlineGoalText(trendlineValues, goal) {
   return trendlineText;
 }
 
+/**
+ * Returns a value that is at least one stepSize lower than either the minimum
+ * data point on the chart or the value of the goal line, whichever is lower,
+ * and that is a multiple of the stepSize on the chart.
+ * This ensures the chart has space to show all of the data and the goal line.
+ */
 function getMinForGoalAndData(goalValue, dataPoints, stepSize) {
   let minValue = Math.min(...dataPoints);
   if (goalValue < minValue) {
@@ -73,6 +84,12 @@ function getMinForGoalAndData(goalValue, dataPoints, stepSize) {
   return (minValue - stepSize) - ((minValue - stepSize) % stepSize);
 }
 
+/**
+ * Returns a value that is at least one stepSize higher than either the maximum
+ * data point on the chart or the value of the goal line, whichever is higher,
+ * and that is a multiple of the stepSize on the chart.
+ * This ensures the chart has space to show all of the data and the goal line.
+ */
 function getMaxForGoalAndData(goalValue, dataPoints, stepSize) {
   let maxValue = Math.max(...dataPoints);
   if (goalValue > maxValue) {
@@ -85,5 +102,6 @@ export {
   getGoalForChart,
   getMaxForGoalAndData,
   getMinForGoalAndData,
+  goalLabelContentString,
   trendlineGoalText,
 };

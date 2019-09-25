@@ -5,7 +5,7 @@ import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
-import { getGoalForChart, getMaxForGoalAndData } from '../../../utils/metricGoal';
+import { getGoalForChart, getMaxForGoalAndData, goalLabelContentString } from '../../../utils/metricGoal';
 
 const RevocationCountOverTime = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -102,7 +102,7 @@ const RevocationCountOverTime = (props) => {
             borderDashOffset: 5,
             label: {
               enabled: true,
-              content: 'goal: '.concat(GOAL.label),
+              content: goalLabelContentString(GOAL),
               position: 'right',
 
               // Background color of label, default below

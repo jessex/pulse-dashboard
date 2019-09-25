@@ -8,6 +8,7 @@ import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
 import { generateTrendlineDataset, getTooltipWithoutTrendline } from '../../../utils/trendline';
 import {
   getGoalForChart, getMinForGoalAndData, getMaxForGoalAndData, trendlineGoalText,
+  goalLabelContentString,
 } from '../../../utils/metricGoal';
 
 const RevocationAdmissionsSnapshot = (props) => {
@@ -145,7 +146,7 @@ const RevocationAdmissionsSnapshot = (props) => {
             borderDashOffset: 5,
             label: {
               enabled: true,
-              content: 'goal: '.concat(GOAL.label),
+              content: goalLabelContentString(GOAL),
               position: 'right',
 
               // Background color of label, default below
