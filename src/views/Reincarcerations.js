@@ -43,10 +43,10 @@ const Reincarcerations = () => {
   return (
     <main className="main-content bgc-grey-100">
       <div id="mainContent">
-        <div className="row gap-20 masonry pos-r">
+        <div className="row gap-20 pos-r">
 
           {/* #Reincarcerations by month chart ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -104,7 +104,7 @@ const Reincarcerations = () => {
           </div>
 
           {/* #Releases vs admissions ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -140,7 +140,7 @@ const Reincarcerations = () => {
           </div>
 
           {/* #Reincarcerations by release facility ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -193,7 +193,7 @@ const Reincarcerations = () => {
           </div>
 
           {/* #Reincarcerations by transitional facility ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -244,7 +244,7 @@ const Reincarcerations = () => {
           </div>
 
           {/* #Reincarcerations by previous stay length ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">

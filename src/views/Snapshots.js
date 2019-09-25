@@ -45,10 +45,10 @@ const Snapshots = () => {
   return (
     <main className="main-content bgc-grey-100">
       <div id="mainContent">
-        <div className="row gap-20 masonry pos-r">
+        <div className="row gap-20 pos-r">
 
           {/* #Successful completion of supervision snapshot ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -111,7 +111,7 @@ const Snapshots = () => {
           </div>
 
           {/* #Prison admissions from revocations ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -173,7 +173,7 @@ const Snapshots = () => {
           </div>
 
           {/* #Average days at liberty ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -236,7 +236,7 @@ const Snapshots = () => {
           </div>
 
           {/* #Change in LSIR scores ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">

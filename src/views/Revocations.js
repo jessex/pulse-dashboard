@@ -45,10 +45,10 @@ const Revocations = () => {
   return (
     <main className="main-content bgc-grey-100">
       <div id="mainContent">
-        <div className="row gap-20 masonry pos-r">
+        <div className="row gap-20 pos-r">
 
           {/* #Revocation counts by month chart ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="col-md-12">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -103,7 +103,7 @@ const Revocations = () => {
           </div>
 
           {/* #Revocations by supervision type ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -134,7 +134,7 @@ const Revocations = () => {
           </div>
 
           {/* #Revocations by violation type ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -167,7 +167,7 @@ const Revocations = () => {
           </div>
 
           {/* #Revocations by county chart ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -210,7 +210,7 @@ const Revocations = () => {
           </div>
 
           {/* #Revocations by officer id ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -250,7 +250,7 @@ const Revocations = () => {
           </div>
 
           {/* #Admission type proportions ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -293,7 +293,7 @@ const Revocations = () => {
           </div>
 
           {/* #Revocations by race chart ==================== */}
-          <div className="masonry-item col-md-6">
+          <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
