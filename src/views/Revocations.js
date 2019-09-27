@@ -92,7 +92,7 @@ const Revocations = () => {
                   <div id="collapseMethodologyRevocationCountsByMonth" className="collapse" aria-labelledby="methodologyHeadingRevocationCountsByMonth" data-parent="#methodologyRevocationCountsByMonth">
                     <div>
                       <ul>
-                        <li>Revocations counts include the number of people incarcerated because their supervision period was revoked for a behavioral violation.</li>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
                         <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
                       </ul>
                     </div>
@@ -123,7 +123,7 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationBySupervisionType" aria-labelledby="methodologyHeadingRevocationBySupervisiontype" data-parent="#methodologyRevocationBySupervisionType">
                     <div>
                       <ul>
-                        <li>Revocations counts include the number of people incarcerated because their supervision period was revoked for a behavioral violation.</li>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
                         <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
                       </ul>
                     </div>
@@ -154,7 +154,7 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationsByViolationType" aria-labelledby="methodologyHeadingRevocationsByViolationType" data-parent="#methodologyRevocationsByViolationType">
                     <div>
                       <ul>
-                        <li>Revocations counts include the number of people incarcerated because their supervision period was revoked for a behavioral violation.</li>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
                         <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
                         <li>Violations of "Unknown Type" indicate individuals who were admitted to prison for a supervision revocation where the violation that caused the revocation cannot yet be determined.</li>
                         <li>"Technical" revocations include only those revocations which result solely from a technical violation. If there is a violation that includes a new offense or an absconsion, it is considered a non-technical revocation.</li>
@@ -189,7 +189,7 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationsByCounty" aria-labelledby="methodologyHeadingRevocationsByCounty" data-parent="#methodologyRevocationsByCounty">
                     <div>
                       <ul>
-                        <li>Revocations counts include the number of people incarcerated because their supervision period was revoked for a behavioral violation.</li>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
                         <li>Revocations are attributed to the county where the person&apos;s supervision was terminated.</li>
                         <li>Revocations are included based on the date that the person&apos;s supervision was officially revoked, not the date of the causal violation or offense.</li>
                       </ul>
@@ -322,8 +322,8 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationsByRace" aria-labelledby="methodologyHeadingRevocationsByRace" data-parent="#methodologyRevocationsByRace">
                     <div>
                       <ul>
-                        <li>Revocations counts include the number of people incarcerated because their supervision period was revoked for a behavioral violation.</li>
-                        <li>The supervision population includes anyone on probation or parole in North Dakota at any point during the time period.</li>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
+                        <li>The supervision population counts people on probation or parole in North Dakota at any point during the time period.</li>
                         <li>The race proportions for the population of North Dakota were taken from the U.S. Census Bureau.</li>
                       </ul>
                     </div>
