@@ -38,50 +38,51 @@ const RevocationProportionByRace = (props) => {
     revocationProportionByRace.forEach((data) => {
       const { race_or_ethnicity: race } = data;
       const count = parseInt(data.revocation_count, 10);
-      revocationDataPoints.push([labelStringConversion[race], count]);
+      revocationDataPoints.push({ race: labelStringConversion[race], count });
     });
 
     const supervisionDataPoints = [];
     supervisionPopulationByRace.forEach((data) => {
       const { race_or_ethnicity: race } = data;
       const count = parseInt(data.count, 10);
-      supervisionDataPoints.push([labelStringConversion[race], count]);
+      supervisionDataPoints.push({ race: labelStringConversion[race], count });
     });
 
-    const racesRepresentedRevocations = revocationDataPoints.map((element) => element[0]);
-    const racesRepresentedSupervision = supervisionDataPoints.map((element) => element[0]);
+    const racesRepresentedRevocations = revocationDataPoints.map((element) => element.race);
+    const racesRepresentedSupervision = supervisionDataPoints.map((element) => element.race);
 
     Object.values(labelStringConversion).forEach((race) => {
       if (!racesRepresentedRevocations.includes(race)) {
-        revocationDataPoints.push([race, 0]);
+        revocationDataPoints.push({ race, count: 0 });
       }
 
       if (!racesRepresentedSupervision.includes(race)) {
-        supervisionDataPoints.push([race, 0]);
+        supervisionDataPoints.push({ race, count: 0 });
       }
     });
 
-    const totalRevocations = revocationDataPoints.map((element) => element[1]).reduce(
-      (previousValue, currentValue) => (previousValue + currentValue),
-    );
+    function totalSum(dataPoints) {
+      return dataPoints.map((element) => element.count).reduce(
+        (previousValue, currentValue) => (previousValue + currentValue),
+      );
+    }
 
-    const totalSupervisionPopulation = supervisionDataPoints.map((element) => element[1]).reduce(
-      (previousValue, currentValue) => (previousValue + currentValue),
-    );
+    const totalRevocations = totalSum(revocationDataPoints);
+    const totalSupervisionPopulation = totalSum(supervisionDataPoints);
 
     // Sort by race alphabetically
-    const sortedRevocationDataPoints = sortByLabel(revocationDataPoints, 0);
-    const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 0);
+    const sortedRevocationDataPoints = sortByLabel(revocationDataPoints, 'race');
+    const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 'race');
 
-    setChartLabels(sortedRevocationDataPoints.map((element) => element[0]));
+    setChartLabels(sortedRevocationDataPoints.map((element) => element.race));
     setChartProportions(sortedRevocationDataPoints.map(
-      (element) => (100 * (element[1] / totalRevocations)),
+      (element) => (100 * (element.count / totalRevocations)),
     ));
     setStatePopulationProportions(sortedRevocationDataPoints.map(
-      (element) => ND_RACE_PROPORTIONS[element[0]],
+      (element) => ND_RACE_PROPORTIONS[element.race],
     ));
     setStateSupervisionProportions(sortedSupervisionDataPoints.map(
-      (element) => (100 * (element[1] / totalSupervisionPopulation)),
+      (element) => (100 * (element.count / totalSupervisionPopulation)),
     ));
   };
 

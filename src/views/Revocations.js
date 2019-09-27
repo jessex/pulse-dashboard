@@ -298,7 +298,7 @@ const Revocations = () => {
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 className="lh-1">Revocations and supervision by race compared to ND population</h4>
+                  <h4 className="lh-1">Revocations by race</h4>
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
                   <div className="layer w-100 p-20">
