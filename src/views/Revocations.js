@@ -298,11 +298,17 @@ const Revocations = () => {
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 className="lh-1">Revocations by race compared to ND population</h4>
+                  <h4 className="lh-1">Revocations and supervision by race compared to ND population</h4>
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
                   <div className="layer w-100 p-20">
-                    <RevocationProportionByRace revocationProportionByRace={apiData.revocations_by_race_and_ethnicity_60_days} />
+                    <RevocationProportionByRace
+                      revocationProportionByRace={
+                        apiData.revocations_by_race_and_ethnicity_60_days}
+                      supervisionPopulationByRace={
+                        apiData.supervision_population_by_race_and_ethnicity_60_days
+                      }
+                    />
                   </div>
                 </div>
                 <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByRace">
@@ -317,6 +323,7 @@ const Revocations = () => {
                     <div>
                       <ul>
                         <li>Revocations counts include the number of people incarcerated because their supervision period was revoked for a behavioral violation.</li>
+                        <li>The supervision population includes anyone on probation or parole in North Dakota at any point during the time period.</li>
                         <li>The race proportions for the population of North Dakota were taken from the U.S. Census Bureau.</li>
                       </ul>
                     </div>
