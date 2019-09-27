@@ -89,7 +89,7 @@ const AdmissionTypeProportions = (props) => {
               const currentValue = dataset.data[tooltipItem.index];
               const percentage = ((currentValue / total) * 100).toFixed(2);
 
-              return (data.labels[tooltipItem.index]).concat(': ', currentValue, ' (', percentage, '%)');
+              return (data.labels[tooltipItem.index]).concat(': ', percentage, '% (', currentValue, ')');
             },
           },
         },
