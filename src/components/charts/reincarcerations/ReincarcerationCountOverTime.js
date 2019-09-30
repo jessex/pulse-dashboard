@@ -58,11 +58,10 @@ const ReincarcerationCountOverTime = (props) => {
 
   const chart = (
     <Line
-      id="reincarceration-counts-by-month-chart"
+      id="reincarcerationCountsByMonth"
       data={{
         labels: chartLabels,
         datasets: [{
-          label: 'Reincarceration returns',
           borderColor: COLORS['grey-500'],
           pointBackgroundColor: COLORS['grey-700'],
           fill: false,
@@ -108,7 +107,7 @@ const ReincarcerationCountOverTime = (props) => {
             value: GOAL.value,
 
             // optional annotation ID (must be unique)
-            id: 'reincarceration-counts-by-month-goal-line',
+            id: 'reincarcerationCountsByMonthGoalLine',
             scaleID: 'y-axis-0',
 
             drawTime: 'afterDatasetsDraw',
@@ -152,15 +151,14 @@ const ReincarcerationCountOverTime = (props) => {
 
   const exportedStructureCallback = () => (
     {
-      recidivismType: 'reincarceration',
-      returnType: 'new_offenses',
-      startDate: '2018-11',
-      endDate: '2019-04',
+      metric: 'Reincarceration counts by month',
       series: [],
     });
 
-  configureDownloadButtons('reincarceration', 'Drivers', chart.props,
-    document.getElementById('reincarceration-counts-by-month-chart'), exportedStructureCallback);
+  configureDownloadButtons('reincarcerationCountsByMonth',
+    chart.props.data.datasets, chart.props.data.labels,
+    document.getElementById('reincarcerationCountsByMonth'),
+    exportedStructureCallback);
 
   const chartData = chart.props.data.datasets[0].data;
   const mostRecentValue = chartData[chartData.length - 1];

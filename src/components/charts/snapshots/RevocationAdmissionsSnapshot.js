@@ -73,7 +73,7 @@ const RevocationAdmissionsSnapshot = (props) => {
 
   const chart = (
     <Line
-      id="revocation-admissions-snapshot-chart"
+      id="revocationAdmissionsSnapshot"
       data={{
         labels: chartLabels,
         datasets: [{
@@ -152,7 +152,7 @@ const RevocationAdmissionsSnapshot = (props) => {
             value: GOAL.value,
 
             // optional annotation ID (must be unique)
-            id: 'revocation-admissions-snapshot-goal-line',
+            id: 'revocationAdmissionsSnapshotGoalLine',
             scaleID: 'y-axis-0',
 
             drawTime: 'afterDatasetsDraw',
@@ -196,12 +196,13 @@ const RevocationAdmissionsSnapshot = (props) => {
 
   const exportedStructureCallback = function exportedStructureCallback() {
     return {
-      metric: 'percentage-of-admissions-from-revocations',
+      metric: 'Percentage of admissions from revocations',
       series: [],
     };
   };
-  configureDownloadButtons('revocationAdmissions', 'Snapshot', chart.props,
-    document.getElementById('revocation-admissions-snapshot-chart'), exportedStructureCallback);
+  configureDownloadButtons('revocationAdmissionsSnapshot', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('revocationAdmissionsSnapshot'),
+    exportedStructureCallback);
 
   const header = document.getElementById(props.header);
   const trendlineValues = chart.props.data.datasets[1].data;

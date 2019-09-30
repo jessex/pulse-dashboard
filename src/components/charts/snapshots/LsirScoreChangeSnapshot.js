@@ -68,7 +68,7 @@ const LsirScoreChangeSnapshot = (props) => {
 
   const chart = (
     <Line
-      id="lsir-score-change-snapshot-chart"
+      id="lsirScoreChangeSnapshot"
       data={{
         labels: chartLabels,
         datasets: [{
@@ -147,7 +147,7 @@ const LsirScoreChangeSnapshot = (props) => {
             value: GOAL.value,
 
             // optional annotation ID (must be unique)
-            id: 'lsir-score-change-snapshot-goal-line',
+            id: 'lsirScoreChangeSnapshotGoalLine',
             scaleID: 'y-axis-0',
 
             drawTime: 'afterDatasetsDraw',
@@ -191,12 +191,13 @@ const LsirScoreChangeSnapshot = (props) => {
 
   const exportedStructureCallback = function exportedStructureCallback() {
     return {
-      metric: 'average-change-in-LSIR-score-termination-intake',
+      metric: 'Average change in LSIR score between termination and first reassessment',
       series: [],
     };
   };
-  configureDownloadButtons('lsirScoreChange', 'Snapshot', chart.props,
-    document.getElementById('lsir-score-change-snapshot-chart'), exportedStructureCallback);
+  configureDownloadButtons('lsirScoreChangeSnapshot', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('lsirScoreChangeSnapshot'),
+    exportedStructureCallback);
 
   const header = document.getElementById(props.header);
   const trendlineValues = chart.props.data.datasets[1].data;
