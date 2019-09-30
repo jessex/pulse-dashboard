@@ -33,7 +33,7 @@ const GOALS = {
     'reincarceration-counts-by-month-chart': {
       isUpward: false,
       value: 30,
-      label: '30%',
+      label: '30',
     },
     'revocation-admissions-snapshot-chart': {
       isUpward: false,
