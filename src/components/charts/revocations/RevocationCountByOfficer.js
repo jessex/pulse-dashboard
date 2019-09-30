@@ -19,6 +19,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Bar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
+import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
 
 const RevocationCountByOfficer = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -89,8 +90,9 @@ const RevocationCountByOfficer = (props) => {
     processResponse();
   }, [props.revocationCountsByOfficer]);
 
-  return (
+  const chart = (
     <Bar
+      id="revocationsByOfficer"
       data={{
         labels: chartLabels,
         datasets: [{
@@ -147,6 +149,18 @@ const RevocationCountByOfficer = (props) => {
       }}
     />
   );
+
+  const exportedStructureCallback = () => (
+    {
+      metric: 'Revocation counts by officer',
+      series: [],
+    });
+
+  configureDownloadButtons('revocationsByOfficer', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('revocationsByOfficer'),
+    exportedStructureCallback);
+
+  return chart;
 };
 
 

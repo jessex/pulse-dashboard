@@ -20,6 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { filterFacilities } from '../../../utils/dataOrganizing';
+import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
 
 const ReincarcerationRateByReleaseFacility = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -54,8 +55,9 @@ const ReincarcerationRateByReleaseFacility = (props) => {
     processResponse();
   }, [props.ratesByReleaseFacility]);
 
-  return (
+  const chart = (
     <Bar
+      id="reincarcerationRateByReleaseFacility"
       data={{
         labels: chartLabels,
         datasets: [{
@@ -70,7 +72,7 @@ const ReincarcerationRateByReleaseFacility = (props) => {
       options={{
         responsive: true,
         legend: {
-          display: 'top',
+          display: false,
         },
         tooltips: {
           mode: 'index',
@@ -110,6 +112,18 @@ const ReincarcerationRateByReleaseFacility = (props) => {
       }}
     />
   );
+
+  const exportedStructureCallback = () => (
+    {
+      metric: 'Reincarceration rate by release facility',
+      series: [],
+    });
+
+  configureDownloadButtons('reincarcerationRateByReleaseFacility', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('reincarcerationRateByReleaseFacility'),
+    exportedStructureCallback);
+
+  return chart;
 };
 
 export default ReincarcerationRateByReleaseFacility;

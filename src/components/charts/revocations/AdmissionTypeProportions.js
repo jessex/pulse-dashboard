@@ -20,6 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
+import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
 
 const AdmissionTypeProportions = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -52,8 +53,9 @@ const AdmissionTypeProportions = (props) => {
     processResponse();
   }, [props.admissionCountsByType]);
 
-  return (
+  const chart = (
     <Pie
+      id="admissionTypeProportions"
       data={{
         datasets: [{
           data: chartDataPoints,
@@ -96,6 +98,18 @@ const AdmissionTypeProportions = (props) => {
       }}
     />
   );
+
+  const exportedStructureCallback = () => (
+    {
+      metric: 'Admissions by type',
+      series: [],
+    });
+
+  configureDownloadButtons('admissionTypeProportions', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('admissionTypeProportions'),
+    exportedStructureCallback);
+
+  return chart;
 };
 
 export default AdmissionTypeProportions;

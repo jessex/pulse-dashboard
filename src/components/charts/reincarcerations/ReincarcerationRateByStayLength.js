@@ -19,6 +19,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Bar } from 'react-chartjs-2';
 import { COLORS } from '../../../assets/scripts/constants/colors';
+import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
 
 const ReincarcerationRateByStayLength = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -56,8 +57,9 @@ const ReincarcerationRateByStayLength = (props) => {
     processResponse();
   }, [props.ratesByStayLength]);
 
-  return (
+  const chart = (
     <Bar
+      id="reincarcerationRateByStayLength"
       data={{
         labels: chartLabels,
         datasets: [{
@@ -72,7 +74,7 @@ const ReincarcerationRateByStayLength = (props) => {
       options={{
         responsive: true,
         legend: {
-          display: 'top',
+          display: false,
         },
         tooltips: {
           mode: 'index',
@@ -109,6 +111,18 @@ const ReincarcerationRateByStayLength = (props) => {
       }}
     />
   );
+
+  const exportedStructureCallback = () => (
+    {
+      metric: 'Reincarceration rate by previous stay length',
+      series: [],
+    });
+
+  configureDownloadButtons('reincarcerationRateByStayLength', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('reincarcerationRateByStayLength'),
+    exportedStructureCallback);
+
+  return chart;
 };
 
 export default ReincarcerationRateByStayLength;

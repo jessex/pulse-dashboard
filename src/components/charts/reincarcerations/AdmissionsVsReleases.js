@@ -21,6 +21,7 @@ import { Bar } from 'react-chartjs-2';
 import { COLORS_GOOD_BAD } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
+import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
 
 const AdmissionsVsReleases = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -47,6 +48,7 @@ const AdmissionsVsReleases = (props) => {
 
   const chart = (
     <Bar
+      id="admissionsVsReleases"
       data={{
         labels: chartLabels,
         datasets: [{
@@ -90,6 +92,16 @@ const AdmissionsVsReleases = (props) => {
       }}
     />
   );
+
+  const exportedStructureCallback = () => (
+    {
+      metric: 'Admissions versus releases',
+      series: [],
+    });
+
+  configureDownloadButtons('admissionsVsReleases', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('admissionsVsReleases'),
+    exportedStructureCallback);
 
   const chartData = chart.props.data.datasets[0].data;
   const mostRecentValue = chartData[chartData.length - 1];
