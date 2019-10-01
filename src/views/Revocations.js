@@ -259,7 +259,7 @@ const Revocations = () => {
                 <div className="layer p-20 w-100">
                   <span className="fa-pull-left">
                     <div className="dropdown show">
-                      <a className="btn btn-secondary btn-md dropdown-toggle" href="javascript:void(0);" role="button" id="showOfficersOfOffice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a className="btn btn-secondary btn-sm dropdown-toggle" href="javascript:void(0);" role="button" id="showOfficersOfOffice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Bismarck
                       </a>
                       <div className="dropdown-menu" aria-labelledby="showOfficersOfOffice">

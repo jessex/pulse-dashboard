@@ -101,7 +101,7 @@ class RevocationsByOffice extends Component {
           projection={geoAlbersUsa}
           projectionConfig={{ scale: 1000 }}
           width={980}
-          height={500}
+          height={580}
           style={{
             width: '100%',
             height: 'auto',
