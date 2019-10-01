@@ -83,7 +83,7 @@ const Reincarcerations = () => {
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="snapshot-header" id="reincarcerationCountsByMonth-header" />
+                  <h4 style={{ height: '20px' }} className="dynamic-chart-header" id="reincarcerationCountsByMonth-header" />
                 </div>
                 <div className="layer w-100 pX-20 pT-30 row">
                   <div className="col-md-12">
@@ -107,13 +107,14 @@ const Reincarcerations = () => {
                     <div>
                       <ul>
                         <li>
-                        An admission to prison counts as a reincarceration if
-                        the person has been incarcerated previously in a North
-                        Dakota prison.
+                          An admission to prison counts as a reincarceration if
+                          the person has been incarcerated previously in a North
+                          Dakota prison.
                         </li>
                         <li>
-                        Reincarcerations are included regardless of when the initial incarceration
-                        took place. There is no upper bound on the follow up period in this metric.
+                          Reincarcerations are included regardless of when the initial incarceration
+                          took place. There is no upper bound on the follow up period in
+                          this metric.
                         </li>
                       </ul>
                     </div>
@@ -144,7 +145,7 @@ const Reincarcerations = () => {
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="snapshot-header" id="admissionsVsReleases-header" />
+                  <h4 style={{ height: '20px' }} className="dynamic-chart-header" id="admissionsVsReleases-header" />
                 </div>
                 <div className="layer w-100 p-20">
                   <AdmissionsVsReleases

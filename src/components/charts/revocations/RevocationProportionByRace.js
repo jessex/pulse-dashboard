@@ -44,7 +44,7 @@ const ND_RACE_PROPORTIONS = {
 
 const RevocationProportionByRace = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
-  const [revocationProportions, setrevocationProportions] = useState([]);
+  const [revocationProportions, setRevocationProportions] = useState([]);
   const [statePopulationProportions, setStatePopulationProportions] = useState([]);
   const [stateSupervisionProportions, setStateSupervisionProportions] = useState([]);
   const [revocationCounts, setRevocationCounts] = useState([]);
@@ -95,7 +95,7 @@ const RevocationProportionByRace = (props) => {
     const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 'race');
 
     setChartLabels(sortedRevocationDataPoints.map((element) => element.race));
-    setrevocationProportions(sortedRevocationDataPoints.map(
+    setRevocationProportions(sortedRevocationDataPoints.map(
       (element) => (100 * (element.count / totalRevocations)),
     ));
     setRevocationCounts(sortedRevocationDataPoints.map(

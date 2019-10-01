@@ -85,7 +85,7 @@ const Revocations = () => {
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="snapshot-header" id="revocationCountsByMonth-header" />
+                  <h4 style={{ height: '20px' }} className="dynamic-chart-header" id="revocationCountsByMonth-header" />
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
                   <div className="col-md-12">
@@ -109,13 +109,13 @@ const Revocations = () => {
                     <div>
                       <ul>
                         <li>
-                        Revocation counts include the number of people who were incarcerated
-                        because their supervision was revoked.
+                          Revocation counts include the number of people who were incarcerated
+                          because their supervision was revoked.
                         </li>
                         <li>
-                        Violations include all behavioral violations officially recorded by a
-                        supervision officer, including new offenses, technical violations, and
-                        absconsion.
+                          Violations include all behavioral violations officially recorded by a
+                          supervision officer, including new offenses, technical violations, and
+                          absconsion.
                         </li>
                       </ul>
                     </div>
@@ -231,13 +231,13 @@ const Revocations = () => {
                     <div>
                       <ul>
                         <li>
-                        Revocation counts include the number of people who were incarcerated
-                        because their supervision was revoked.
+                          Revocation counts include the number of people who were incarcerated
+                          because their supervision was revoked.
                         </li>
                         <li>
-                        Violations include all behavioral violations officially recorded by a
-                        supervision officer, including new offenses, technical violations, and
-                        absconsion.
+                          Violations include all behavioral violations officially recorded by a
+                          supervision officer, including new offenses, technical violations, and
+                          absconsion.
                         </li>
                       </ul>
                     </div>
