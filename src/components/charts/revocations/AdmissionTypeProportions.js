@@ -20,7 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const AdmissionTypeProportions = (props) => {
   const [chartLabels, setChartLabels] = useState([]);

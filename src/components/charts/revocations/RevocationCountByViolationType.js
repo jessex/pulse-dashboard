@@ -21,7 +21,7 @@ import { Bar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const RevocationCountByViolationType = (props) => {
   const [chartLabels, setChartLabels] = useState([]);

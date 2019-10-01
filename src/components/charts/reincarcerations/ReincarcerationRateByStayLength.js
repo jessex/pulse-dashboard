@@ -19,7 +19,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Bar } from 'react-chartjs-2';
 import { COLORS } from '../../../assets/scripts/constants/colors';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const ReincarcerationRateByStayLength = (props) => {
   const [chartLabels, setChartLabels] = useState([]);

@@ -20,7 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES, COLORS } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const labelStringConversion = {
   AMERICAN_INDIAN_ALASKAN_NATIVE: 'American Indian Alaskan Native',

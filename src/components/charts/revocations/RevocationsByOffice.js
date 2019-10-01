@@ -11,7 +11,7 @@ import ReactTooltip from 'react-tooltip';
 import { geoAlbersUsa } from 'd3-geo';
 import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { changeDataSetOfChart } from '../../../utils/dynamicData';
 
 // TODO: Move this ND-specific info out of this file

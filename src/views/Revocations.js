@@ -20,8 +20,7 @@ import React, { useState, useEffect } from 'react';
 import Loading from '../components/Loading';
 import '../assets/styles/index.scss';
 import { useAuth0 } from '../react-auth0-spa';
-import RevocationsByOffice from "../components/charts/revocations/RevocationsByOffice";
-
+import RevocationsByOffice from '../components/charts/revocations/RevocationsByOffice';
 import RevocationCountOverTime from '../components/charts/revocations/RevocationCountOverTime';
 import RevocationCountBySupervisionType from '../components/charts/revocations/RevocationCountBySupervisionType';
 import RevocationCountByViolationType from '../components/charts/revocations/RevocationCountByViolationType';
@@ -86,7 +85,7 @@ const Revocations = () => {
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="snapshot-header" id="revocationCountsByMonth-header">
+                  <h4 style={{ height: '20px' }} className="snapshot-header" id="revocationCountsByMonth-header" />
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
                   <div className="col-md-12">
@@ -203,7 +202,6 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationsByViolationType" aria-labelledby="methodologyHeadingRevocationsByViolationType" data-parent="#methodologyRevocationsByViolationType">
                     <div>
                       <ul>
-                        <li>
                         <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
                         <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
                         <li>Violations of "Unknown Type" indicate individuals who were admitted to prison for a supervision revocation where the violation that caused the revocation cannot yet be determined.</li>
@@ -251,7 +249,6 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationsByCounty" aria-labelledby="methodologyHeadingRevocationsByCounty" data-parent="#methodologyRevocationsByCounty">
                     <div>
                       <ul>
-                        <li>
                         <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
                         <li>Revocations are attributed to the county where the person&apos;s supervision was terminated.</li>
                         <li>Revocations are included based on the date that the person&apos;s supervision was officially revoked, not the date of the causal violation or offense.</li>
@@ -334,17 +331,8 @@ const Revocations = () => {
                   <div id="collapseMethodologyRevocationByOfficer" className="collapse" aria-labelledby="methodologyHeadingRevocationByOfficer" data-parent="#methodologyRevocationByOfficer">
                     <div>
                       <ul>
-                        <li>This chart lists the 10 officers with the highest revocation counts in the state over the period.</li>
                         <li>Revocations are counted towards an officer if that officer is flagged as the terminating officer at the time of a person&apos;s revocation.</li>
-                          Violations of "Unknown Type" indicate individuals who were admitted to
-                          prison for a supervision revocation where the violation that caused the
-                          revocation cannot yet be determined.
-                        </li>
                         <li>Revocations are included based on the date that the person&apos;s supervision was officially revoked, not the date of the causal violation or offense.</li>
-                          "Technical" revocations include only those revocations which result solely
-                          from a technical violation. If there is a violation that includes a new
-                          offense or an absconsion, it is considered a non-technical revocation.
-                        </li>
                       </ul>
                     </div>
                   </div>
@@ -517,10 +505,6 @@ const Revocations = () => {
                       <ul>
                         <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
                         <li>Revocations are attributed to the site of the terminating officer at the time of a person's revocation.</li>
-                          Revocations of "Unknown Type" indicate individuals who were admitted to
-                          prison for a supervision revocation where the violation that caused the
-                          revocation cannot yet be determined.
-                        </li>
                       </ul>
                     </div>
                   </div>

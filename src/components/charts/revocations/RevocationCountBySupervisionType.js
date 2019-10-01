@@ -21,7 +21,7 @@ import { Bar } from 'react-chartjs-2';
 import { COLORS_STACKED_TWO_VALUES } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const RevocationCountBySupervisionType = (props) => {
   const [chartLabels, setChartLabels] = useState([]);

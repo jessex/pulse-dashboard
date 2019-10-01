@@ -83,7 +83,7 @@ const Reincarcerations = () => {
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="snapshot-header" id="reincarcerationCountsByMonth-header">
+                  <h4 style={{ height: '20px' }} className="snapshot-header" id="reincarcerationCountsByMonth-header" />
                 </div>
                 <div className="layer w-100 pX-20 pT-30 row">
                   <div className="col-md-12">
@@ -144,7 +144,7 @@ const Reincarcerations = () => {
                   </h6>
                 </div>
                 <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="snapshot-header" id="admissionsVsReleases-header">
+                  <h4 style={{ height: '20px' }} className="snapshot-header" id="admissionsVsReleases-header" />
                 </div>
                 <div className="layer w-100 p-20">
                   <AdmissionsVsReleases

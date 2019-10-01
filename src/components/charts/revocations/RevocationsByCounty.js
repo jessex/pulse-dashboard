@@ -27,7 +27,7 @@ import { geoAlbersUsa } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
-import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const centerNDLong = -100.5;
 const centerNDLat = 47.3;
