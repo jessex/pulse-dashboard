@@ -15,10 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import '../styles/index.scss';
+import * as $ from 'jquery';
+import 'bootstrap';
 
-import './charts';
-import './popover';
-import './scrollbar';
-import './sidebar';
-import './utils';
+export default (function () {
+  // Enable popover and tooltip Bootstrap functionality, e.g. for methodology accordions
+  $('[data-toggle="popover"]').popover();
+  $('[data-toggle="tooltip"]').tooltip();
+}());
