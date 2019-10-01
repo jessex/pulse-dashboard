@@ -206,7 +206,7 @@ const RevocationProportionByRace = (props) => {
               }
 
               return ''.concat(currentValue.toFixed(2), '% of ',
-                data.labels[tooltipItem.index], ' (', datasetCounts[tooltipItem.index], ')');
+                data.labels[tooltipItem.index], ' (', datasetCounts[tooltipItem.datasetIndex], ')');
             },
           },
         },
