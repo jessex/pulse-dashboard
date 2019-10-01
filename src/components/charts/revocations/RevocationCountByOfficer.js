@@ -20,6 +20,26 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { configureDatasetChangeButton } from '../../../utils/dynamicData';
+
+const siteIDsToNames = {
+  1: 'Bismarck',
+  2: 'Jamestown',
+  3: 'Minot',
+  4: 'Fargo',
+  5: 'Grand-Forks',
+  6: 'Devils-Lake',
+  7: 'Wahpeton',
+  8: 'Rolla',
+  9: 'Washburn',
+  10: 'Williston',
+  11: 'Dickinson',
+  12: 'Grafton',
+  13: 'Mandan',
+  14: 'Bottineau',
+  15: 'Oakes',
+  16: 'Beulah',
+};
 
 const RevocationCountByOfficer = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -27,16 +47,17 @@ const RevocationCountByOfficer = (props) => {
   const [newOffenseDataPoints, setNewOffenseDataPoints] = useState([]);
   const [technicalDataPoints, setTechnicalDataPoints] = useState([]);
   const [unknownDataPoints, setUnknownDataPoints] = useState([]);
+  const [allChartData, setAllChartData] = useState({});
 
   const processResponse = () => {
     const { revocationCountsByOfficer } = props;
 
-    const dataPoints = [];
+    const dataPoints = {};
     revocationCountsByOfficer.forEach((data) => {
       const {
         officer_external_id: officerID, absconsion_count: absconsionCount,
         felony_count: felonyCount, technical_count: technicalCount,
-        unknown_count: unknownCount,
+        unknown_count: unknownCount, SITEID: siteId,
       } = data;
 
       const violationsByType = {
@@ -51,12 +72,22 @@ const RevocationCountByOfficer = (props) => {
         overallRevocationCount += violationsByType[violationType];
       });
 
+      const siteName = siteIDsToNames[parseInt(siteId, 10)];
+
       if (officerID !== 'OFFICER_UNKNOWN') {
-        dataPoints.push({
-          officerID,
-          violationsByType,
-          overallRevocationCount,
-        });
+        if (dataPoints[siteName] == null) {
+          dataPoints[siteName] = [{
+            officerID,
+            violationsByType,
+            overallRevocationCount,
+          }];
+        } else {
+          dataPoints[siteName].push({
+            officerID,
+            violationsByType,
+            overallRevocationCount,
+          });
+        }
       }
     });
 
@@ -68,10 +99,13 @@ const RevocationCountByOfficer = (props) => {
       UNKNOWN_VIOLATION_TYPE: [],
     };
 
-    const sortedDataPoints = dataPoints.sort((a, b) => (
-      b.overallRevocationCount - a.overallRevocationCount));
+    // const sortedDataPoints = dataPoints.sort((a, b) => (
+    //   b.overallRevocationCount - a.overallRevocationCount));
 
-    for (let i = 0; i < 10; i += 1) {
+    const sortedDataPoints = dataPoints['Bismarck'].sort((a, b) => (
+      a.officerID - b.officerID));
+
+    for (let i = 0; i < sortedDataPoints.length; i += 1) {
       officerLabels.push(sortedDataPoints[i].officerID);
       const data = sortedDataPoints[i].violationsByType;
       Object.keys(data).forEach((violationType) => {
@@ -84,6 +118,7 @@ const RevocationCountByOfficer = (props) => {
     setNewOffenseDataPoints(violationArrays.FELONY);
     setTechnicalDataPoints(violationArrays.TECHNICAL);
     setUnknownDataPoints(violationArrays.UNKNOWN_VIOLATION_TYPE);
+    setAllChartData(dataPoints);
   };
 
   useEffect(() => {
@@ -152,13 +187,69 @@ const RevocationCountByOfficer = (props) => {
 
   const exportedStructureCallback = () => (
     {
+      office: 'Bismarck',
       metric: 'Revocation counts by officer',
       series: [],
     });
 
-  configureDownloadButtons('revocationsByOfficer', chart.props.data.datasets,
+  let downloadableDataFormat = [];
+  if (allChartData.length > 0) {
+    downloadableDataFormat = [{
+      data: Object.values(allChartData['Bismarck']),
+      label: 'revocationsByOfficer',
+    }];
+  } else {
+    downloadableDataFormat = [];
+  }
+
+  configureDownloadButtons('revocationsByOfficer', downloadableDataFormat,
     chart.props.data.labels, document.getElementById('revocationsByOfficer'),
     exportedStructureCallback);
+
+  const updateChart = (officeName) => {
+    const officerLabels = [];
+    const violationArrays = {
+      ABSCONDED: [],
+      FELONY: [],
+      TECHNICAL: [],
+      UNKNOWN_VIOLATION_TYPE: [],
+    };
+
+    const sortedDataPoints = allChartData[officeName].sort((a, b) => (
+      a.officerID - b.officerID));
+
+    for (let i = 0; i < sortedDataPoints.length; i += 1) {
+      officerLabels.push(sortedDataPoints[i].officerID);
+      const data = sortedDataPoints[i].violationsByType;
+      Object.keys(data).forEach((violationType) => {
+        violationArrays[violationType].push(data[violationType]);
+      });
+    }
+
+    setChartLabels(officerLabels);
+    setAbsconsionDataPoints(violationArrays.ABSCONDED);
+    setNewOffenseDataPoints(violationArrays.FELONY);
+    setTechnicalDataPoints(violationArrays.TECHNICAL);
+    setUnknownDataPoints(violationArrays.UNKNOWN_VIOLATION_TYPE);
+
+    const updatedExportedStructureCallback = () => (
+      {
+        office: officeName,
+        metric: 'Revocation counts by officer',
+        series: [],
+      });
+
+    downloadableDataFormat = [{
+      data: Object.values(allChartData[officeName]),
+      label: 'revocationsByOfficer',
+    }];
+
+    configureDownloadButtons('revocationsByOfficer', downloadableDataFormat,
+      chart.props.data.labels, document.getElementById('revocationsByOfficer'),
+      updatedExportedStructureCallback);
+  };
+
+  configureDatasetChangeButton(chart, allChartData, updateChart);
 
   return chart;
 };

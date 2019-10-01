@@ -176,128 +176,8 @@ const Revocations = () => {
             </div>
           </div>
 
-          {/* #Revocations by supervision type ==================== */}
-          <div className="col-md-6">
-            <div className="bd bgc-white p-20">
-              <div className="layers">
-                <div className="layer w-100 pX-20 pT-20">
-                  <h6 className="lh-1">
-                    REVOCATIONS BY SUPERVISION TYPE
-                    <span className="fa-pull-right">
-                      <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationsBySupervisionType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Export
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationsBySupervisionType">
-                          <a className="dropdown-item" id="downloadChartAsImage-revocationsBySupervisionType" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-revocationsBySupervisionType" href="javascript:void(0);">Export data</a>
-                        </div>
-                      </div>
-                    </span>
-                  </h6>
-                </div>
-                <div className="layer w-100 p-20">
-                  <RevocationCountBySupervisionType
-                    revocationCountsByMonthBySupervisionType={
-                      apiData.revocations_by_supervision_type_by_month
-                    }
-                  />
-                </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsBySupervisionType">
-                  <div className="mb-0" id="methodologyHeadingRevocationsBySupervisiontype">
-                    <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsBySupervisionType" aria-expanded="true" aria-controls="collapseMethodologyRevocationsBySupervisionType">
-                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="collapse" id="collapseMethodologyRevocationsBySupervisionType" aria-labelledby="methodologyHeadingRevocationsBySupervisiontype" data-parent="#methodologyRevocationsBySupervisionType">
-                    <div>
-                      <ul>
-                        <li>
-                          Revocation counts include the number of people who were incarcerated
-                          because their supervision was revoked.
-                        </li>
-                        <li>
-                          Violations include all behavioral violations officially recorded by a
-                          supervision officer, including new offenses, technical violations, and
-                          absconsion.
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* #Revocations by violation type ==================== */}
-          <div className="col-md-6">
-            <div className="bd bgc-white p-20">
-              <div className="layers">
-                <div className="layer w-100 pX-20 pT-20">
-                  <h6 className="lh-1">
-                    REVOCATIONS BY VIOLATION TYPE
-                    <span className="fa-pull-right">
-                      <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationsByViolationType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Export
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationsByViolationType">
-                          <a className="dropdown-item" id="downloadChartAsImage-revocationsByViolationType" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-revocationsByViolationType" href="javascript:void(0);">Export data</a>
-                        </div>
-                      </div>
-                    </span>
-                  </h6>
-                </div>
-                <div className="layer w-100 p-20">
-                  <RevocationCountByViolationType
-                    revocationCountsByMonthByViolationType={
-                      apiData.revocations_by_violation_type_by_month
-                    }
-                  />
-                </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByViolationType">
-                  <div className="mb-0" id="methodologyHeadingRevocationsByViolationType">
-                    <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsByViolationType" aria-expanded="true" aria-controls="collapseMethodologyRevocationsByViolationType">
-                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="collapse" id="collapseMethodologyRevocationsByViolationType" aria-labelledby="methodologyHeadingRevocationsByViolationType" data-parent="#methodologyRevocationsByViolationType">
-                    <div>
-                      <ul>
-                        <li>
-                          Revocation counts include the number of people who were incarcerated
-                          because their supervision was revoked.
-                        </li>
-                        <li>
-                          Violations include all behavioral violations officially recorded by a
-                          supervision officer, including new offenses, technical violations, and
-                          absconsion.
-                        </li>
-                        <li>
-                          Violations of "Unknown Type" indicate individuals who were admitted to
-                          prison for a supervision revocation where the violation that caused the
-                          revocation cannot yet be determined.
-                        </li>
-                        <li>
-                          "Technical" revocations include only those revocations which result solely
-                          from a technical violation. If there is a violation that includes a new
-                          offense or an absconsion, it is considered a non-technical revocation.
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* #Revocations by P&P office chart ==================== */}
-          <div className="masonry-item col-md-12">
+          <div className="masonry-item col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
@@ -315,9 +195,11 @@ const Revocations = () => {
                     </span>
                   </h6>
                 </div>
-                <div className="layer w-100 pX-20 pT-20 row">
+                <div className="layer w-100 pX-20 pT-40 row">
                   <div className="layer w-100 p-20">
-                    <RevocationsByOffice/>
+                    <RevocationsByOffice revocationsByOffice={apiData.revocations_by_siteid_60_days} />
+                      apiData.revocations_by_supervision_type_by_month
+                    }
                   </div>
                 </div>
                 <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByOffice">
@@ -333,16 +215,12 @@ const Revocations = () => {
                       <ul>
                         <li>
                           Revocation counts include the number of people who were incarcerated
-                          because their supervision was revoked.
+                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
                         </li>
-                        <li>
-                          Revocations are attributed to the county where the person&apos;s
-                          supervision was terminated.
-                        </li>
-                        <li>
-                          Revocations are included based on the date that the person&apos;s
-                          supervision was officially revoked, not the date of the causal violation
-                          or offense.
+                        <li>Revocations are attributed to the site of the terminating officer at the time of a person's revocation.</li>
+                          Violations include all behavioral violations officially recorded by a
+                          supervision officer, including new offenses, technical violations, and
+                          absconsion.
                         </li>
                       </ul>
                     </div>
@@ -382,9 +260,38 @@ const Revocations = () => {
                     </span>
                   </h6>
                 </div>
+                <div className="layer p-20 w-100">
+                  <span className="fa-pull-left">
+                    <div className="dropdown show">
+                      <a className="btn btn-secondary btn-md dropdown-toggle" href="javascript:void(0);" role="button" id="showOfficersOfOffice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bismarck
+                      </a>
+                      <div className="dropdown-menu" aria-labelledby="showOfficersOfOffice">
+                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Beulah" href="javascript:void(0);">Beulah</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Bismarck" href="javascript:void(0);">Bismarck</a>
+                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Bottineau" href="javascript:void(0);">Bottineau</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Devils-Lake" href="javascript:void(0);">Devils Lake</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Dickinson" href="javascript:void(0);">Dickinson</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Fargo" href="javascript:void(0);">Fargo</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Grafton" href="javascript:void(0);">Grafton</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Grand-Forks" href="javascript:void(0);">Grand Forks</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Jamestown" href="javascript:void(0);">Jamestown</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Mandan" href="javascript:void(0);">Mandan</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Minot" href="javascript:void(0);">Minot</a>
+                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Oakes" href="javascript:void(0);">Oakes</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Rolla" href="javascript:void(0);">Rolla</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Wahpeton" href="javascript:void(0);">Wahpeton</a>
+                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Washburn" href="javascript:void(0);">Washburn</a>
+                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Williston" href="javascript:void(0);">Williston</a>
+                      </div>
+                    </div>
+                  </span>
+                </div>
                 <div className="layer w-100 p-20">
                   <RevocationCountByOfficer revocationCountsByOfficer={apiData.revocations_by_officer_siteid_60_days} />
-                    revocationCountsByOfficer={apiData.revocations_by_officer_60_days}
+                    revocationCountsByMonthByViolationType={
+                      apiData.revocations_by_violation_type_by_month
+                    }
                   />
                 </div>
                 <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationByOfficer">
@@ -398,18 +305,16 @@ const Revocations = () => {
                   <div id="collapseMethodologyRevocationByOfficer" className="collapse" aria-labelledby="methodologyHeadingRevocationByOfficer" data-parent="#methodologyRevocationByOfficer">
                     <div>
                       <ul>
-                        <li>
-                          This chart lists the 10 officers with the highest revocation counts in the
-                          state over the period.
+                        <li>This chart lists the 10 officers with the highest revocation counts in the state over the period.</li>
+                        <li>Revocations are counted towards an officer if that officer is flagged as the terminating officer at the time of a person&apos;s revocation.</li>
+                          Violations of "Unknown Type" indicate individuals who were admitted to
+                          prison for a supervision revocation where the violation that caused the
+                          revocation cannot yet be determined.
                         </li>
-                        <li>
-                          Revocations are counted towards an officer if that officer is flagged as
-                          the terminating officer at the time of a person&apos;s revocation.
-                        </li>
-                        <li>
-                          Revocations are included based on the date that the person&apos;s
-                          supervision was officially revoked, not the date of the causal violation
-                          or offense.
+                        <li>Revocations are included based on the date that the person&apos;s supervision was officially revoked, not the date of the causal violation or offense.</li>
+                          "Technical" revocations include only those revocations which result solely
+                          from a technical violation. If there is a violation that includes a new
+                          offense or an absconsion, it is considered a non-technical revocation.
                         </li>
                       </ul>
                     </div>
@@ -420,6 +325,108 @@ const Revocations = () => {
                     <div className="peer fw-600">
                       <small className="c-grey-500 fw-600">Period </small>
                       <span className="fsz-def fw-600 mR-10 c-grey-800">Last 60 days</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* #Revocations by supervision type ==================== */}
+          <div className="col-md-6">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h6 className="lh-1">
+                    REVOCATIONS BY SUPERVISION TYPE
+                    <span className="fa-pull-right">
+                      <div className="dropdown show">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationsBySupervisionType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Export
+                        </a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationsBySupervisionType">
+                          <a className="dropdown-item" id="downloadChartAsImage-revocationsBySupervisionType" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-revocationsBySupervisionType" href="javascript:void(0);">Export data</a>
+                        </div>
+                      </div>
+                    </span>
+                  </h6>
+                </div>
+                <div className="layer w-100 p-20">
+                  <RevocationCountBySupervisionType revocationCountsByMonthBySupervisionType={apiData.revocations_by_supervision_type_by_month} />
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsBySupervisionType">
+                  <div className="mb-0" id="methodologyHeadingRevocationsBySupervisiontype">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsBySupervisionType" aria-expanded="true" aria-controls="collapseMethodologyRevocationsBySupervisionType">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyRevocationsBySupervisionType" aria-labelledby="methodologyHeadingRevocationsBySupervisiontype" data-parent="#methodologyRevocationsBySupervisionType">
+                    <div>
+                      <ul>
+                        <li>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
+                        <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* #Revocations by violation type ==================== */}
+          <div className="col-md-6">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h6 className="lh-1">
+                    REVOCATIONS BY VIOLATION TYPE
+                    <span className="fa-pull-right">
+                      <div className="dropdown show">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationsByViolationType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Export
+                        </a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationsByViolationType">
+                          <a className="dropdown-item" id="downloadChartAsImage-revocationsByViolationType" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-revocationsByViolationType" href="javascript:void(0);">Export data</a>
+                        </div>
+                      </div>
+                    </span>
+                  </h6>
+                </div>
+                <div className="layer w-100 p-20">
+                  <RevocationCountByViolationType revocationCountsByMonthByViolationType={apiData.revocations_by_violation_type_by_month} />
+                    revocationCountsByOfficer={apiData.revocations_by_officer_60_days}
+                  />
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByViolationType">
+                  <div className="mb-0" id="methodologyHeadingRevocationsByViolationType">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsByViolationType" aria-expanded="true" aria-controls="collapseMethodologyRevocationsByViolationType">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyRevocationsByViolationType" aria-labelledby="methodologyHeadingRevocationsByViolationType" data-parent="#methodologyRevocationsByViolationType">
+                    <div>
+                      <ul>
+                        <li>Revocation counts include the number of people who were incarcerated because their supervision was revoked.</li>
+                          This chart lists the 10 officers with the highest revocation counts in the
+                          state over the period.
+                        <li>Violations include all behavioral violations officially recorded by a supervision officer, including new offenses, technical violations, and absconsion.</li>
+                        <li>Violations of "Unknown Type" indicate individuals who were admitted to prison for a supervision revocation where the violation that caused the revocation cannot yet be determined.</li>
+                          Revocations are counted towards an officer if that officer is flagged as
+                          the terminating officer at the time of a person&apos;s revocation.
+                        </li>
+                        <li>"Technical" revocations include only those revocations which result solely from a technical violation. If there is a violation that includes a new offense or an absconsion, it is considered a non-technical revocation.</li>
+                          Revocations are included based on the date that the person&apos;s
+                          supervision was officially revoked, not the date of the causal violation
+                          or offense.
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>

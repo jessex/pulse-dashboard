@@ -12,42 +12,65 @@ import { geoAlbersUsa } from 'd3-geo';
 import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/charts/chartJS/downloads';
+import { changeDataSetOfChart } from '../../../utils/dynamicData';
 
+// TODO: Move this ND-specific info out of this file
 const centerNDLong = -100.5;
 const centerNDLat = 47.3;
 
-const offices = [
-  { titleSide: -1, name: 'Bismarck', coordinates: [-100.745186, 46.812513], revocationCount: 17 },
-  { titleSide: 1, name: 'Jamestown', coordinates: [-98.708340, 46.901152], revocationCount: 2 },
-  { titleSide: 1, name: 'Minot', coordinates: [-101.317666, 48.234138], revocationCount: 5 },
-  { titleSide: 1, name: 'Fargo', coordinates: [-96.835261, 46.870340], revocationCount: 7 },
-  { titleSide: 1, name: 'Grand Forks', coordinates: [-97.646431, 48.151925], revocationCount: 7 },
-  { titleSide: -1, name: 'Devils Lake', coordinates: [-98.866727, 48.107663], revocationCount: 4 },
-  { titleSide: 1, name: 'Wahpeton', coordinates: [-96.608167, 46.263930], revocationCount: 1 },
-  { titleSide: 1, name: 'Rolla', coordinates: [-99.606512, 48.862795], revocationCount: 3 },
-  { titleSide: -1, name: 'Washburn', coordinates: [-101.026420, 47.290287], revocationCount: 0 },
-  { titleSide: 1, name: 'Williston', coordinates: [-103.612105, 48.156118], revocationCount: 2 },
-  { titleSide: 1, name: 'Dickinson', coordinates: [-102.785458, 46.880403], revocationCount: 3 },
-  { titleSide: 1, name: 'Grafton', coordinates: [-97.405384, 48.417929], revocationCount: 1 },
-  { titleSide: 1, name: 'Mandan', coordinates: [-100.295054, 46.679802], revocationCount: 18 },
-  { titleSide: -1, name: 'Bottineau', coordinates: [-100.445800, 48.826567], revocationCount: 0 },
-  { titleSide: 1, name: 'Oakes', coordinates: [-98.093554, 46.140153], revocationCount: 0 },
-  { titleSide: 1, name: 'Beulah', coordinates: [-101.785210, 47.260616], revocationCount: 0 },
-];
+const offices = {
+  1: { titleSide: 'top', name: 'Bismarck', coordinates: [-100.745186, 46.812513] },
+  2: { titleSide: 'bottom', name: 'Jamestown', coordinates: [-98.708340, 46.901152] },
+  3: { titleSide: 'bottom', name: 'Minot', coordinates: [-101.317666, 48.234138] },
+  4: { titleSide: 'bottom', name: 'Fargo', coordinates: [-96.835261, 46.870340] },
+  5: { titleSide: 'bottom', name: 'Grand Forks', coordinates: [-97.646431, 48.151925] },
+  6: { titleSide: 'top', name: 'Devils Lake', coordinates: [-98.866727, 48.107663] },
+  7: { titleSide: 'bottom', name: 'Wahpeton', coordinates: [-96.608167, 46.263930] },
+  8: { titleSide: 'bottom', name: 'Rolla', coordinates: [-99.606512, 48.862795] },
+  9: { titleSide: 'top', name: 'Washburn', coordinates: [-101.026420, 47.290287] },
+  10: { titleSide: 'bottom', name: 'Williston', coordinates: [-103.612105, 48.156118] },
+  11: { titleSide: 'bottom', name: 'Dickinson', coordinates: [-102.785458, 46.880403] },
+  12: { titleSide: 'top', name: 'Grafton', coordinates: [-97.405384, 48.417929] },
+  13: { titleSide: 'bottom', name: 'Mandan', coordinates: [-100.295054, 46.679802] },
+  14: { titleSide: 'top', name: 'Bottineau', coordinates: [-100.445800, 48.826567] },
+  15: { titleSide: 'bottom', name: 'Oakes', coordinates: [-98.093554, 46.140153] },
+  16: { titleSide: 'bottom', name: 'Beulah', coordinates: [-101.785210, 47.260616] },
+};
+
+function offsetForOfficeTitle(office) {
+  if (office.titleSide === 'bottom') {
+    return office.revocationCount + 25;
+  }
+
+  return -1 * office.revocationCount - 15;
+}
+
+const showRevocationsForOffice = (evt) => {
+  changeDataSetOfChart(evt.name);
+};
 
 class RevocationsByOffice extends Component {
   constructor(props) {
     super(props);
     this.props = props;
-    // this.revocaionsByOffice = this.props.revocaionsByOffice;
-    this.chartDataPoints = [
-      {
-        siteName: 'Bismarck',
-        longitude: -100.745186,
-        latitude: 46.812513,
-        revocationCount: 17,
-      },
-    ];
+    this.revocationsByOffice = this.props.revocationsByOffice;
+    this.chartDataPoints = []
+
+    this.revocationsByOffice.forEach((data) => {
+      const {
+        site_id: siteId,
+        total: revocationCount,
+      } = data;
+
+      const siteIdNum = parseInt(siteId, 10);
+      const revocationCountNum = parseInt(revocationCount, 10);
+      const office = offices[siteIdNum];
+      office.revocationCount = revocationCountNum;
+      office.siteId = siteIdNum;
+      if (revocationCountNum > 0) {
+        this.chartDataPoints.push(office);
+      }
+    });
   }
 
   componentDidMount() {
@@ -114,8 +137,9 @@ class RevocationsByOffice extends Component {
               }
             </Geographies>
             <Markers>
-              {offices.map((office, i) => (
+              {this.chartDataPoints.map((office, i) => (
                 <Marker
+                  onClick={showRevocationsForOffice}
                   key={i}
                   marker={office}
                   style={{
@@ -131,10 +155,10 @@ class RevocationsByOffice extends Component {
                   />
                   <text
                     textAnchor="middle"
-                    y={(office.revocationCount + 15) * (office.titleSide)}
+                    y={offsetForOfficeTitle(office)}
                     style={{
                       fontFamily: 'Roboto, sans-serif',
-                      fontSize: '100%',
+                      fontSize: '175%',
                       fontWeight: '900',
                       fill: '#607D8B',
                     }}
