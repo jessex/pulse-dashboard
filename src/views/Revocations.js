@@ -20,7 +20,6 @@ import React, { useState, useEffect } from 'react';
 import Loading from '../components/Loading';
 import '../assets/styles/index.scss';
 import { useAuth0 } from '../react-auth0-spa';
-import RevocationsByOffice from '../components/charts/revocations/RevocationsByOffice';
 import RevocationCountOverTime from '../components/charts/revocations/RevocationCountOverTime';
 import RevocationCountBySupervisionType from '../components/charts/revocations/RevocationCountBySupervisionType';
 import RevocationCountByViolationType from '../components/charts/revocations/RevocationCountByViolationType';
@@ -182,12 +181,6 @@ const Revocations = () => {
                     </span>
                   </h6>
                 </div>
-                <div className="layer w-100 pX-20 pT-20">
-                <h4 style={{ height: '20px' }} className="snapshot-header" id="revocationCountsByViolation-header">
-                  <b style={{ color: '#809AE5'}} > 11% </b>
-                  of revocations this month were a result of technical violations.
-                </h4>
-                </div>
                 <div className="layer w-100 p-20">
                   <RevocationCountByViolationType revocationCountsByMonthByViolationType={apiData.revocations_by_violation_type_by_month} />
                 </div>
@@ -290,35 +283,8 @@ const Revocations = () => {
                     </span>
                   </h6>
                 </div>
-                <div className="layer p-20 w-100">
-                  <span className="fa-pull-left">
-                    <div className="dropdown show">
-                      <a className="btn btn-secondary btn-sm dropdown-toggle" href="javascript:void(0);" role="button" id="showOfficersOfOffice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bismarck
-                      </a>
-                      <div className="dropdown-menu" aria-labelledby="showOfficersOfOffice">
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Beulah" href="javascript:void(0);">Beulah</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Bismarck" href="javascript:void(0);">Bismarck</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Bottineau" href="javascript:void(0);">Bottineau</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Devils-Lake" href="javascript:void(0);">Devils Lake</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Dickinson" href="javascript:void(0);">Dickinson</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Fargo" href="javascript:void(0);">Fargo</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Grafton" href="javascript:void(0);">Grafton</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Grand-Forks" href="javascript:void(0);">Grand Forks</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Jamestown" href="javascript:void(0);">Jamestown</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Mandan" href="javascript:void(0);">Mandan</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Minot" href="javascript:void(0);">Minot</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Oakes" href="javascript:void(0);">Oakes</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Rolla" href="javascript:void(0);">Rolla</a>
-                        <a className="dropdown-item" id="showOfficersOfOffice-Wahpeton" href="javascript:void(0);">Wahpeton</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Washburn" href="javascript:void(0);">Washburn</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Williston" href="javascript:void(0);">Williston</a>
-                      </div>
-                    </div>
-                  </span>
-                </div>
                 <div className="layer w-100 p-20">
-                  <RevocationCountByOfficer revocationCountsByOfficer={apiData.revocations_by_officer_siteid_60_days} />
+                  <RevocationCountByOfficer revocationCountsByOfficer={apiData.revocations_by_officer_60_days} />
                 </div>
                 <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationByOfficer">
                   <div className="mb-0" id="methodologyHeadingRevocationByOfficer">
@@ -467,64 +433,6 @@ const Revocations = () => {
               </div>
             </div>
           </div>
-
-          {/* #Revocations by P&P office chart ==================== */}
-          <div className="masonry-item col-md-6">
-            <div className="bd bgc-white p-20">
-              <div className="layers">
-                <div className="layer w-100 pX-20 pT-20">
-                  <h6 className="lh-1">
-                    REVOCATIONS BY P&P OFFICE
-                    <span className="fa-pull-right">
-                      <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-revocationsByOffice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Export
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-revocationsByOffice">
-                          <a className="dropdown-item" id="downloadChartData-revocationsByOffice" href="javascript:void(0);">Export data</a>
-                        </div>
-                      </div>
-                    </span>
-                  </h6>
-                </div>
-                <div className="layer w-100 pX-20 pT-40 row">
-                  <div className="layer w-100 p-20">
-                    <RevocationsByOffice revocationsByOffice={apiData.revocations_by_siteid_60_days} />
-                  </div>
-                </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByOffice">
-                  <div className="mb-0" id="methodologyHeadingsRevocationsByOffice">
-                    <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyRevocationsByOffice" aria-expanded="true" aria-controls="collapseMethodologyRevocationsByOffice">
-                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="collapse" id="collapseMethodologyRevocationsByOffice" aria-labelledby="methodologyHeadingRevocationsByOffice" data-parent="#methodologyRevocationsByOffice">
-                    <div>
-                      <ul>
-                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
-                        <li>Revocations are attributed to the site of the terminating officer at the time of a person's revocation.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="layer bdT p-20 w-100">
-                  <div className="peers ai-c jc-c gapX-20">
-                    <div className="peer fw-600">
-                      <span className="fsz-def fw-600 mR-10 c-grey-800">
-                        <small className="c-grey-500 fw-600">Period </small>
-                        Last 60 days
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-
         </div>
       </div>
     </main>
