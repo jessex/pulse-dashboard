@@ -34,7 +34,7 @@ const DaysAtLibertySnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'days-at-liberty-snapshot-chart');
+  const GOAL = getGoalForChart('US_ND', 'daysAtLibertySnapshot');
   const stepSize = 200;
 
   const processResponse = () => {

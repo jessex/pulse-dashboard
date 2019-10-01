@@ -34,7 +34,7 @@ const LsirScoreChangeSnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'lsir-score-change-snapshot-chart');
+  const GOAL = getGoalForChart('US_ND', 'lsirScoreChangeSnapshot');
   const stepSize = 0.5;
 
   const processResponse = () => {

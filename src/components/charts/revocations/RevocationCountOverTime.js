@@ -30,7 +30,7 @@ const RevocationCountOverTime = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'revocation-counts-by-month-chart');
+  const GOAL = getGoalForChart('US_ND', 'revocationCountsByMonth');
   const stepSize = 10;
 
   const processResponse = () => {

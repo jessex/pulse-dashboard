@@ -34,7 +34,7 @@ const RevocationAdmissionsSnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'revocation-admissions-snapshot-chart');
+  const GOAL = getGoalForChart('US_ND', 'revocationAdmissionsSnapshot');
   const stepSize = 10;
 
   const processResponse = () => {
