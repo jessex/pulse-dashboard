@@ -30,6 +30,8 @@ const RevocationCountByViolationType = (props) => {
   const [technicalDataPoints, setTechnicalDataPoints] = useState([]);
   const [unknownDataPoints, setUnknownDataPoints] = useState([]);
 
+  const chartId = 'revocationsByViolationType';
+
   const processResponse = () => {
     const { revocationCountsByMonthByViolationType: countsByMonth } = props;
 
@@ -82,7 +84,7 @@ const RevocationCountByViolationType = (props) => {
 
   const chart = (
     <Bar
-      id="revocationsByViolationType"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -140,8 +142,8 @@ const RevocationCountByViolationType = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('revocationsByViolationType', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('revocationsByViolationType'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;

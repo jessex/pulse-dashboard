@@ -30,7 +30,8 @@ const RevocationCountOverTime = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'revocationCountsByMonth');
+  const chartId = 'revocationCountsByMonth';
+  const GOAL = getGoalForChart('US_ND', chartId);
   const stepSize = 10;
 
   const processResponse = () => {
@@ -58,7 +59,7 @@ const RevocationCountOverTime = (props) => {
 
   const chart = (
     <Line
-      id="revocationCountsByMonth"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -156,8 +157,8 @@ const RevocationCountOverTime = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('revocationCountsByMonth', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('revocationCountsByMonth'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   const chartData = chart.props.data.datasets[0].data;

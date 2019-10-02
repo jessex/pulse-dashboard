@@ -26,6 +26,8 @@ const ReincarcerationRateByReleaseFacility = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
+  const chartId = 'reincarcerationRateByReleaseFacility';
+
   const processResponse = () => {
     const { ratesByReleaseFacility: ratesByFacility } = props;
 
@@ -57,7 +59,7 @@ const ReincarcerationRateByReleaseFacility = (props) => {
 
   const chart = (
     <Bar
-      id="reincarcerationRateByReleaseFacility"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -119,8 +121,8 @@ const ReincarcerationRateByReleaseFacility = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('reincarcerationRateByReleaseFacility', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('reincarcerationRateByReleaseFacility'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;

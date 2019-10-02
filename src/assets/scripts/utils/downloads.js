@@ -30,17 +30,17 @@ function downloadObjectAsJson(exportObj, exportName) {
 }
 
 function configureDownloadButtons(
-  chartName, chartDatasets, chartLabels, chartBox,
+  chartId, chartDatasets, chartLabels, chartBox,
   exportedStructureCallback,
 ) {
-  const downloadChartAsImageButton = document.getElementById(`downloadChartAsImage-${chartName}`);
+  const downloadChartAsImageButton = document.getElementById(`downloadChartAsImage-${chartId}`);
   if (downloadChartAsImageButton) {
     downloadChartAsImageButton.onclick = function downloadChartImage() {
-      downloadCanvasImage(chartBox, `${chartName}-${timeStamp()}.png`);
+      downloadCanvasImage(chartBox, `${chartId}-${timeStamp()}.png`);
     };
   }
 
-  const downloadChartDataButton = document.getElementById(`downloadChartData-${chartName}`);
+  const downloadChartDataButton = document.getElementById(`downloadChartData-${chartId}`);
   if (downloadChartDataButton) {
     downloadChartDataButton.onclick = function downloadChartData() {
       const exportData = exportedStructureCallback();
@@ -61,7 +61,7 @@ function configureDownloadButtons(
         }
       });
 
-      const filename = `${chartName}-${timeStamp()}`;
+      const filename = `${chartId}-${timeStamp()}`;
       downloadObjectAsJson(exportData, filename);
     };
   }

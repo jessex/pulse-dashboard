@@ -28,6 +28,8 @@ const RevocationCountByOfficer = (props) => {
   const [technicalDataPoints, setTechnicalDataPoints] = useState([]);
   const [unknownDataPoints, setUnknownDataPoints] = useState([]);
 
+  const chartId = 'revocationsByOfficer';
+
   const processResponse = () => {
     const { revocationCountsByOfficer } = props;
 
@@ -71,7 +73,9 @@ const RevocationCountByOfficer = (props) => {
     const sortedDataPoints = dataPoints.sort((a, b) => (
       b.overallRevocationCount - a.overallRevocationCount));
 
-    for (let i = 0; i < 10; i += 1) {
+    const officerCount = (sortedDataPoints.length > 10) ? 10 : sortedDataPoints.length;
+
+    for (let i = 0; i < officerCount; i += 1) {
       officerLabels.push(sortedDataPoints[i].officerID);
       const data = sortedDataPoints[i].violationsByType;
       Object.keys(data).forEach((violationType) => {
@@ -92,7 +96,7 @@ const RevocationCountByOfficer = (props) => {
 
   const chart = (
     <Bar
-      id="revocationsByOfficer"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -156,8 +160,8 @@ const RevocationCountByOfficer = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('revocationsByOfficer', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('revocationsByOfficer'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;

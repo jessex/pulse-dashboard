@@ -34,7 +34,8 @@ const DaysAtLibertySnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'daysAtLibertySnapshot');
+  const chartId = 'daysAtLibertySnapshot';
+  const GOAL = getGoalForChart('US_ND', chartId);
   const stepSize = 200;
 
   const processResponse = () => {
@@ -67,7 +68,7 @@ const DaysAtLibertySnapshot = (props) => {
 
   const chart = (
     <Line
-      id="daysAtLibertySnapshot"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -194,8 +195,8 @@ const DaysAtLibertySnapshot = (props) => {
       series: [],
     };
   };
-  configureDownloadButtons('daysAtLibertySnapshot', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('daysAtLibertySnapshot'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   const header = document.getElementById(props.header);

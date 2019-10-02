@@ -34,7 +34,8 @@ const LsirScoreChangeSnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'lsirScoreChangeSnapshot');
+  const chartId = 'lsirScoreChangeSnapshot';
+  const GOAL = getGoalForChart('US_ND', chartId);
   const stepSize = 0.5;
 
   const processResponse = () => {
@@ -68,7 +69,7 @@ const LsirScoreChangeSnapshot = (props) => {
 
   const chart = (
     <Line
-      id="lsirScoreChangeSnapshot"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -195,8 +196,8 @@ const LsirScoreChangeSnapshot = (props) => {
       series: [],
     };
   };
-  configureDownloadButtons('lsirScoreChangeSnapshot', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('lsirScoreChangeSnapshot'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   const header = document.getElementById(props.header);

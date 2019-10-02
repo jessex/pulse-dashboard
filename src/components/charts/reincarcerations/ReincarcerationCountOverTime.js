@@ -30,7 +30,8 @@ const ReincarcerationCountOverTime = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'reincarcerationCountsByMonth');
+  const chartId = 'reincarcerationCountsByMonth';
+  const GOAL = getGoalForChart('US_ND', chartId);
   const stepSize = 10;
 
   const processResponse = () => {
@@ -58,7 +59,7 @@ const ReincarcerationCountOverTime = (props) => {
 
   const chart = (
     <Line
-      id="reincarcerationCountsByMonth"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -155,9 +156,9 @@ const ReincarcerationCountOverTime = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('reincarcerationCountsByMonth',
+  configureDownloadButtons(chartId,
     chart.props.data.datasets, chart.props.data.labels,
-    document.getElementById('reincarcerationCountsByMonth'),
+    document.getElementById(chartId),
     exportedStructureCallback);
 
   const chartData = chart.props.data.datasets[0].data;

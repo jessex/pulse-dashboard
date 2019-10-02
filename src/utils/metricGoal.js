@@ -59,8 +59,8 @@ function Goal(isUpward, value, label) {
   this.label = label;
 }
 
-function getGoalForChart(stateCode, chartName) {
-  const goalDict = GOALS[stateCode][chartName];
+function getGoalForChart(stateCode, chartId) {
+  const goalDict = GOALS[stateCode][chartId];
   return new Goal(goalDict.isUpward, goalDict.value, goalDict.label);
 }
 

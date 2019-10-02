@@ -29,6 +29,8 @@ import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
+const chartId = 'revocationsByCounty';
+
 const centerNDLong = -100.5;
 const centerNDLat = 47.3;
 
@@ -94,9 +96,9 @@ class RevocationsByCounty extends Component {
       label: 'revocationsByCounty',
     }];
 
-    configureDownloadButtons('revocationsByCounty', downloadableDataFormat,
+    configureDownloadButtons(chartId, downloadableDataFormat,
       Object.keys(this.chartDataPoints),
-      document.getElementById('revocationsByCounty'), exportedStructureCallback);
+      document.getElementById(chartId), exportedStructureCallback);
 
     setTimeout(() => {
       ReactTooltip.rebuild();
@@ -105,7 +107,7 @@ class RevocationsByCounty extends Component {
 
   render() {
     return (
-      <div className="map-container" id="revocationsByCounty">
+      <div className="map-container" id={chartId}>
         <ComposableMap
           projection={geoAlbersUsa}
           projectionConfig={{ scale: 1000 }}

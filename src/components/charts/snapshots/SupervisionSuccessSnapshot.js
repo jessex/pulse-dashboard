@@ -34,7 +34,8 @@ const SupervisionSuccessSnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'supervisionSuccessSnapshot');
+  const chartId = 'supervisionSuccessSnapshot';
+  const GOAL = getGoalForChart('US_ND', chartId);
   const stepSize = 10;
 
   const processResponse = () => {
@@ -79,7 +80,7 @@ const SupervisionSuccessSnapshot = (props) => {
 
   const chart = (
     <Line
-      id="supervisionSuccessSnapshot"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -207,8 +208,8 @@ const SupervisionSuccessSnapshot = (props) => {
     };
   };
 
-  configureDownloadButtons('supervisionSuccessSnapshot', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('supervisionSuccessSnapshot'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   const header = document.getElementById(props.header);

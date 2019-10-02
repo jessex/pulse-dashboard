@@ -26,6 +26,8 @@ const AdmissionTypeProportions = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
+  const chartId = 'admissionTypeProportions';
+
   const processResponse = () => {
     const { admissionCountsByType } = props;
 
@@ -55,7 +57,7 @@ const AdmissionTypeProportions = (props) => {
 
   const chart = (
     <Pie
-      id="admissionTypeProportions"
+      id={chartId}
       data={{
         datasets: [{
           data: chartDataPoints,
@@ -105,8 +107,8 @@ const AdmissionTypeProportions = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('admissionTypeProportions', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('admissionTypeProportions'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;

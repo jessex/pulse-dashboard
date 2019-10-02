@@ -34,7 +34,8 @@ const RevocationAdmissionsSnapshot = (props) => {
   const [chartMinValue, setChartMinValue] = useState();
   const [chartMaxValue, setChartMaxValue] = useState();
 
-  const GOAL = getGoalForChart('US_ND', 'revocationAdmissionsSnapshot');
+  const chartId = 'revocationAdmissionsSnapshot';
+  const GOAL = getGoalForChart('US_ND', chartId);
   const stepSize = 10;
 
   const processResponse = () => {
@@ -73,7 +74,7 @@ const RevocationAdmissionsSnapshot = (props) => {
 
   const chart = (
     <Line
-      id="revocationAdmissionsSnapshot"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -200,8 +201,8 @@ const RevocationAdmissionsSnapshot = (props) => {
       series: [],
     };
   };
-  configureDownloadButtons('revocationAdmissionsSnapshot', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('revocationAdmissionsSnapshot'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   const header = document.getElementById(props.header);

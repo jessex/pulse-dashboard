@@ -28,6 +28,8 @@ const RevocationCountBySupervisionType = (props) => {
   const [paroleDataPoints, setParoleDataPoints] = useState([]);
   const [probationDataPoints, setProbationDataPoints] = useState([]);
 
+  const chartId = 'revocationsBySupervisionType';
+
   const processResponse = () => {
     const { revocationCountsByMonthBySupervisionType: countsByMonth } = props;
 
@@ -57,7 +59,7 @@ const RevocationCountBySupervisionType = (props) => {
 
   const chart = (
     <Bar
-      id="revocationsBySupervisionType"
+      id={chartId}
       data={{
         labels: chartLabels,
         datasets: [{
@@ -108,8 +110,8 @@ const RevocationCountBySupervisionType = (props) => {
       series: [],
     });
 
-  configureDownloadButtons('revocationsBySupervisionType', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('revocationsBySupervisionType'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;
