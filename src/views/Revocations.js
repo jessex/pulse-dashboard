@@ -215,7 +215,11 @@ const Revocations = () => {
                 </div>
                 <div className="layer w-100 pX-20 pT-40 row">
                   <div className="layer w-100 p-20">
-                    <RevocationsByOffice revocationsByOffice={apiData.revocations_by_siteid_60_days} />
+                    <RevocationsByOffice
+                      revocationsByOffice={apiData.revocations_by_site_id_60_days}
+                      officeData={apiData.site_offices}
+                      officerDropdownId="showOfficersOfOffice"
+                    />
                   </div>
                 </div>
                 <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationsByOffice">
@@ -273,12 +277,12 @@ const Revocations = () => {
                   <span className="fa-pull-left">
                     <div className="dropdown show">
                       <a className="btn btn-secondary btn-sm dropdown-toggle" href="javascript:void(0);" role="button" id="showOfficersOfOffice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bismarck
+                        SITE NAME
                       </a>
-                      <div className="dropdown-menu" aria-labelledby="showOfficersOfOffice">
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Beulah" href="javascript:void(0);">Beulah</a>
+                      <div className="dropdown-menu" aria-labelledby="showOfficersOfOffice" id="showOfficersOfOfficeMenu">
+                        <a className="dropdown-item" id="showOfficersOfOffice-Beulah" href="javascript:void(0);">Beulah</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Bismarck" href="javascript:void(0);">Bismarck</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Bottineau" href="javascript:void(0);">Bottineau</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Bottineau" href="javascript:void(0);">Bottineau</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Devils-Lake" href="javascript:void(0);">Devils Lake</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Dickinson" href="javascript:void(0);">Dickinson</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Fargo" href="javascript:void(0);">Fargo</a>
@@ -287,17 +291,21 @@ const Revocations = () => {
                         <a className="dropdown-item" id="showOfficersOfOffice-Jamestown" href="javascript:void(0);">Jamestown</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Mandan" href="javascript:void(0);">Mandan</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Minot" href="javascript:void(0);">Minot</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Oakes" href="javascript:void(0);">Oakes</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Oakes" href="javascript:void(0);">Oakes</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Rolla" href="javascript:void(0);">Rolla</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Wahpeton" href="javascript:void(0);">Wahpeton</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Washburn" href="javascript:void(0);">Washburn</a>
-                        <a className="dropdown-item disabled" id="showOfficersOfOffice-Williston" href="javascript:void(0);">Williston</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Washburn" href="javascript:void(0);">Washburn</a>
+                        <a className="dropdown-item" id="showOfficersOfOffice-Williston" href="javascript:void(0);">Williston</a>
                       </div>
                     </div>
                   </span>
                 </div>
                 <div className="layer w-100 p-20">
-                  <RevocationCountByOfficer revocationCountsByOfficer={apiData.revocations_by_officer_siteid_60_days} />
+                  <RevocationCountByOfficer
+                    revocationCountsByOfficer={apiData.revocations_by_officer_60_days}
+                    officeData={apiData.site_offices}
+                    dropdownId="showOfficersOfOffice"
+                  />
                 </div>
                 <div className="layer bdT p-20 w-100 accordion" id="methodologyRevocationByOfficer">
                   <div className="mb-0" id="methodologyHeadingRevocationByOfficer">

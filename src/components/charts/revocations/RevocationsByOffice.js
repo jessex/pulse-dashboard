@@ -1,4 +1,21 @@
-import React, { Component, useState, useEffect } from "react"
+// Recidiviz - a data platform for criminal justice reform
+// Copyright (C) 2019 Recidiviz, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
+import React, { Component } from 'react';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -12,62 +29,106 @@ import { geoAlbersUsa } from 'd3-geo';
 import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
-import { changeDataSetOfChart } from '../../../utils/dynamicData';
 
-// TODO: Move this ND-specific info out of this file
+const chartId = 'revocationsByOffice';
 const centerNDLong = -100.5;
 const centerNDLat = 47.3;
 
-const offices = {
-  1: { titleSide: 'top', name: 'Bismarck', coordinates: [-100.745186, 46.812513] },
-  2: { titleSide: 'bottom', name: 'Jamestown', coordinates: [-98.708340, 46.901152] },
-  3: { titleSide: 'bottom', name: 'Minot', coordinates: [-101.317666, 48.234138] },
-  4: { titleSide: 'bottom', name: 'Fargo', coordinates: [-96.835261, 46.870340] },
-  5: { titleSide: 'bottom', name: 'Grand Forks', coordinates: [-97.646431, 48.151925] },
-  6: { titleSide: 'top', name: 'Devils Lake', coordinates: [-98.866727, 48.107663] },
-  7: { titleSide: 'bottom', name: 'Wahpeton', coordinates: [-96.608167, 46.263930] },
-  8: { titleSide: 'bottom', name: 'Rolla', coordinates: [-99.606512, 48.862795] },
-  9: { titleSide: 'top', name: 'Washburn', coordinates: [-101.026420, 47.290287] },
-  10: { titleSide: 'bottom', name: 'Williston', coordinates: [-103.612105, 48.156118] },
-  11: { titleSide: 'bottom', name: 'Dickinson', coordinates: [-102.785458, 46.880403] },
-  12: { titleSide: 'top', name: 'Grafton', coordinates: [-97.405384, 48.417929] },
-  13: { titleSide: 'bottom', name: 'Mandan', coordinates: [-100.295054, 46.679802] },
-  14: { titleSide: 'top', name: 'Bottineau', coordinates: [-100.445800, 48.826567] },
-  15: { titleSide: 'bottom', name: 'Oakes', coordinates: [-98.093554, 46.140153] },
-  16: { titleSide: 'bottom', name: 'Beulah', coordinates: [-101.785210, 47.260616] },
-};
+function xOffsetForOfficeTitle(office) {
+  const revLabelOffset = (office.revocationCount > 9) ? 35 : 25;
+  if (office.titleSide === 'left') {
+    return (-1 * office.revocationCount) - (office.officeName.length * 7) - revLabelOffset;
+  }
 
-function offsetForOfficeTitle(office) {
+  if (office.titleSide === 'right') {
+    return office.revocationCount + (office.officeName.length * 7) + revLabelOffset;
+  }
+
+  return 0;
+}
+
+function yOffsetForOfficeTitle(office) {
   if (office.titleSide === 'bottom') {
     return office.revocationCount + 25;
   }
 
-  return -1 * office.revocationCount - 15;
+  if (office.titleSide === 'top') {
+    return -1 * office.revocationCount - 10;
+  }
+
+  return 10;
 }
 
-const showRevocationsForOffice = (evt) => {
-  changeDataSetOfChart(evt.name);
+function colorForMarker(office) {
+  return (office.revocationCount > 0) ? COLORS['red-standard'] : COLORS['grey-600'];
+}
+
+const officeClicked = (evt) => {
+  const officeDropdownItem = document.getElementById(evt.officerDropdownItemId);
+  if (officeDropdownItem) {
+    officeDropdownItem.click();
+  }
 };
 
 class RevocationsByOffice extends Component {
   constructor(props) {
     super(props);
     this.props = props;
+    this.officeData = this.props.officeData;
     this.revocationsByOffice = this.props.revocationsByOffice;
-    this.chartDataPoints = []
+    this.officerDropdownId = this.props.officerDropdownId;
+    this.offices = {};
+    this.officeIds = [];
 
+    // Load office metadata
+    this.officeData.forEach((officeData) => {
+      const {
+        site_id: officeId,
+        site_name: officeName,
+        long, lat,
+        title_side: titleSide,
+      } = officeData;
+
+      const office = {
+        officeName, coordinates: [long, lat], titleSide,
+      };
+
+      this.offices[officeId] = office;
+      this.officeIds.push(officeId);
+    });
+
+    // Load revocation data for each office
+    this.chartDataPoints = [];
+    this.officeIdsWithData = [];
     this.revocationsByOffice.forEach((data) => {
       const {
-        site_id: siteId,
-        total: revocationCount,
+        site_id: officeId,
+        absconsion_count: absconsionCount,
+        felony_count: felonyCount, technical_count: technicalCount,
+        unknown_count: unknownCount,
       } = data;
 
-      const siteIdNum = parseInt(siteId, 10);
-      const revocationCountNum = parseInt(revocationCount, 10);
-      const office = offices[siteIdNum];
-      office.revocationCount = revocationCountNum;
-      office.siteId = siteIdNum;
-      if (revocationCountNum > 0) {
+      const revocationCountNum = parseInt(absconsionCount, 10)
+        + parseInt(felonyCount, 10) + parseInt(technicalCount, 10) + parseInt(unknownCount, 10);
+      const officeIdInt = parseInt(officeId, 10);
+      const office = this.offices[officeIdInt];
+      if (office) {
+        office.revocationCount = revocationCountNum;
+        office.officerDropdownItemId = `${this.officerDropdownId}-${office.officeName.replace(' ', '-')}`;
+        this.chartDataPoints.push(office);
+        this.officeIdsWithData.push(officeIdInt);
+      }
+    });
+
+    // Set the revocation count to 0 for offices without data
+    const officeIdsWithoutData = this.officeIds.filter((value) => (
+      !this.officeIdsWithData.includes(value)));
+
+    officeIdsWithoutData.forEach((officeId) => {
+      const office = this.offices[officeId];
+      if (office) {
+        office.revocationCount = 0;
+        office.officerDropdownItemId = `${this.officerDropdownId}-${office.officeName.replace(' ', '-')}`;
         this.chartDataPoints.push(office);
       }
     });
@@ -80,14 +141,23 @@ class RevocationsByOffice extends Component {
         series: [],
       });
 
+    const dataArray = [];
+    this.chartDataPoints.forEach((data) => {
+      const {
+        officeName,
+        revocationCount,
+      } = data;
+      dataArray.push({ officeName, revocationCount });
+    });
+
     const downloadableDataFormat = [{
-      data: Object.values(this.chartDataPoints),
-      label: 'revocationsByOffice',
+      data: dataArray,
+      label: chartId,
     }];
 
-    configureDownloadButtons('revocationsByOffice', downloadableDataFormat,
+    configureDownloadButtons(chartId, downloadableDataFormat,
       Object.keys(this.chartDataPoints),
-      document.getElementById('revocationsByOffice'), exportedStructureCallback);
+      document.getElementById(chartId), exportedStructureCallback);
 
     setTimeout(() => {
       ReactTooltip.rebuild();
@@ -107,7 +177,7 @@ class RevocationsByOffice extends Component {
             height: 'auto',
           }}
         >
-          <ZoomableGroup center={[centerNDLong, centerNDLat]} zoom={7} disablePanning>
+          <ZoomableGroup center={[centerNDLong, centerNDLat]} zoom={8.2} disablePanning>
             <Geographies geography={geographyObject}>
               {(geographies, projection) => geographies.map((geography, i) => (
                 <Geography
@@ -129,6 +199,8 @@ class RevocationsByOffice extends Component {
                     },
                     pressed: {
                       fill: '#F5F6F7',
+                      stroke: COLORS['grey-300'],
+                      strokeWidth: 0.2,
                       outline: 'none',
                     },
                   }}
@@ -139,11 +211,11 @@ class RevocationsByOffice extends Component {
             <Markers>
               {this.chartDataPoints.map((office, i) => (
                 <Marker
-                  onClick={showRevocationsForOffice}
+                  onClick={officeClicked}
                   key={i}
                   marker={office}
                   style={{
-                    default: { fill: COLORS['red-standard'] },
+                    default: { fill: colorForMarker(office) },
                     hover: { fill: COLORS['blue-standard'] },
                     pressed: { fill: COLORS['blue-standard'] },
                   }}
@@ -155,7 +227,8 @@ class RevocationsByOffice extends Component {
                   />
                   <text
                     textAnchor="middle"
-                    y={offsetForOfficeTitle(office)}
+                    x={xOffsetForOfficeTitle(office)}
+                    y={yOffsetForOfficeTitle(office)}
                     style={{
                       fontFamily: 'Roboto, sans-serif',
                       fontSize: '175%',
@@ -163,7 +236,7 @@ class RevocationsByOffice extends Component {
                       fill: '#607D8B',
                     }}
                   >
-                    {office.name.concat(' (', office.revocationCount, ')')}
+                    {office.officeName.concat(' (', office.revocationCount, ')')}
                   </text>
                 </Marker>
               ))}
