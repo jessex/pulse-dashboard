@@ -20,6 +20,7 @@ import * as $ from 'jquery';
 import { Bar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
+import { toHtmlFriendly, toHumanReadable, toInt } from '../../../utils/variableConversion';
 
 const RevocationCountByOfficer = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -29,35 +30,57 @@ const RevocationCountByOfficer = (props) => {
   const [unknownDataPoints, setUnknownDataPoints] = useState([]);
   const [allChartData, setAllChartData] = useState({});
   const [visibleOfficeName, setvisibleOfficeName] = useState('');
+  const [displayOfficerIds, setDisplayOfficerIds] = useState(true);
   const chartId = 'revocationsByOfficer';
 
+  /**
+   * Sets the labels and data points of the chart to display the values for the
+   * officers in the given `visibleOffice`.
+   * `dataPoints` must be a dictionary where the office names are the keys,
+   * and the values are arrays of dictionaries with values for the following keys:
+   *    - officerID
+   *    - violationsByType
+   */
   function setDataForVisibleOffice(dataPoints, visibleOffice) {
     const officerLabels = [];
-    const violationArrays = {
+    const officerViolationCountsByType = {
       ABSCONDED: [],
       FELONY: [],
       TECHNICAL: [],
       UNKNOWN_VIOLATION_TYPE: [],
     };
 
-    const visibleOfficeData = dataPoints[visibleOffice];
+    let visibleOfficeData = [];
+
+    if (visibleOffice === 'All-Officers') {
+      Object.keys(dataPoints).forEach((office) => {
+        dataPoints[office].forEach((officerData) => {
+          visibleOfficeData.push(officerData);
+        });
+      });
+      setDisplayOfficerIds(false);
+    } else {
+      visibleOfficeData = dataPoints[visibleOffice];
+      setDisplayOfficerIds(true);
+    }
+
     const sortedDataPoints = visibleOfficeData.sort((a, b) => (
-      a.officerID - b.officerID));
+      a.officerId - b.officerId));
 
     for (let i = 0; i < sortedDataPoints.length; i += 1) {
-      officerLabels.push(sortedDataPoints[i].officerID);
-      const data = sortedDataPoints[i].violationsByType;
-      Object.keys(data).forEach((violationType) => {
-        violationArrays[violationType].push(data[violationType]);
+      officerLabels.push(sortedDataPoints[i].officerId);
+      const revocationCountsByType = sortedDataPoints[i].violationsByType;
+      Object.keys(revocationCountsByType).forEach((violationType) => {
+        officerViolationCountsByType[violationType].push(revocationCountsByType[violationType]);
       });
     }
 
     setvisibleOfficeName(visibleOffice);
     setChartLabels(officerLabels);
-    setAbsconsionDataPoints(violationArrays.ABSCONDED);
-    setNewOffenseDataPoints(violationArrays.FELONY);
-    setTechnicalDataPoints(violationArrays.TECHNICAL);
-    setUnknownDataPoints(violationArrays.UNKNOWN_VIOLATION_TYPE);
+    setAbsconsionDataPoints(officerViolationCountsByType.ABSCONDED);
+    setNewOffenseDataPoints(officerViolationCountsByType.FELONY);
+    setTechnicalDataPoints(officerViolationCountsByType.TECHNICAL);
+    setUnknownDataPoints(officerViolationCountsByType.UNKNOWN_VIOLATION_TYPE);
   }
 
   function configureDownloads(chart, chartData, visibleOffice) {
@@ -94,46 +117,36 @@ const RevocationCountByOfficer = (props) => {
         site_name: officeName,
       } = office;
 
-      offices[officeId] = officeName.replace(' ', '-');
+      offices[officeId] = toHtmlFriendly(officeName);
       officeIds.push(officeId);
     });
 
     const dataPoints = {};
     revocationCountsByOfficer.forEach((data) => {
       const {
-        officer_external_id: officerID, absconsion_count: absconsionCount,
+        officer_external_id: officerIDRaw, absconsion_count: absconsionCount,
         felony_count: felonyCount, technical_count: technicalCount,
         unknown_count: unknownCount, site_id: officeId,
       } = data;
 
       const violationsByType = {
-        ABSCONDED: parseInt(absconsionCount, 10),
-        FELONY: parseInt(felonyCount, 10),
-        TECHNICAL: parseInt(technicalCount, 10),
-        UNKNOWN_VIOLATION_TYPE: parseInt(unknownCount, 10),
+        ABSCONDED: toInt(absconsionCount),
+        FELONY: toInt(felonyCount),
+        TECHNICAL: toInt(technicalCount),
+        UNKNOWN_VIOLATION_TYPE: toInt(unknownCount),
       };
 
-      let overallRevocationCount = 0;
-      Object.keys(violationsByType).forEach((violationType) => {
-        overallRevocationCount += violationsByType[violationType];
-      });
-
-      let officeName = offices[parseInt(officeId, 10)];
-      if (officeName && officerID !== 'OFFICER_UNKNOWN') {
-        officeName = officeName.replace(' ', '-');
+      let officeName = offices[toInt(officeId)];
+      if (officeName && officerIDRaw !== 'OFFICER_UNKNOWN') {
+        officeName = toHtmlFriendly(officeName);
+        const officerId = toInt(officerIDRaw);
         if (dataPoints[officeName] == null) {
-          dataPoints[officeName] = [{
-            officerID,
-            violationsByType,
-            overallRevocationCount,
-          }];
-        } else {
-          dataPoints[officeName].push({
-            officerID,
-            violationsByType,
-            overallRevocationCount,
-          });
+          dataPoints[officeName] = [];
         }
+        dataPoints[officeName].push({
+          officerId,
+          violationsByType,
+        });
       }
     });
 
@@ -146,8 +159,8 @@ const RevocationCountByOfficer = (props) => {
     });
 
     // Show data for the first office name that has data
-    const sortedOfficeNames = Object.keys(dataPoints).sort();
-    const visibleOffice = sortedOfficeNames[0];
+    const visibleOffice = 'All-Officers';
+    dataPoints[visibleOffice] = [];
     setDataForVisibleOffice(dataPoints, visibleOffice);
     setAllChartData(dataPoints);
   };
@@ -159,6 +172,7 @@ const RevocationCountByOfficer = (props) => {
   const chart = (
     <Bar
       id={chartId}
+      redraw
       data={{
         labels: chartLabels,
         datasets: [{
@@ -200,6 +214,9 @@ const RevocationCountByOfficer = (props) => {
               labelString: 'Officer ID',
             },
             stacked: true,
+            ticks: {
+              display: displayOfficerIds,
+            },
           }],
           yAxes: [{
             scaleLabel: {
@@ -224,7 +241,7 @@ const RevocationCountByOfficer = (props) => {
   };
 
   // Set the dropdown toggle text to be the visible office name
-  $(`#${props.dropdownId}`).text(visibleOfficeName.replace('-', ' '));
+  $(`#${props.dropdownId}`).text(toHumanReadable(visibleOfficeName));
 
   Object.keys(allChartData).forEach((officeName) => {
     const dropdownItemId = `${props.dropdownId}-${officeName}`;
@@ -243,6 +260,7 @@ const RevocationCountByOfficer = (props) => {
       }
     }
   });
+
 
   return chart;
 };

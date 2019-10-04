@@ -26,45 +26,80 @@ import {
 } from 'react-simple-maps';
 import ReactTooltip from 'react-tooltip';
 import { geoAlbersUsa } from 'd3-geo';
+import { scaleLinear } from 'd3-scale';
 import geographyObject from '../../../assets/static/maps/us_nd.json';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
+import { toHtmlFriendly, toInt } from '../../../utils/variableConversion';
 
 const chartId = 'revocationsByOffice';
 const centerNDLong = -100.5;
 const centerNDLat = 47.3;
 
+/**
+ * Returns the radius pixel size for the marker of the given office.
+ * The size of the markers are distributed a linear scale given the revocation
+ * count of the offices, where the office with the highest number of revocations
+ * will have a marker with the radius size of `maxMarkerRadius`.
+ */
+function radiusOfMarker(office, maxValue) {
+  const minMarkerRadius = 3;
+  const maxMarkerRadius = 25;
+  const officeScale = scaleLinear()
+    .domain([0, maxValue])
+    .range([minMarkerRadius, maxMarkerRadius]);
+
+  return officeScale(office.revocationCount);
+}
+
+/**
+ * Returns how far the title should be offset (in pixels) along the x-axis from
+ * the center of the marker circle, given the location of the title, the
+ * length of the office name, and the number of revocations.
+ */
 function xOffsetForOfficeTitle(office) {
-  const revLabelOffset = (office.revocationCount > 9) ? 35 : 25;
+  const offsetPerRevocationDigit = 10;
+  const offsetForParenthesis = 15;
+  const offsetForNameLetter = 8;
+  const digitsInRevocations = office.revocationCount.toString().length;
+  const revLabelOffset = offsetPerRevocationDigit * digitsInRevocations + offsetForParenthesis;
   if (office.titleSide === 'left') {
-    return (-1 * office.revocationCount) - (office.officeName.length * 7) - revLabelOffset;
+    return (-1 * office.revocationCount)
+      - (office.officeName.length * offsetForNameLetter) - revLabelOffset;
   }
 
   if (office.titleSide === 'right') {
-    return office.revocationCount + (office.officeName.length * 7) + revLabelOffset;
+    return office.revocationCount
+     + (office.officeName.length * offsetForNameLetter) + revLabelOffset;
   }
 
   return 0;
 }
 
+/**
+ * Returns how far the title should be offset (in pixels) along the y-axis from
+ * the center of the marker circle given the location of the title.
+ */
 function yOffsetForOfficeTitle(office) {
+  const offsetForBottomLabels = 25;
+  const offsetForAllLables = 10;
   if (office.titleSide === 'bottom') {
-    return office.revocationCount + 25;
+    return office.revocationCount + offsetForBottomLabels;
   }
 
   if (office.titleSide === 'top') {
-    return -1 * office.revocationCount - 10;
+    return -1 * office.revocationCount - offsetForAllLables;
   }
 
-  return 10;
+  return offsetForAllLables;
 }
 
 function colorForMarker(office) {
   return (office.revocationCount > 0) ? COLORS['red-standard'] : COLORS['grey-600'];
 }
 
-const officeClicked = (evt) => {
-  const officeDropdownItem = document.getElementById(evt.officerDropdownItemId);
+const officeClicked = (office) => {
+  const officeDropdownItem = document.getElementById(office.officerDropdownItemId);
   if (officeDropdownItem) {
     officeDropdownItem.click();
   }
@@ -79,18 +114,22 @@ class RevocationsByOffice extends Component {
     this.officerDropdownId = this.props.officerDropdownId;
     this.offices = {};
     this.officeIds = [];
+    this.maxValue = -1e100;
 
     // Load office metadata
     this.officeData.forEach((officeData) => {
       const {
         site_id: officeId,
-        site_name: officeName,
-        long, lat,
-        title_side: titleSide,
+        site_name: name,
+        long: longValue,
+        lat: latValue,
+        title_side: titleSideValue,
       } = officeData;
 
       const office = {
-        officeName, coordinates: [long, lat], titleSide,
+        officeName: name,
+        coordinates: [longValue, latValue],
+        titleSide: titleSideValue,
       };
 
       this.offices[officeId] = office;
@@ -104,19 +143,24 @@ class RevocationsByOffice extends Component {
       const {
         site_id: officeId,
         absconsion_count: absconsionCount,
-        felony_count: felonyCount, technical_count: technicalCount,
+        felony_count: felonyCount,
+        technical_count: technicalCount,
         unknown_count: unknownCount,
       } = data;
 
-      const revocationCountNum = parseInt(absconsionCount, 10)
-        + parseInt(felonyCount, 10) + parseInt(technicalCount, 10) + parseInt(unknownCount, 10);
-      const officeIdInt = parseInt(officeId, 10);
+      const revocationCountNum = toInt(absconsionCount)
+        + toInt(felonyCount) + toInt(technicalCount) + toInt(unknownCount);
+      const officeIdInt = toInt(officeId);
       const office = this.offices[officeIdInt];
       if (office) {
         office.revocationCount = revocationCountNum;
-        office.officerDropdownItemId = `${this.officerDropdownId}-${office.officeName.replace(' ', '-')}`;
+        office.officerDropdownItemId = `${this.officerDropdownId}-${toHtmlFriendly(office.officeName)}`;
         this.chartDataPoints.push(office);
         this.officeIdsWithData.push(officeIdInt);
+
+        if (office.revocationCount > this.maxValue) {
+          this.maxValue = office.revocationCount;
+        }
       }
     });
 
@@ -128,7 +172,7 @@ class RevocationsByOffice extends Component {
       const office = this.offices[officeId];
       if (office) {
         office.revocationCount = 0;
-        office.officerDropdownItemId = `${this.officerDropdownId}-${office.officeName.replace(' ', '-')}`;
+        office.officerDropdownItemId = `${this.officerDropdownId}-${toHtmlFriendly(office.officeName)}`;
         this.chartDataPoints.push(office);
       }
     });
@@ -141,17 +185,17 @@ class RevocationsByOffice extends Component {
         series: [],
       });
 
-    const dataArray = [];
+    const revocationsByOffice = [];
     this.chartDataPoints.forEach((data) => {
       const {
         officeName,
         revocationCount,
       } = data;
-      dataArray.push({ officeName, revocationCount });
+      revocationsByOffice.push({ officeName, revocationCount });
     });
 
     const downloadableDataFormat = [{
-      data: dataArray,
+      data: revocationsByOffice,
       label: chartId,
     }];
 
@@ -223,7 +267,7 @@ class RevocationsByOffice extends Component {
                   <circle
                     cx={0}
                     cy={0}
-                    r={office.revocationCount + 3}
+                    r={radiusOfMarker(office, this.maxValue)}
                   />
                   <text
                     textAnchor="middle"

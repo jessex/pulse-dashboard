@@ -172,9 +172,9 @@ const Revocations = () => {
                           supervision was terminated.
                         </li>
                         <li>
-                          Revocations are included based on the date that the person&apos;s
-                          supervision was officially revoked, not the date of the causal violation
-                          or offense.
+                          Revocations are included based on the date that the person
+                          was admitted to a DOCR facility because their supervision
+                          was revoked, not the date of the causal violation or offense.
                         </li>
                       </ul>
                     </div>
@@ -233,8 +233,19 @@ const Revocations = () => {
                   <div className="collapse" id="collapseMethodologyRevocationsByOffice" aria-labelledby="methodologyHeadingRevocationsByOffice" data-parent="#methodologyRevocationsByOffice">
                     <div>
                       <ul>
-                        <li>Revocations include all instances of a person being incarcerated because their supervision was revoked for a behavioral violation.</li>
-                        <li>Revocations are attributed to the site of the terminating officer at the time of a person's revocation.</li>
+                        <li>
+                          Revocation counts include the number of people who were incarcerated
+                          because their supervision was revoked.
+                        </li>
+                        <li>
+                          Revocations are attributed to the site of the
+                          terminating officer at the time of a person&apos;s revocation.
+                        </li>
+                        <li>
+                          Revocations are included based on the date that the person
+                          was admitted to a DOCR facility because their supervision
+                          was revoked, not the date of the causal violation or offense.
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -280,6 +291,7 @@ const Revocations = () => {
                         SITE NAME
                       </a>
                       <div className="dropdown-menu" aria-labelledby="showOfficersOfOffice" id="showOfficersOfOfficeMenu">
+                        <a className="dropdown-item" id="showOfficersOfOffice-All-Officers" href="javascript:void(0);">All Officers</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Beulah" href="javascript:void(0);">Beulah</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Bismarck" href="javascript:void(0);">Bismarck</a>
                         <a className="dropdown-item" id="showOfficersOfOffice-Bottineau" href="javascript:void(0);">Bottineau</a>
@@ -327,9 +339,9 @@ const Revocations = () => {
                           the terminating officer at the time of a person&apos;s revocation.
                         </li>
                         <li>
-                          Revocations are included based on the date that the person&apos;s
-                          supervision was officially revoked, not the date of the causal violation
-                          or offense.
+                          Revocations are included based on the date that the person
+                          was admitted to a DOCR facility because their supervision
+                          was revoked, not the date of the causal violation or offense.
                         </li>
                       </ul>
                     </div>
