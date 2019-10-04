@@ -175,6 +175,10 @@ const RevocationProportionByRace = (props) => {
               labelString: 'Percentage',
             },
             stacked: true,
+            ticks: {
+              min: 0,
+              max: 100,
+            },
           }],
           yAxes: [{
             stacked: true,
