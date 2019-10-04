@@ -172,7 +172,7 @@ const RevocationCountByOfficer = (props) => {
   const chart = (
     <Bar
       id={chartId}
-      redraw
+      redraw // This forces a redraw of the entire chart on every change
       data={{
         labels: chartLabels,
         datasets: [{
