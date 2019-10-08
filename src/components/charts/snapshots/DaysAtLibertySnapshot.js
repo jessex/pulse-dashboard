@@ -76,6 +76,8 @@ const DaysAtLibertySnapshot = (props) => {
           backgroundColor: COLORS['blue-standard'],
           borderColor: COLORS['blue-standard'],
           pointBackgroundColor: COLORS['blue-standard'],
+          pointHoverBackgroundColor: COLORS['blue-standard'],
+          pointHoverBorderColor: COLORS['blue-standard'],
           pointRadius: 4,
           hitRadius: 5,
           fill: false,
