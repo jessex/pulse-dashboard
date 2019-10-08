@@ -96,6 +96,7 @@ const LsirScoreChangeSnapshot = (props) => {
           },
         },
         tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
           enabled: true,
           mode: 'point',
           callbacks: {

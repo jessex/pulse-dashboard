@@ -99,6 +99,7 @@ const RevocationCountOverTime = (props) => {
           }],
         },
         tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
           mode: 'x',
         },
         annotation: {

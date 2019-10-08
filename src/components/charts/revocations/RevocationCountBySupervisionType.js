@@ -18,7 +18,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Bar } from 'react-chartjs-2';
-import { COLORS_STACKED_TWO_VALUES } from '../../../assets/scripts/constants/colors';
+import { COLORS, COLORS_STACKED_TWO_VALUES } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
 import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
@@ -81,6 +81,7 @@ const RevocationCountBySupervisionType = (props) => {
           position: 'bottom',
         },
         tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
           mode: 'index',
           intersect: false,
         },

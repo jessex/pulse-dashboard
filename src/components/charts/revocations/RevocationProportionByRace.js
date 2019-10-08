@@ -189,6 +189,7 @@ const RevocationProportionByRace = (props) => {
           position: 'bottom',
         },
         tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
           mode: 'dataset',
           intersect: true,
           callbacks: {

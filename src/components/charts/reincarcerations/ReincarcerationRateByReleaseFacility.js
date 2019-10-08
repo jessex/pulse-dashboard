@@ -77,6 +77,7 @@ const ReincarcerationRateByReleaseFacility = (props) => {
           display: false,
         },
         tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
           mode: 'index',
           callbacks: {
             label(tooltipItems, data) {

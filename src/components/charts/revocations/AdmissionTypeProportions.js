@@ -18,7 +18,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Pie } from 'react-chartjs-2';
-import { COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
+import { COLORS, COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { toInt } from '../../../utils/variableConversion';
@@ -83,6 +83,7 @@ const AdmissionTypeProportions = (props) => {
           position: 'right',
         },
         tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
           callbacks: {
             label: (tooltipItem, data) => {
               const dataset = data.datasets[tooltipItem.datasetIndex];
