@@ -26,6 +26,7 @@ import { configureDownloadButtons } from '../../../assets/scripts/utils/download
 const AdmissionsVsReleases = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
+  const [chartColors, setChartColors] = useState([]);
 
   const chartId = 'admissionsVsReleases';
 
@@ -40,8 +41,18 @@ const AdmissionsVsReleases = (props) => {
 
     const sorted = sortAndFilterMostRecentMonths(dataPoints, 6);
 
+    const colorsForValues = [];
+    sorted.forEach((dataPoint) => {
+      if (dataPoint.delta > 0) {
+        colorsForValues.push([COLORS_GOOD_BAD.bad]);
+      } else {
+        colorsForValues.push([COLORS_GOOD_BAD.good]);
+      }
+    });
+
     setChartLabels(monthNamesWithYearsFromNumbers(sorted.map((element) => element.month), false));
     setChartDataPoints(sorted.map((element) => element.delta));
+    setChartColors(colorsForValues);
   };
 
   useEffect(() => {
@@ -55,14 +66,9 @@ const AdmissionsVsReleases = (props) => {
         labels: chartLabels,
         datasets: [{
           label: 'Admissions versus releases',
-          backgroundColor: (context) => {
-            if (context.dataset.data[context.dataIndex] > 0) {
-              return COLORS_GOOD_BAD.bad;
-            }
-            return COLORS_GOOD_BAD.good;
-          },
+          backgroundColor: chartColors,
+          hoverBackgroundColor: chartColors,
           fill: false,
-          borderWidth: 2,
           data: chartDataPoints,
         }],
       }}

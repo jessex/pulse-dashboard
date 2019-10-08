@@ -90,18 +90,26 @@ const RevocationCountByViolationType = (props) => {
         datasets: [{
           label: 'Absconsion',
           backgroundColor: COLORS_FIVE_VALUES[0],
+          hoverBackgroundColor: COLORS_FIVE_VALUES[0],
+          hoverBorderColor: COLORS_FIVE_VALUES[0],
           data: absconsionDataPoints,
         }, {
           label: 'New Offense',
           backgroundColor: COLORS_FIVE_VALUES[1],
+          hoverBackgroundColor: COLORS_FIVE_VALUES[1],
+          hoverBorderColor: COLORS_FIVE_VALUES[1],
           data: newOffenseDataPoints,
         }, {
           label: 'Technical',
           backgroundColor: COLORS_FIVE_VALUES[2],
+          hoverBackgroundColor: COLORS_FIVE_VALUES[2],
+          hoverBorderColor: COLORS_FIVE_VALUES[2],
           data: technicalDataPoints,
         }, {
           label: 'Unknown Type',
           backgroundColor: COLORS_FIVE_VALUES[3],
+          hoverBackgroundColor: COLORS_FIVE_VALUES[3],
+          hoverBorderColor: COLORS_FIVE_VALUES[3],
           data: unknownDataPoints,
         },
         ],

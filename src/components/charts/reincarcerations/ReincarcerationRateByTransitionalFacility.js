@@ -65,8 +65,7 @@ const ReincarcerationRateByTransitionalFacility = (props) => {
         datasets: [{
           label: 'Reincarceration rate',
           backgroundColor: COLORS['blue-standard-2'],
-          borderColor: COLORS['blue-standard-2'],
-          borderWidth: 1,
+          hoverBackgroundColor: COLORS['blue-standard-2'],
           yAxisID: 'y-axis-left',
           data: chartDataPoints,
         }],

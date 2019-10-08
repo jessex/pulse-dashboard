@@ -74,6 +74,13 @@ const AdmissionTypeProportions = (props) => {
             COLORS_FIVE_VALUES[3],
             COLORS_FIVE_VALUES[2],
           ],
+          hoverBorderColor: [
+            COLORS_FIVE_VALUES[1],
+            COLORS_FIVE_VALUES[0],
+            COLORS_FIVE_VALUES[3],
+            COLORS_FIVE_VALUES[2],
+          ],
+          hoverBorderWidth: 0.5,
         }],
         labels: chartLabels,
       }}
