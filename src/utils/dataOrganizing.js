@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
+import { toInt } from './variableConversion'
 
 const TRANSITIONAL_FACILITY_FILTERS = {
   US_ND: ['FTPFAR', 'GFC', 'BTC', 'FTPMND', 'MTPFAR', 'LRRP', 'MTPMND'],
@@ -75,9 +76,60 @@ function sortAndFilterMostRecentMonths(unsortedDataPoints, monthCount) {
   return filterMostRecentMonths(sortedData, monthCount);
 }
 
+/**
+ * Adds a dictionary for any months in the last `monthCount` number of months
+ * that is missing data, where the the value for the `valueKey` property is `emptyValue`.
+ */
+function addEmptyMonthsToData(dataPoints, monthCount, valueKey, emptyValue) {
+  const now = new Date();
+  const thisMonth = now.getMonth() + 1;
+  const thisYear = now.getFullYear();
+
+  const representedMonths = {};
+  dataPoints.forEach((monthData) => {
+    if (!representedMonths[monthData.year]) {
+      representedMonths[monthData.year] = {};
+    }
+    representedMonths[monthData.year][monthData.month] = true;
+  });
+
+  const newDataPoints = dataPoints;
+  for (let i = thisMonth - (monthCount - 1); i <= thisMonth; i += 1) {
+    const month = (i === 0) ? 12 : ((i + 12) % 12);
+    const year = (i <= 0) ? (thisYear - 1) : thisYear;
+
+    if (!representedMonths[year][month]) {
+      const monthData = {
+        year: year.toString(),
+        month: month.toString(),
+      };
+      monthData[valueKey] = emptyValue;
+      newDataPoints.push(monthData);
+    }
+  }
+
+  return newDataPoints;
+}
+
+/**
+ * Sorts the data points by year and month, ascending, and then returns the
+ * most recent `monthCount` number of months. Adds empty data for any months
+ * that are missing.
+ */
+function sortFilterAndSupplementMostRecentMonths(
+  unsortedDataPoints, monthCount, valueKey, emptyValue,
+) {
+  const updatedDataPoints = addEmptyMonthsToData(
+    unsortedDataPoints, monthCount, valueKey, emptyValue,
+  );
+  const sortedData = sortByYearAndMonth(updatedDataPoints);
+  return filterMostRecentMonths(sortedData, monthCount);
+}
+
 export {
   filterFacilities,
   filterMostRecentMonths,
+  sortFilterAndSupplementMostRecentMonths,
   sortAndFilterMostRecentMonths,
   sortByLabel,
   sortByYearAndMonth,

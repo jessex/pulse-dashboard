@@ -20,7 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { COLORS, COLORS_FIVE_VALUES } from '../../../assets/scripts/constants/colors';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/monthConversion';
-import { sortAndFilterMostRecentMonths } from '../../../utils/dataOrganizing';
+import { sortFilterAndSupplementMostRecentMonths } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 
 const RevocationCountByViolationType = (props) => {
@@ -53,8 +53,14 @@ const RevocationCountByViolationType = (props) => {
       dataPoints.push({ year, month, monthDict });
     });
 
-    const sorted = sortAndFilterMostRecentMonths(dataPoints, 6);
+    const emptyMonthDict = {
+      ABSCONDED: 0,
+      FELONY: 0,
+      TECHNICAL: 0,
+      UNKNOWN_VIOLATION_TYPE: 0,
+    };
 
+    const sorted = sortFilterAndSupplementMostRecentMonths(dataPoints, 6, 'monthDict', emptyMonthDict);
     const monthsLabels = [];
     const violationArrays = {
       ABSCONDED: [],
