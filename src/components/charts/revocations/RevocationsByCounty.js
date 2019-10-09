@@ -50,7 +50,7 @@ function revocationCountForCounty(chartDataPoints, countyName) {
   return 0;
 }
 
-function colorForCounty(chartDataPoints, countsByCounty, countyName, maxValue, dark) {
+function colorForCounty(chartDataPoints, countsByCounty, countyName, maxValue, useDark) {
   const countyScale = scaleLinear()
     .domain([0, maxValue / 8, maxValue])
     .range(['#F5F6F7', '#9FB1E3', COLORS['blue-standard-2']]);
@@ -60,7 +60,8 @@ function colorForCounty(chartDataPoints, countsByCounty, countyName, maxValue, d
     .range(['#CCD1DE', '#8897C4', '#1F2A3B']);
 
   const revocationsForCounty = revocationCountForCounty(chartDataPoints, countyName);
-  const color = (dark) ? darkCountyScale(revocationsForCounty) : countyScale(revocationsForCounty);
+  const color = (useDark)
+    ? darkCountyScale(revocationsForCounty) : countyScale(revocationsForCounty);
   return color;
 }
 

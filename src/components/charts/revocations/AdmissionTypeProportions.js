@@ -62,6 +62,9 @@ const AdmissionTypeProportions = (props) => {
       data={{
         datasets: [{
           data: chartDataPoints,
+          // Note: these colors are intentionally set in this order so that
+          // the colors for technical and unknown revocations match those of
+          // the other charts on this page
           backgroundColor: [
             COLORS_FIVE_VALUES[1],
             COLORS_FIVE_VALUES[0],
