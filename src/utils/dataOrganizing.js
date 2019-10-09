@@ -75,8 +75,9 @@ function sortAndFilterMostRecentMonths(unsortedDataPoints, monthCount) {
 }
 
 /**
- * Adds a dictionary for any month in the last `monthCount` number of months
- * that is missing data, where the the value for the `valueKey` property is `emptyValue`.
+ * Returns a new list of data points consisting of the given data points and new
+ * data points appended for any month in the last `monthCount` number of months
+ * that is missing data, where the value for the `valueKey` property is `emptyValue`.
  */
 function addEmptyMonthsToData(dataPoints, monthCount, valueKey, emptyValue) {
   const now = new Date();
