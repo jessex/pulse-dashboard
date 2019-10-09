@@ -34,11 +34,12 @@ const AdmissionsVsReleases = (props) => {
     const { admissionsVsReleases } = props;
 
     const dataPoints = [];
-    admissionsVsReleases.forEach((data) => {
-      const { year, month, population_change: delta } = data;
-      dataPoints.push({ year, month, delta });
-    });
-
+    if (admissionsVsReleases) {
+      admissionsVsReleases.forEach((data) => {
+        const { year, month, population_change: delta } = data;
+        dataPoints.push({ year, month, delta });
+      });
+    }
     const sorted = sortFilterAndSupplementMostRecentMonths(dataPoints, 6, 'delta', 0);
 
     const colorsForValues = [];

@@ -36,22 +36,24 @@ const RevocationCountByViolationType = (props) => {
     const { revocationCountsByMonthByViolationType: countsByMonth } = props;
 
     const dataPoints = [];
-    countsByMonth.forEach((data) => {
-      const {
-        year, month, absconsion_count: absconsionCount,
-        felony_count: felonyCount, technical_count: technicalCount,
-        unknown_count: unknownCount,
-      } = data;
+    if (countsByMonth) {
+      countsByMonth.forEach((data) => {
+        const {
+          year, month, absconsion_count: absconsionCount,
+          felony_count: felonyCount, technical_count: technicalCount,
+          unknown_count: unknownCount,
+        } = data;
 
-      const monthDict = {
-        ABSCONDED: absconsionCount,
-        FELONY: felonyCount,
-        TECHNICAL: technicalCount,
-        UNKNOWN_VIOLATION_TYPE: unknownCount,
-      };
+        const monthDict = {
+          ABSCONDED: absconsionCount,
+          FELONY: felonyCount,
+          TECHNICAL: technicalCount,
+          UNKNOWN_VIOLATION_TYPE: unknownCount,
+        };
 
-      dataPoints.push({ year, month, monthDict });
-    });
+        dataPoints.push({ year, month, monthDict });
+      });
+    }
 
     const emptyMonthDict = {
       ABSCONDED: 0,

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-import { toInt } from './variableConversion'
-
 const TRANSITIONAL_FACILITY_FILTERS = {
   US_ND: ['FTPFAR', 'GFC', 'BTC', 'FTPMND', 'MTPFAR', 'LRRP', 'MTPMND'],
   US_DEMO: ['GHI', 'PQR', 'VWX'],
@@ -77,7 +75,7 @@ function sortAndFilterMostRecentMonths(unsortedDataPoints, monthCount) {
 }
 
 /**
- * Adds a dictionary for any months in the last `monthCount` number of months
+ * Adds a dictionary for any month in the last `monthCount` number of months
  * that is missing data, where the the value for the `valueKey` property is `emptyValue`.
  */
 function addEmptyMonthsToData(dataPoints, monthCount, valueKey, emptyValue) {
@@ -98,7 +96,7 @@ function addEmptyMonthsToData(dataPoints, monthCount, valueKey, emptyValue) {
     const month = (i === 0) ? 12 : ((i + 12) % 12);
     const year = (i <= 0) ? (thisYear - 1) : thisYear;
 
-    if (!representedMonths[year][month]) {
+    if (!representedMonths[year] || !representedMonths[year][month]) {
       const monthData = {
         year: year.toString(),
         month: month.toString(),

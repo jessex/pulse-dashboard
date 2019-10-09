@@ -38,10 +38,12 @@ const ReincarcerationCountOverTime = (props) => {
     const { reincarcerationCountsByMonth: countsByMonth } = props;
 
     const dataPoints = [];
-    countsByMonth.forEach((data) => {
-      const { year, month, returns: count } = data;
-      dataPoints.push({ year, month, count });
-    });
+    if (countsByMonth) {
+      countsByMonth.forEach((data) => {
+        const { year, month, returns: count } = data;
+        dataPoints.push({ year, month, count });
+      });
+    }
 
     const sorted = sortFilterAndSupplementMostRecentMonths(dataPoints, 6, 'count', 0);
     const chartDataValues = (sorted.map((element) => element.count));
