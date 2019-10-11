@@ -86,6 +86,16 @@ const NavBar = () => {
                   Reincarcerations
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink
+                  tag={RouterNavLink}
+                  to="/program-evaluation"
+                  exact
+                  activeClassName="router-link-exact-active"
+                >
+                  Program Evaluation
+                </NavLink>
+              </NavItem>
               {canShowAuthenticatedView(isAuthenticated) && (
                 <NavItem>
                   <NavLink

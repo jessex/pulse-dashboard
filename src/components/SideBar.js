@@ -93,6 +93,14 @@ const SideBar = () => {
               <span className="title">Reincarcerations</span>
             </a>
           </li>
+          <li className="nav-item">
+            <a className="sidebar-link" href="program-evaluation">
+              <span className="icon-holder">
+                <i className="c-red-500 ti-pencil" />
+              </span>
+              <span className="title">Program Evaluation</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

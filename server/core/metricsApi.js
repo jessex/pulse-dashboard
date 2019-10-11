@@ -38,8 +38,14 @@ const asyncReadFile = util.promisify(fs.readFile);
 
 const FILES_BY_METRIC_TYPE = {
   programEval: [
-    'cost_effectiveness_by_program.json',
-    'recidivism_rate_by_program.json',
+    'ftr_participation_by_month.json',
+    'ftr_referrals_by_month.json',
+    'ftr_participation_by_gender_60_days.json',
+    'ftr_referrals_by_gender_60_days.json',
+    'ftr_participation_by_race_and_ethnicity_60_days.json',
+    'ftr_referrals_by_race_and_ethnicity_60_days.json',
+    'supervision_population_by_gender_60_days.json',
+    'supervision_population_by_race_and_ethnicity_60_days.json',
   ],
   reincarceration: [
     'admissions_versus_releases_by_month.json',
