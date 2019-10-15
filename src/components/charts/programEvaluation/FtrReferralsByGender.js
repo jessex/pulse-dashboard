@@ -23,18 +23,15 @@ import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { genderValueToHumanReadable, toInt } from '../../../utils/variableConversion';
 
-const FtrReferralsParticipationByGender = (props) => {
+const FtrReferralsByGender = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [ftrReferralProportions, setFtrReferralProportions] = useState([]);
-  const [ftrParticipationProportions, setFtrParticipationProportions] = useState([]);
   const [stateSupervisionProportions, setStateSupervisionProportions] = useState([]);
   const [ftrReferralCounts, setFtrReferralCounts] = useState([]);
-  const [ftrParticipationCounts, setFtrParticipationCounts] = useState([]);
   const [stateSupervisionCounts, setStateSupervisionCounts] = useState([]);
 
   const processResponse = () => {
     const { ftrReferralsByGender } = props;
-    const { ftrParticipationByGender } = props;
     const { supervisionPopulationByGender } = props;
 
     const ftrReferralDataPoints = [];
@@ -44,15 +41,6 @@ const FtrReferralsParticipationByGender = (props) => {
         gender = genderValueToHumanReadable(gender);
         const count = toInt(data.referral_count, 10);
         ftrReferralDataPoints.push({ gender, count });
-      });
-    }
-
-    const ftrParticipationDataPoints = [];
-    if (ftrParticipationByGender) {
-      ftrParticipationByGender.forEach((data) => {
-        const { gender } = data;
-        const count = toInt(data.count, 10);
-        ftrParticipationDataPoints.push({ gender, count });
       });
     }
 
@@ -75,12 +63,10 @@ const FtrReferralsParticipationByGender = (props) => {
     }
 
     const totalFtrReferrals = totalSum(ftrReferralDataPoints);
-    const totalFtrParticipators = totalSum(ftrParticipationDataPoints);
     const totalSupervisionPopulation = totalSum(supervisionDataPoints);
 
     // Sort by gender alphabetically
     const sortedFtrReferralsDataPoints = sortByLabel(ftrReferralDataPoints, 'gender');
-    const sortedFtrParticipationDataPoints = sortByLabel(ftrParticipationDataPoints, 'gender');
     const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 'gender');
 
     setChartLabels(sortedFtrReferralsDataPoints.map((element) => element.gender));
@@ -88,12 +74,6 @@ const FtrReferralsParticipationByGender = (props) => {
       (element) => (100 * (element.count / totalFtrReferrals)),
     ));
     setFtrReferralCounts(sortedFtrReferralsDataPoints.map(
-      (element) => (element.count),
-    ));
-    setFtrParticipationProportions(sortedFtrParticipationDataPoints.map(
-      (element) => (100 * (element.count / totalFtrParticipators)),
-    ));
-    setFtrParticipationCounts(sortedFtrParticipationDataPoints.map(
       (element) => (element.count),
     ));
     setStateSupervisionProportions(sortedSupervisionDataPoints.map(
@@ -108,22 +88,20 @@ const FtrReferralsParticipationByGender = (props) => {
     processResponse();
   }, [
     props.ftrReferralsByGender,
-    props.ftrParticipationByGender,
     props.supervisionPopulationByGender,
   ]);
 
   const chart = (
     <Bar
-      id="ftrReferralsParticipationByGender"
+      id="ftrReferralsByGender"
       data={{
-        labels: ['Participation', 'Referrals', 'Supervision Population'],
+        labels: ['Referrals', 'Supervision Population'],
         datasets: [{
           label: chartLabels[0],
           backgroundColor: COLORS_STACKED_TWO_VALUES[0],
           hoverBackgroundColor: COLORS_STACKED_TWO_VALUES[0],
           hoverBorderColor: COLORS_STACKED_TWO_VALUES[0],
           data: [
-            ftrParticipationProportions[0],
             ftrReferralProportions[0],
             stateSupervisionProportions[0],
           ],
@@ -133,7 +111,6 @@ const FtrReferralsParticipationByGender = (props) => {
           hoverBackgroundColor: COLORS_STACKED_TWO_VALUES[1],
           hoverBorderColor: COLORS_STACKED_TWO_VALUES[1],
           data: [
-            ftrParticipationProportions[1],
             ftrReferralProportions[1],
             stateSupervisionProportions[1],
           ],
@@ -175,9 +152,7 @@ const FtrReferralsParticipationByGender = (props) => {
               const currentValue = dataset.data[tooltipItem.index];
 
               let datasetCounts = [];
-              if (data.labels[tooltipItem.index] === 'Participation') {
-                datasetCounts = ftrParticipationCounts;
-              } else if (data.labels[tooltipItem.index] === 'Referrals') {
+              if (data.labels[tooltipItem.index] === 'Referrals') {
                 datasetCounts = ftrReferralCounts;
               } else if (data.labels[tooltipItem.index] === 'Supervision Population') {
                 datasetCounts = stateSupervisionCounts;
@@ -197,15 +172,15 @@ const FtrReferralsParticipationByGender = (props) => {
 
   const exportedStructureCallback = () => (
     {
-      metric: 'FTR Referrals and Participation by gender',
+      metric: 'FTR Referrals by gender',
       series: [],
     });
 
-  configureDownloadButtons('ftrReferralsParticipationByGender', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('ftrReferralsParticipationByGender'),
+  configureDownloadButtons('ftrReferralsByGender', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('ftrReferralsByGender'),
     exportedStructureCallback);
 
   return chart;
 };
 
-export default FtrReferralsParticipationByGender;
+export default FtrReferralsByGender;

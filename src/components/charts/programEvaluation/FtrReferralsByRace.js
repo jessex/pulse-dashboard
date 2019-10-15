@@ -21,17 +21,7 @@ import { HorizontalBar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES, COLORS } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
-import { toInt } from '../../../utils/variableConversion';
-
-const labelStringConversion = {
-  AMERICAN_INDIAN_ALASKAN_NATIVE: 'American Indian Alaskan Native',
-  ASIAN: 'Asian',
-  BLACK: 'Black',
-  HISPANIC: 'Hispanic',
-  NATIVE_HAWAIIAN_PACIFIC_ISLANDER: 'Native Hawaiian Pacific Islander',
-  WHITE: 'White',
-  OTHER: 'Other',
-};
+import { raceValueToHumanReadable, toInt } from '../../../utils/variableConversion';
 
 const ND_RACE_PROPORTIONS = {
   'American Indian Alaskan Native': 5.5,
@@ -43,19 +33,16 @@ const ND_RACE_PROPORTIONS = {
   Other: 1.3,
 };
 
-const FtrReferralsParticipationByRace = (props) => {
+const FtrReferralsByRace = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [ftrReferralProportions, setFtrReferralProportions] = useState([]);
-  const [ftrParticipationProportions, setFtrParticipationProportions] = useState([]);
   const [stateSupervisionProportions, setStateSupervisionProportions] = useState([]);
   const [statePopulationProportions, setStatePopulationProportions] = useState([]);
   const [ftrReferralCounts, setFtrReferralCounts] = useState([]);
-  const [ftrParticipationCounts, setFtrParticipationCounts] = useState([]);
   const [stateSupervisionCounts, setStateSupervisionCounts] = useState([]);
 
   const processResponse = () => {
     const { ftrReferralsByRace } = props;
-    const { ftrParticipationByRace } = props;
     const { supervisionPopulationByRace } = props;
 
     const ftrReferralDataPoints = [];
@@ -63,16 +50,7 @@ const FtrReferralsParticipationByRace = (props) => {
       ftrReferralsByRace.forEach((data) => {
         const { race_or_ethnicity: race } = data;
         const count = toInt(data.referral_count, 10);
-        ftrReferralDataPoints.push({ race: labelStringConversion[race], count });
-      });
-    }
-
-    const ftrParticipationDataPoints = [];
-    if (ftrParticipationByRace) {
-      ftrParticipationByRace.forEach((data) => {
-        const { race_or_ethnicity: race } = data;
-        const count = toInt(data.count, 10);
-        ftrParticipationDataPoints.push({ race: labelStringConversion[race], count });
+        ftrReferralDataPoints.push({ race: raceValueToHumanReadable(race), count });
       });
     }
 
@@ -81,22 +59,16 @@ const FtrReferralsParticipationByRace = (props) => {
       supervisionPopulationByRace.forEach((data) => {
         const { race_or_ethnicity: race } = data;
         const count = toInt(data.count);
-        supervisionDataPoints.push({ race: labelStringConversion[race], count });
+        supervisionDataPoints.push({ race: raceValueToHumanReadable(race), count });
       });
     }
 
     const racesRepresentedFtrReferrals = ftrReferralDataPoints.map((element) => element.race);
-    const racesRepresentedFtrParticipation = ftrParticipationDataPoints
-      .map((element) => element.race);
     const racesRepresentedSupervision = supervisionDataPoints.map((element) => element.race);
 
-    Object.values(labelStringConversion).forEach((race) => {
+    Object.keys(ND_RACE_PROPORTIONS).forEach((race) => {
       if (!racesRepresentedFtrReferrals.includes(race)) {
         ftrReferralDataPoints.push({ race, count: 0 });
-      }
-
-      if (!racesRepresentedFtrParticipation.includes(race)) {
-        ftrParticipationDataPoints.push({ race, count: 0 });
       }
 
       if (!racesRepresentedSupervision.includes(race)) {
@@ -111,12 +83,10 @@ const FtrReferralsParticipationByRace = (props) => {
     }
 
     const totalFtrReferrals = totalSum(ftrReferralDataPoints);
-    const totalFtrParticipators = totalSum(ftrParticipationDataPoints);
     const totalSupervisionPopulation = totalSum(supervisionDataPoints);
 
     // Sort by race alphabetically
     const sortedFtrReferralsDataPoints = sortByLabel(ftrReferralDataPoints, 'race');
-    const sortedFtrParticipationDataPoints = sortByLabel(ftrParticipationDataPoints, 'race');
     const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 'race');
 
     setChartLabels(sortedFtrReferralsDataPoints.map((element) => element.race));
@@ -124,12 +94,6 @@ const FtrReferralsParticipationByRace = (props) => {
       (element) => (100 * (element.count / totalFtrReferrals)),
     ));
     setFtrReferralCounts(sortedFtrReferralsDataPoints.map(
-      (element) => (element.count),
-    ));
-    setFtrParticipationProportions(sortedFtrParticipationDataPoints.map(
-      (element) => (100 * (element.count / totalFtrParticipators)),
-    ));
-    setFtrParticipationCounts(sortedFtrParticipationDataPoints.map(
       (element) => (element.count),
     ));
     setStateSupervisionProportions(sortedSupervisionDataPoints.map(
@@ -145,20 +109,19 @@ const FtrReferralsParticipationByRace = (props) => {
 
   useEffect(() => {
     processResponse();
-  }, [props.ftrReferralsByRace, props.ftrParticipationByRace, props.supervisionPopulationByRace]);
+  }, [props.ftrReferralsByRace, props.supervisionPopulationByRace]);
 
   const chart = (
     <HorizontalBar
-      id="ftrReferralsParticipationByRace"
+      id="ftrReferralsByRace"
       data={{
-        labels: ['Participation', 'Referrals', 'Supervision Population', 'ND Population'],
+        labels: ['Referrals', 'Supervision Population', 'ND Population'],
         datasets: [{
           label: chartLabels[0],
           backgroundColor: COLORS_FIVE_VALUES[0],
           hoverBackgroundColor: COLORS_FIVE_VALUES[0],
           hoverBorderColor: COLORS_FIVE_VALUES[0],
           data: [
-            ftrParticipationProportions[0],
             ftrReferralProportions[0],
             stateSupervisionProportions[0],
             statePopulationProportions[0],
@@ -169,7 +132,6 @@ const FtrReferralsParticipationByRace = (props) => {
           hoverBackgroundColor: COLORS_FIVE_VALUES[1],
           hoverBorderColor: COLORS_FIVE_VALUES[1],
           data: [
-            ftrParticipationProportions[1],
             ftrReferralProportions[1],
             stateSupervisionProportions[1],
             statePopulationProportions[1],
@@ -180,7 +142,6 @@ const FtrReferralsParticipationByRace = (props) => {
           hoverBackgroundColor: COLORS_FIVE_VALUES[2],
           hoverBorderColor: COLORS_FIVE_VALUES[2],
           data: [
-            ftrParticipationProportions[2],
             ftrReferralProportions[2],
             stateSupervisionProportions[2],
             statePopulationProportions[2],
@@ -191,7 +152,6 @@ const FtrReferralsParticipationByRace = (props) => {
           hoverBackgroundColor: COLORS_FIVE_VALUES[3],
           hoverBorderColor: COLORS_FIVE_VALUES[3],
           data: [
-            ftrParticipationProportions[3],
             ftrReferralProportions[3],
             stateSupervisionProportions[3],
             statePopulationProportions[3],
@@ -202,7 +162,6 @@ const FtrReferralsParticipationByRace = (props) => {
           hoverBackgroundColor: COLORS_FIVE_VALUES[4],
           hoverBorderColor: COLORS_FIVE_VALUES[4],
           data: [
-            ftrParticipationProportions[4],
             ftrReferralProportions[4],
             stateSupervisionProportions[4],
             statePopulationProportions[4],
@@ -213,7 +172,6 @@ const FtrReferralsParticipationByRace = (props) => {
           hoverBackgroundColor: COLORS['blue-standard-2'],
           hoverBorderColor: COLORS['blue-standard-2'],
           data: [
-            ftrParticipationProportions[5],
             ftrReferralProportions[5],
             stateSupervisionProportions[5],
             statePopulationProportions[5],
@@ -224,7 +182,6 @@ const FtrReferralsParticipationByRace = (props) => {
           hoverBackgroundColor: COLORS['blue-standard'],
           hoverBorderColor: COLORS['blue-standard'],
           data: [
-            ftrParticipationProportions[6],
             ftrReferralProportions[6],
             stateSupervisionProportions[6],
             statePopulationProportions[6],
@@ -267,9 +224,7 @@ const FtrReferralsParticipationByRace = (props) => {
               const currentValue = dataset.data[tooltipItem.index];
 
               let datasetCounts = [];
-              if (data.labels[tooltipItem.index] === 'Participation') {
-                datasetCounts = ftrParticipationCounts;
-              } else if (data.labels[tooltipItem.index] === 'Referrals') {
+              if (data.labels[tooltipItem.index] === 'Referrals') {
                 datasetCounts = ftrReferralCounts;
               } else if (data.labels[tooltipItem.index] === 'Supervision Population') {
                 datasetCounts = stateSupervisionCounts;
@@ -289,15 +244,15 @@ const FtrReferralsParticipationByRace = (props) => {
 
   const exportedStructureCallback = () => (
     {
-      metric: 'FTR Referrals and Participation by race',
+      metric: 'FTR Referrals by race',
       series: [],
     });
 
-  configureDownloadButtons('ftrReferralsParticipationByRace', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('ftrReferralsParticipationByRace'),
+  configureDownloadButtons('ftrReferralsByRace', chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById('ftrReferralsByRace'),
     exportedStructureCallback);
 
   return chart;
 };
 
-export default FtrReferralsParticipationByRace;
+export default FtrReferralsByRace;

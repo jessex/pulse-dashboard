@@ -15,16 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React, { useState, useEffect } from "react";
-
-import Loading from "../components/Loading";
-import "../assets/styles/index.scss";
-import { useAuth0 } from "../react-auth0-spa";
+import React, { useState, useEffect } from 'react';
+import Loading from '../components/Loading';
+import '../assets/styles/index.scss';
+import { useAuth0 } from '../react-auth0-spa';
 
 import FtrReferralCountByMonth from '../components/charts/programEvaluation/FtrReferralCountByMonth';
-import FtrParticipationCountByMonth from '../components/charts/programEvaluation/FtrParticipationCountByMonth';
-import FtrReferralsParticipationByRace from '../components/charts/programEvaluation/FtrReferralsParticipationByRace';
-import FtrReferralsParticipationByGender from '../components/charts/programEvaluation/FtrReferralsParticipationByGender';
+import FtrReferralsByRace from '../components/charts/programEvaluation/FtrReferralsByRace';
+import FtrReferralsByGender from '../components/charts/programEvaluation/FtrReferralsByGender';
 
 const FtrProgramEvaluation = () => {
   const { loading, user, getTokenSilently } = useAuth0();
@@ -35,8 +33,8 @@ const FtrProgramEvaluation = () => {
       const token = await getTokenSilently();
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/programEval`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const responseData = await response.json();
@@ -114,76 +112,21 @@ const FtrProgramEvaluation = () => {
             </div>
           </div>
 
-          {/* #FTR participation counts by month chart ==================== */}
+          {/* #FTR Referrals by Race chart ==================== */}
           <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
                   <h6 className="lh-1">
-                    FTR PARTICIPATION COUNT BY MONTH
+                    FTR REFERRALS BY RACE
                     <span className="fa-pull-right">
                       <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrParticipationCountByMonth" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-FtrReferralsByRace" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Export
                         </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrParticipationCountByMonth">
-                          <a className="dropdown-item" id="downloadChartAsImage-ftrParticipationCountByMonth" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-ftrParticipationCountByMonth" href="javascript:void(0);">Export data</a>
-                        </div>
-                      </div>
-                    </span>
-                  </h6>
-                </div>
-                <div className="layer w-100 pX-20 pT-20">
-                  <h4 style={{ height: '20px' }} className="dynamic-chart-header" id="ftrParticipationCountByMonth-header" />
-                </div>
-                <div className="layer w-100 pX-20 pT-20 row">
-                  <div className="col-md-12">
-                    <div className="layer w-100 p-20">
-                      <FtrParticipationCountByMonth
-                        ftrParticipationCountByMonth={apiData.ftr_participation_by_month}
-                        header="ftrParticipationCountByMonth-header"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrParticipationCountByMonth">
-                  <div className="mb-0" id="methodologyHeadingFtrParticipationCountByMonth">
-                    <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrParticipationCountByMonth" aria-expanded="true" aria-controls="collapseMethodologyFtrParticipationCountByMonth">
-                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
-                      </button>
-                    </div>
-                  </div>
-                  <div id="collapseMethodologyFtrParticipationCountByMonth" className="collapse" aria-labelledby="methodologyHeadingFtrParticipationCountByMonth" data-parent="#methodologyFtrParticipationCountByMonth">
-                    <div>
-                      <ul>
-                        <li>
-                          METHODOLOGY HERE
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* #FTR Referrals and Participation by race chart ==================== */}
-          <div className="col-md-6">
-            <div className="bd bgc-white p-20">
-              <div className="layers">
-                <div className="layer w-100 pX-20 pT-20">
-                  <h6 className="lh-1">
-                    FTR REFERRALS AND PARTICIPATION BY RACE
-                    <span className="fa-pull-right">
-                      <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsParticipationByRace" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Export
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrReferralsParticipationByRace">
-                          <a className="dropdown-item" id="downloadChartAsImage-ftrReferralsParticipationByRace" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-ftrReferralsParticipationByRace" href="javascript:void(0);">Export data</a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-FtrReferralsByRace">
+                          <a className="dropdown-item" id="downloadChartAsImage-FtrReferralsByRace" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-FtrReferralsByRace" href="javascript:void(0);">Export data</a>
                         </div>
                       </div>
                     </span>
@@ -191,26 +134,24 @@ const FtrProgramEvaluation = () => {
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
                   <div className="layer w-100 p-20">
-                    <FtrReferralsParticipationByRace
+                    <FtrReferralsByRace
                       ftrReferralsByRace={
                         apiData.ftr_referrals_by_race_and_ethnicity_60_days}
-                      ftrParticipationByRace={
-                        apiData.ftr_participation_by_race_and_ethnicity_60_days}
                       supervisionPopulationByRace={
                         apiData.supervision_population_by_race_and_ethnicity_60_days
                       }
                     />
                   </div>
                 </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrReferralsParticipationByRace">
-                  <div className="mb-0" id="methodologyHeadingsFtrReferralsParticipationByRace">
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrReferralsByRace">
+                  <div className="mb-0" id="methodologyHeadingsFtrReferralsByRace">
                     <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrReferralsParticipationByRace" aria-expanded="true" aria-controls="collapseMethodologyFtrReferralsParticipationByRace">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrReferralsByRace" aria-expanded="true" aria-controls="collapseMethodologyFtrReferralsByRace">
                         <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
                       </button>
                     </div>
                   </div>
-                  <div className="collapse" id="collapseMethodologyFtrReferralsParticipationByRace" aria-labelledby="methodologyHeadingFtrReferralsParticipationByRace" data-parent="#methodologyFtrReferralsParticipationByRace">
+                  <div className="collapse" id="collapseMethodologyFtrReferralsByRace" aria-labelledby="methodologyHeadingFtrReferralsByRace" data-parent="#methodologyFtrReferralsByRace">
                     <div>
                       <ul>
                         <li>
@@ -242,21 +183,21 @@ const FtrProgramEvaluation = () => {
             </div>
           </div>
 
-          {/* #FTR Referrals and Participation by gender chart ==================== */}
+          {/* #FTR Referrals by Gender chart ==================== */}
           <div className="col-md-6">
             <div className="bd bgc-white p-20">
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
                   <h6 className="lh-1">
-                    FTR REFERRALS AND PARTICIPATION BY GENDER
+                    FTR REFERRALS BY GENDER
                     <span className="fa-pull-right">
                       <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsParticipationByGender" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsByGender" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Export
                         </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrReferralsParticipationByGender">
-                          <a className="dropdown-item" id="downloadChartAsImage-ftrReferralsParticipationByGender" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-ftrReferralsParticipationByGender" href="javascript:void(0);">Export data</a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrReferralsByGender">
+                          <a className="dropdown-item" id="downloadChartAsImage-ftrReferralsByGender" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-ftrReferralsByGender" href="javascript:void(0);">Export data</a>
                         </div>
                       </div>
                     </span>
@@ -264,26 +205,24 @@ const FtrProgramEvaluation = () => {
                 </div>
                 <div className="layer w-100 pX-20 pT-20 row">
                   <div className="layer w-100 p-20">
-                    <FtrReferralsParticipationByGender
+                    <FtrReferralsByGender
                       ftrReferralsByGender={
                         apiData.ftr_referrals_by_gender_60_days}
-                      ftrParticipationByGender={
-                        apiData.ftr_participation_by_gender_60_days}
                       supervisionPopulationByGender={
                         apiData.supervision_population_by_gender_60_days
                       }
                     />
                   </div>
                 </div>
-                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrReferralsParticipationByGender">
-                  <div className="mb-0" id="methodologyHeadingsFtrReferralsParticipationByGender">
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrReferralsByGender">
+                  <div className="mb-0" id="methodologyHeadingsFtrReferralsByGender">
                     <div className="mb-0">
-                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrReferralsParticipationByGender" aria-expanded="true" aria-controls="collapseMethodologyFtrReferralsParticipationByGender">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrReferralsByGender" aria-expanded="true" aria-controls="collapseMethodologyFtrReferralsByGender">
                         <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
                       </button>
                     </div>
                   </div>
-                  <div className="collapse" id="collapseMethodologyFtrReferralsParticipationByGender" aria-labelledby="methodologyHeadingFtrReferralsParticipationByGender" data-parent="#methodologyFtrReferralsParticipationByGender">
+                  <div className="collapse" id="collapseMethodologyFtrReferralsByGender" aria-labelledby="methodologyHeadingFtrReferralsByGender" data-parent="#methodologyFtrReferralsByGender">
                     <div>
                       <ul>
                         <li>
