@@ -24,6 +24,7 @@ import FtrReferralCountByMonth from '../components/charts/programEvaluation/FtrR
 import FtrReferralsByRace from '../components/charts/programEvaluation/FtrReferralsByRace';
 import FtrReferralsByGender from '../components/charts/programEvaluation/FtrReferralsByGender';
 import FtrReferralsByAge from '../components/charts/programEvaluation/FtrReferralsByAge';
+import FtrReferralsByLsir from '../components/charts/programEvaluation/FtrReferralsByLsir';
 
 const FtrProgramEvaluation = () => {
   const { loading, user, getTokenSilently } = useAuth0();
@@ -124,12 +125,12 @@ const FtrProgramEvaluation = () => {
                     FTR REFERRALS BY RACE
                     <span className="fa-pull-right">
                       <div className="dropdown show">
-                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-FtrReferralsByRace" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsByRace" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Export
                         </a>
-                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-FtrReferralsByRace">
-                          <a className="dropdown-item" id="downloadChartAsImage-FtrReferralsByRace" href="javascript:void(0);">Export image</a>
-                          <a className="dropdown-item" id="downloadChartData-FtrReferralsByRace" href="javascript:void(0);">Export data</a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrReferralsByRace">
+                          <a className="dropdown-item" id="downloadChartAsImage-ftrReferralsByRace" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-ftrReferralsByRace" href="javascript:void(0);">Export data</a>
                         </div>
                       </div>
                     </span>
@@ -289,6 +290,69 @@ const FtrProgramEvaluation = () => {
                     </div>
                   </div>
                   <div className="collapse" id="collapseMethodologyFtrReferralsByAge" aria-labelledby="methodologyHeadingFtrReferralsByAge" data-parent="#methodologyFtrReferralsByAge">
+                    <div>
+                      <ul>
+                        <li>
+                          METHODOLOGY
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100">
+                  <div className="peers ai-c jc-c gapX-20">
+                    <div className="peer fw-600">
+                      <span className="fsz-def fw-600 mR-10 c-grey-800">
+                        <small className="c-grey-500 fw-600">Period </small>
+                        Last 60 days
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* #FTR Referrals by LSI-R chart ==================== */}
+          <div className="col-md-6">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h6 className="lh-1">
+                    FTR REFERRALS BY LSI-R
+                    <span className="fa-pull-right">
+                      <div className="dropdown show">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsByLsir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Export
+                        </a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrReferralsByLsir">
+                          <a className="dropdown-item" id="downloadChartAsImage-ftrReferralsByLsir" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-ftrReferralsByLsir" href="javascript:void(0);">Export data</a>
+                        </div>
+                      </div>
+                    </span>
+                  </h6>
+                </div>
+                <div className="layer w-100 pX-20 pT-20 row">
+                  <div className="layer w-100 p-20">
+                    <FtrReferralsByLsir
+                      ftrReferralsByLsir={
+                        apiData.ftr_referrals_by_lsir_60_days}
+                      supervisionPopulationByLsir={
+                        apiData.supervision_population_by_lsir_60_days
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrReferralsByLsir">
+                  <div className="mb-0" id="methodologyHeadingsFtrReferralsByLsir">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrReferralsByLsir" aria-expanded="true" aria-controls="collapseMethodologyFtrReferralsByLsir">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyFtrReferralsByLsir" aria-labelledby="methodologyHeadingFtrReferralsByLsir" data-parent="#methodologyFtrReferralsByLsir">
                     <div>
                       <ul>
                         <li>

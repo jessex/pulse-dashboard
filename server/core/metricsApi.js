@@ -41,9 +41,11 @@ const FILES_BY_METRIC_TYPE = {
     'ftr_referrals_by_month.json',
     'ftr_referrals_by_age_60_days.json',
     'ftr_referrals_by_gender_60_days.json',
+    'ftr_referrals_by_lsir_60_days.json',
     'ftr_referrals_by_race_and_ethnicity_60_days.json',
     'supervision_population_by_age_60_days.json',
     'supervision_population_by_gender_60_days.json',
+    'supervision_population_by_lsir_60_days.json',
     'supervision_population_by_race_and_ethnicity_60_days.json',
   ],
   reincarceration: [
