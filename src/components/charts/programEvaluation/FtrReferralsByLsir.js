@@ -130,17 +130,17 @@ const FtrReferralsByLsir = (props) => {
               const { index } = tooltipItems;
 
               const datasetLabel = data.datasets[tooltipItems.datasetIndex].label;
-              let datasetCounts = [];
+              let countValue = [];
               if (datasetLabel === 'Referrals') {
-                datasetCounts = ftrReferralCounts;
+                countValue = ftrReferralCounts[index];
               } else if (datasetLabel === 'Supervision Population') {
-                datasetCounts = stateSupervisionCounts;
+                countValue = stateSupervisionCounts[index];
               } else {
-                return '';
+                countValue = 0;
               }
 
               return ''.concat(((data.datasets[tooltipItems.datasetIndex].data[index]).toFixed(2)), '% of ',
-                data.datasets[tooltipItems.datasetIndex].label, ' (', datasetCounts[index], ')');
+                data.datasets[tooltipItems.datasetIndex].label, ' (', countValue, ')');
             },
           },
         },

@@ -18,7 +18,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Bar } from 'react-chartjs-2';
-import { COLORS_STACKED_TWO_VALUES, COLORS } from '../../../assets/scripts/constants/colors';
+import { COLORS_STACKED_TWO_VALUES_ALT, COLORS } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { genderValueToHumanReadable, toInt } from '../../../utils/variableConversion';
@@ -29,6 +29,8 @@ const FtrReferralsByGender = (props) => {
   const [stateSupervisionProportions, setStateSupervisionProportions] = useState([]);
   const [ftrReferralCounts, setFtrReferralCounts] = useState([]);
   const [stateSupervisionCounts, setStateSupervisionCounts] = useState([]);
+
+  const chartId = 'ftrReferralsByGender';
 
   const processResponse = () => {
     const { ftrReferralsByGender } = props;
@@ -93,23 +95,23 @@ const FtrReferralsByGender = (props) => {
 
   const chart = (
     <Bar
-      id="ftrReferralsByGender"
+      id={chartId}
       data={{
         labels: ['Referrals', 'Supervision Population'],
         datasets: [{
           label: chartLabels[0],
-          backgroundColor: COLORS_STACKED_TWO_VALUES[0],
-          hoverBackgroundColor: COLORS_STACKED_TWO_VALUES[0],
-          hoverBorderColor: COLORS_STACKED_TWO_VALUES[0],
+          backgroundColor: COLORS_STACKED_TWO_VALUES_ALT[0],
+          hoverBackgroundColor: COLORS_STACKED_TWO_VALUES_ALT[0],
+          hoverBorderColor: COLORS_STACKED_TWO_VALUES_ALT[0],
           data: [
             ftrReferralProportions[0],
             stateSupervisionProportions[0],
           ],
         }, {
           label: chartLabels[1],
-          backgroundColor: COLORS_STACKED_TWO_VALUES[1],
-          hoverBackgroundColor: COLORS_STACKED_TWO_VALUES[1],
-          hoverBorderColor: COLORS_STACKED_TWO_VALUES[1],
+          backgroundColor: COLORS_STACKED_TWO_VALUES_ALT[1],
+          hoverBackgroundColor: COLORS_STACKED_TWO_VALUES_ALT[1],
+          hoverBorderColor: COLORS_STACKED_TWO_VALUES_ALT[1],
           data: [
             ftrReferralProportions[1],
             stateSupervisionProportions[1],
@@ -172,12 +174,12 @@ const FtrReferralsByGender = (props) => {
 
   const exportedStructureCallback = () => (
     {
-      metric: 'FTR Referrals by gender',
+      metric: 'FTR Referrals by Gender',
       series: [],
     });
 
-  configureDownloadButtons('ftrReferralsByGender', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('ftrReferralsByGender'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;

@@ -41,6 +41,8 @@ const FtrReferralsByRace = (props) => {
   const [ftrReferralCounts, setFtrReferralCounts] = useState([]);
   const [stateSupervisionCounts, setStateSupervisionCounts] = useState([]);
 
+  const chartId = 'ftrReferralsByRace';
+
   const processResponse = () => {
     const { ftrReferralsByRace } = props;
     const { supervisionPopulationByRace } = props;
@@ -113,7 +115,7 @@ const FtrReferralsByRace = (props) => {
 
   const chart = (
     <HorizontalBar
-      id="ftrReferralsByRace"
+      id={chartId}
       data={{
         labels: ['Referrals', 'Supervision Population', 'ND Population'],
         datasets: [{
@@ -244,12 +246,12 @@ const FtrReferralsByRace = (props) => {
 
   const exportedStructureCallback = () => (
     {
-      metric: 'FTR Referrals by race',
+      metric: 'FTR Referrals by Race',
       series: [],
     });
 
-  configureDownloadButtons('ftrReferralsByRace', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('ftrReferralsByRace'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;

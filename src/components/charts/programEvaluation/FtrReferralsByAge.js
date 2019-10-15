@@ -133,17 +133,17 @@ const FtrReferralsByAge = (props) => {
               const { index } = tooltipItems;
 
               const datasetLabel = data.datasets[tooltipItems.datasetIndex].label;
-              let datasetCounts = [];
+              let countValue = [];
               if (datasetLabel === 'Referrals') {
-                datasetCounts = ftrReferralCounts;
+                countValue = ftrReferralCounts[index];
               } else if (datasetLabel === 'Supervision Population') {
-                datasetCounts = stateSupervisionCounts;
+                countValue = stateSupervisionCounts[index];
               } else {
-                return '';
+                countValue = 0;
               }
 
               return ''.concat(((data.datasets[tooltipItems.datasetIndex].data[index]).toFixed(2)), '% of ',
-                data.datasets[tooltipItems.datasetIndex].label, ' (', datasetCounts[index], ')');
+                data.datasets[tooltipItems.datasetIndex].label, ' (', countValue, ')');
             },
           },
         },
@@ -176,12 +176,12 @@ const FtrReferralsByAge = (props) => {
 
   const exportedStructureCallback = () => (
     {
-      metric: 'FTR Referrals by age',
+      metric: 'FTR Referrals by Age',
       series: [],
     });
 
-  configureDownloadButtons('ftrReferralsByAge', chart.props.data.datasets,
-    chart.props.data.labels, document.getElementById('ftrReferralsByAge'),
+  configureDownloadButtons(chartId, chart.props.data.datasets,
+    chart.props.data.labels, document.getElementById(chartId),
     exportedStructureCallback);
 
   return chart;
