@@ -21,7 +21,7 @@ import { Bar } from 'react-chartjs-2';
 import { COLORS_STACKED_TWO_VALUES, COLORS } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
-import { toInt } from '../../../utils/variableConversion';
+import { genderValueToHumanReadable, toInt } from '../../../utils/variableConversion';
 
 const FtrReferralsParticipationByGender = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
@@ -40,7 +40,8 @@ const FtrReferralsParticipationByGender = (props) => {
     const ftrReferralDataPoints = [];
     if (ftrReferralsByGender) {
       ftrReferralsByGender.forEach((data) => {
-        const { gender } = data;
+        let { gender } = data;
+        gender = genderValueToHumanReadable(gender);
         const count = toInt(data.referral_count, 10);
         ftrReferralDataPoints.push({ gender, count });
       });

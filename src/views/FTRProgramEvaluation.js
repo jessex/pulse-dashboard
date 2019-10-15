@@ -248,7 +248,7 @@ const FtrProgramEvaluation = () => {
               <div className="layers">
                 <div className="layer w-100 pX-20 pT-20">
                   <h6 className="lh-1">
-                    FTR REFERRALS AND PARTICIPATION BY RACE
+                    FTR REFERRALS AND PARTICIPATION BY GENDER
                     <span className="fa-pull-right">
                       <div className="dropdown show">
                         <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsParticipationByGender" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

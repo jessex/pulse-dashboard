@@ -21,17 +21,7 @@ import { HorizontalBar } from 'react-chartjs-2';
 import { COLORS_FIVE_VALUES, COLORS } from '../../../assets/scripts/constants/colors';
 import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
-import { toInt } from '../../../utils/variableConversion';
-
-const labelStringConversion = {
-  AMERICAN_INDIAN_ALASKAN_NATIVE: 'American Indian Alaskan Native',
-  ASIAN: 'Asian',
-  BLACK: 'Black',
-  HISPANIC: 'Hispanic',
-  NATIVE_HAWAIIAN_PACIFIC_ISLANDER: 'Native Hawaiian Pacific Islander',
-  WHITE: 'White',
-  OTHER: 'Other',
-};
+import { raceValueToHumanReadable, toInt } from '../../../utils/variableConversion';
 
 const ND_RACE_PROPORTIONS = {
   'American Indian Alaskan Native': 5.5,
@@ -60,7 +50,7 @@ const RevocationProportionByRace = (props) => {
       revocationProportionByRace.forEach((data) => {
         const { race_or_ethnicity: race } = data;
         const count = toInt(data.revocation_count, 10);
-        revocationDataPoints.push({ race: labelStringConversion[race], count });
+        revocationDataPoints.push({ race: raceValueToHumanReadable(race), count });
       });
     }
 
@@ -69,14 +59,14 @@ const RevocationProportionByRace = (props) => {
       supervisionPopulationByRace.forEach((data) => {
         const { race_or_ethnicity: race } = data;
         const count = toInt(data.count);
-        supervisionDataPoints.push({ race: labelStringConversion[race], count });
+        supervisionDataPoints.push({ race: raceValueToHumanReadable(race), count });
       });
     }
 
     const racesRepresentedRevocations = revocationDataPoints.map((element) => element.race);
     const racesRepresentedSupervision = supervisionDataPoints.map((element) => element.race);
 
-    Object.values(labelStringConversion).forEach((race) => {
+    Object.keys(ND_RACE_PROPORTIONS).forEach((race) => {
       if (!racesRepresentedRevocations.includes(race)) {
         revocationDataPoints.push({ race, count: 0 });
       }
