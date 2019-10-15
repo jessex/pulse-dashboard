@@ -23,10 +23,12 @@ import { useAuth0 } from '../react-auth0-spa';
 import FtrReferralCountByMonth from '../components/charts/programEvaluation/FtrReferralCountByMonth';
 import FtrReferralsByRace from '../components/charts/programEvaluation/FtrReferralsByRace';
 import FtrReferralsByGender from '../components/charts/programEvaluation/FtrReferralsByGender';
+import FtrReferralsByAge from '../components/charts/programEvaluation/FtrReferralsByAge';
 
 const FtrProgramEvaluation = () => {
   const { loading, user, getTokenSilently } = useAuth0();
   const [apiData, setApiData] = useState({});
+  const [awaitingApi, setAwaitingApi] = useState(true);
 
   const fetchChartData = async () => {
     try {
@@ -39,6 +41,7 @@ const FtrProgramEvaluation = () => {
 
       const responseData = await response.json();
       setApiData(responseData);
+      setAwaitingApi(false);
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +51,7 @@ const FtrProgramEvaluation = () => {
     fetchChartData();
   }, []);
 
-  if (loading || !user) {
+  if (loading || !user || awaitingApi) {
     return <Loading />;
   }
 
@@ -223,6 +226,69 @@ const FtrProgramEvaluation = () => {
                     </div>
                   </div>
                   <div className="collapse" id="collapseMethodologyFtrReferralsByGender" aria-labelledby="methodologyHeadingFtrReferralsByGender" data-parent="#methodologyFtrReferralsByGender">
+                    <div>
+                      <ul>
+                        <li>
+                          METHODOLOGY
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100">
+                  <div className="peers ai-c jc-c gapX-20">
+                    <div className="peer fw-600">
+                      <span className="fsz-def fw-600 mR-10 c-grey-800">
+                        <small className="c-grey-500 fw-600">Period </small>
+                        Last 60 days
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* #FTR Referrals by Age chart ==================== */}
+          <div className="col-md-6">
+            <div className="bd bgc-white p-20">
+              <div className="layers">
+                <div className="layer w-100 pX-20 pT-20">
+                  <h6 className="lh-1">
+                    FTR REFERRALS BY AGE
+                    <span className="fa-pull-right">
+                      <div className="dropdown show">
+                        <a className="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="exportDropdownMenuButton-ftrReferralsByAge" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Export
+                        </a>
+                        <div className="dropdown-menu" aria-labelledby="exportDropdownMenuButton-ftrReferralsByAge">
+                          <a className="dropdown-item" id="downloadChartAsImage-ftrReferralsByAge" href="javascript:void(0);">Export image</a>
+                          <a className="dropdown-item" id="downloadChartData-ftrReferralsByAge" href="javascript:void(0);">Export data</a>
+                        </div>
+                      </div>
+                    </span>
+                  </h6>
+                </div>
+                <div className="layer w-100 pX-20 pT-20 row">
+                  <div className="layer w-100 p-20">
+                    <FtrReferralsByAge
+                      ftrReferralsByAge={
+                        apiData.ftr_referrals_by_age_60_days}
+                      supervisionPopulationByAge={
+                        apiData.supervision_population_by_age_60_days
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="layer bdT p-20 w-100 accordion" id="methodologyFtrReferralsByAge">
+                  <div className="mb-0" id="methodologyHeadingsFtrReferralsByAge">
+                    <div className="mb-0">
+                      <button className="btn btn-link collapsed pL-0" type="button" data-toggle="collapse" data-target="#collapseMethodologyFtrReferralsByAge" aria-expanded="true" aria-controls="collapseMethodologyFtrReferralsByAge">
+                        <h6 className="lh-1 c-blue-500 mb-0">Methodology</h6>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="collapse" id="collapseMethodologyFtrReferralsByAge" aria-labelledby="methodologyHeadingFtrReferralsByAge" data-parent="#methodologyFtrReferralsByAge">
                     <div>
                       <ul>
                         <li>
