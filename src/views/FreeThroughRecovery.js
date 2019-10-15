@@ -19,28 +19,22 @@ import React, { useState, useEffect } from 'react';
 import Loading from '../components/Loading';
 import '../assets/styles/index.scss';
 import { useAuth0 } from '../react-auth0-spa';
+import { callMetricsApi, awaitingResults } from '../utils/metricsClient';
 
-import FtrReferralCountByMonth from '../components/charts/programEvaluation/FtrReferralCountByMonth';
-import FtrReferralsByRace from '../components/charts/programEvaluation/FtrReferralsByRace';
-import FtrReferralsByGender from '../components/charts/programEvaluation/FtrReferralsByGender';
-import FtrReferralsByAge from '../components/charts/programEvaluation/FtrReferralsByAge';
-import FtrReferralsByLsir from '../components/charts/programEvaluation/FtrReferralsByLsir';
+import FtrReferralCountByMonth from '../components/charts/freeThroughRecovery/FtrReferralCountByMonth';
+import FtrReferralsByRace from '../components/charts/freeThroughRecovery/FtrReferralsByRace';
+import FtrReferralsByGender from '../components/charts/freeThroughRecovery/FtrReferralsByGender';
+import FtrReferralsByAge from '../components/charts/freeThroughRecovery/FtrReferralsByAge';
+import FtrReferralsByLsir from '../components/charts/freeThroughRecovery/FtrReferralsByLsir';
 
-const FtrProgramEvaluation = () => {
+const FreeThroughRecovery = () => {
   const { loading, user, getTokenSilently } = useAuth0();
   const [apiData, setApiData] = useState({});
   const [awaitingApi, setAwaitingApi] = useState(true);
 
   const fetchChartData = async () => {
     try {
-      const token = await getTokenSilently();
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/programEval`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const responseData = await response.json();
+      const responseData = await callMetricsApi('free-through-recovery', getTokenSilently);
       setApiData(responseData);
       setAwaitingApi(false);
     } catch (error) {
@@ -52,7 +46,7 @@ const FtrProgramEvaluation = () => {
     fetchChartData();
   }, []);
 
-  if (loading || !user || awaitingApi) {
+  if (awaitingResults(loading, user, awaitingApi)) {
     return <Loading />;
   }
 
@@ -159,7 +153,7 @@ const FtrProgramEvaluation = () => {
                     <div>
                       <ul>
                         <li>
-                          METHODOLOGY
+                          METHODOLOGY HERE
                         </li>
                         <li>
                           The supervision population counts people on probation or parole in North
@@ -382,4 +376,4 @@ const FtrProgramEvaluation = () => {
   );
 };
 
-export default FtrProgramEvaluation;
+export default FreeThroughRecovery;

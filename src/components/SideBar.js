@@ -94,11 +94,11 @@ const SideBar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="sidebar-link" href="program-evaluation">
+            <a className="sidebar-link" href="free-through-recovery">
               <span className="icon-holder">
-                <i className="c-red-500 ti-pencil" />
+                <i className="c-red-500 ti-location-arrow" />
               </span>
-              <span className="title">Program Evaluation</span>
+              <span className="title">Free Through Recovery</span>
             </a>
           </li>
         </ul>

@@ -89,11 +89,11 @@ const NavBar = () => {
               <NavItem>
                 <NavLink
                   tag={RouterNavLink}
-                  to="/program-evaluation"
+                  to="/free-through-recovery"
                   exact
                   activeClassName="router-link-exact-active"
                 >
-                  Program Evaluation
+                  Free Through Recovery
                 </NavLink>
               </NavItem>
               {canShowAuthenticatedView(isAuthenticated) && (

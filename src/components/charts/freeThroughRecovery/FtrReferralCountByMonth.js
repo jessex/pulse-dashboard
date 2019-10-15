@@ -114,7 +114,7 @@ const FtrReferralCountByMonth = (props) => {
   const header = document.getElementById(props.header);
 
   if (header && (mostRecentValue !== null)) {
-    const title = `There have been <b style='color:#809AE5'>${mostRecentValue} referrals</b> to FTR this month so far.`;
+    const title = `There have been <b style='color:#809AE5'>${mostRecentValue} referrals</b> to Free Through Recovery this month so far.`;
     header.innerHTML = title;
   }
 

@@ -37,7 +37,7 @@ const memoryCache = cacheManager.caching({ store: 'memory', ttl: METRIC_CACHE_TT
 const asyncReadFile = util.promisify(fs.readFile);
 
 const FILES_BY_METRIC_TYPE = {
-  programEval: [
+  freeThroughRecovery: [
     'ftr_referrals_by_month.json',
     'ftr_referrals_by_age_60_days.json',
     'ftr_referrals_by_gender_60_days.json',
@@ -184,12 +184,12 @@ function fetchRevocationMetrics(isDemo, callback) {
   return fetchMetrics('US_ND', 'revocation', isDemo, callback);
 }
 
-function fetchProgramEvalMetrics(isDemo, callback) {
-  return fetchMetrics('US_ND', 'programEval', isDemo, callback);
+function fetchFreeThroughRecoveryMetrics(isDemo, callback) {
+  return fetchMetrics('US_ND', 'freeThroughRecovery', isDemo, callback);
 }
 
 module.exports = {
-  fetchProgramEvalMetrics,
+  fetchFreeThroughRecoveryMetrics,
   fetchReincarcerationMetrics,
   fetchRevocationMetrics,
   fetchSnapshotMetrics,
