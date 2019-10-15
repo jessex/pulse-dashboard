@@ -120,10 +120,6 @@ const FtrReferralsByGender = (props) => {
       options={{
         scales: {
           xAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Percentage',
-            },
             stacked: true,
             ticks: {
               min: 0,
@@ -131,6 +127,10 @@ const FtrReferralsByGender = (props) => {
             },
           }],
           yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Percentage',
+            },
             stacked: true,
           }],
         },
