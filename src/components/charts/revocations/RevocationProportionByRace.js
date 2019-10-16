@@ -23,16 +23,6 @@ import { sortByLabel } from '../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { raceValueToHumanReadable, toInt } from '../../../utils/variableConversion';
 
-const ND_RACE_PROPORTIONS = {
-  'American Indian Alaskan Native': 5.5,
-  Asian: 1.8,
-  Black: 3.4,
-  Hispanic: 3.9,
-  'Native Hawaiian Pacific Islander': 0.1,
-  White: 84.0,
-  Other: 1.3,
-};
-
 const RevocationProportionByRace = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [revocationProportions, setRevocationProportions] = useState([]);
@@ -42,8 +32,11 @@ const RevocationProportionByRace = (props) => {
   const [stateSupervisionCounts, setStateSupervisionCounts] = useState([]);
 
   const processResponse = () => {
-    const { revocationProportionByRace } = props;
-    const { supervisionPopulationByRace } = props;
+    const {
+      revocationProportionByRace,
+      supervisionPopulationByRace,
+      statePopulationByRace,
+    } = props;
 
     const revocationDataPoints = [];
     if (revocationProportionByRace) {
@@ -63,10 +56,20 @@ const RevocationProportionByRace = (props) => {
       });
     }
 
+    const stateCensusDataPoints = [];
+    if (statePopulationByRace) {
+      statePopulationByRace.forEach((data) => {
+        const { race_or_ethnicity: race } = data;
+        const proportion = Number(data.proportion);
+        stateCensusDataPoints.push({ race: raceValueToHumanReadable(race), proportion });
+      });
+    }
+
     const racesRepresentedRevocations = revocationDataPoints.map((element) => element.race);
     const racesRepresentedSupervision = supervisionDataPoints.map((element) => element.race);
 
-    Object.keys(ND_RACE_PROPORTIONS).forEach((race) => {
+    stateCensusDataPoints.forEach((raceGroup) => {
+      const { race } = raceGroup;
       if (!racesRepresentedRevocations.includes(race)) {
         revocationDataPoints.push({ race, count: 0 });
       }
@@ -88,6 +91,7 @@ const RevocationProportionByRace = (props) => {
     // Sort by race alphabetically
     const sortedRevocationDataPoints = sortByLabel(revocationDataPoints, 'race');
     const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 'race');
+    const sortedStateCensusDataPoints = sortByLabel(stateCensusDataPoints, 'race');
 
     setChartLabels(sortedRevocationDataPoints.map((element) => element.race));
     setRevocationProportions(sortedRevocationDataPoints.map(
@@ -102,8 +106,8 @@ const RevocationProportionByRace = (props) => {
     setStateSupervisionCounts(sortedSupervisionDataPoints.map(
       (element) => (element.count),
     ));
-    setStatePopulationProportions(sortedRevocationDataPoints.map(
-      (element) => ND_RACE_PROPORTIONS[element.race],
+    setStatePopulationProportions(sortedStateCensusDataPoints.map(
+      (element) => (element.proportion),
     ));
   };
 

@@ -23,16 +23,6 @@ import { sortByLabel } from '../../../../../utils/dataOrganizing';
 import { configureDownloadButtons } from '../../../../../assets/scripts/utils/downloads';
 import { raceValueToHumanReadable, toInt } from '../../../../../utils/variableConversion';
 
-const ND_RACE_PROPORTIONS = {
-  'American Indian Alaskan Native': 5.5,
-  Asian: 1.8,
-  Black: 3.4,
-  Hispanic: 3.9,
-  'Native Hawaiian Pacific Islander': 0.1,
-  White: 84.0,
-  Other: 1.3,
-};
-
 const FtrReferralsByRace = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [ftrReferralProportions, setFtrReferralProportions] = useState([]);
@@ -44,8 +34,11 @@ const FtrReferralsByRace = (props) => {
   const chartId = 'ftrReferralsByRace';
 
   const processResponse = () => {
-    const { ftrReferralsByRace } = props;
-    const { supervisionPopulationByRace } = props;
+    const {
+      ftrReferralsByRace,
+      supervisionPopulationByRace,
+      statePopulationByRace,
+    } = props;
 
     const ftrReferralDataPoints = [];
     if (ftrReferralsByRace) {
@@ -65,10 +58,20 @@ const FtrReferralsByRace = (props) => {
       });
     }
 
+    const stateCensusDataPoints = [];
+    if (statePopulationByRace) {
+      statePopulationByRace.forEach((data) => {
+        const { race_or_ethnicity: race } = data;
+        const proportion = Number(data.proportion);
+        stateCensusDataPoints.push({ race: raceValueToHumanReadable(race), proportion });
+      });
+    }
+
     const racesRepresentedFtrReferrals = ftrReferralDataPoints.map((element) => element.race);
     const racesRepresentedSupervision = supervisionDataPoints.map((element) => element.race);
 
-    Object.keys(ND_RACE_PROPORTIONS).forEach((race) => {
+    stateCensusDataPoints.forEach((raceGroup) => {
+      const { race } = raceGroup;
       if (!racesRepresentedFtrReferrals.includes(race)) {
         ftrReferralDataPoints.push({ race, count: 0 });
       }
@@ -90,6 +93,7 @@ const FtrReferralsByRace = (props) => {
     // Sort by race alphabetically
     const sortedFtrReferralsDataPoints = sortByLabel(ftrReferralDataPoints, 'race');
     const sortedSupervisionDataPoints = sortByLabel(supervisionDataPoints, 'race');
+    const sortedStateCensusDataPoints = sortByLabel(stateCensusDataPoints, 'race');
 
     setChartLabels(sortedFtrReferralsDataPoints.map((element) => element.race));
     setFtrReferralProportions(sortedFtrReferralsDataPoints.map(
@@ -104,8 +108,8 @@ const FtrReferralsByRace = (props) => {
     setStateSupervisionCounts(sortedSupervisionDataPoints.map(
       (element) => (element.count),
     ));
-    setStatePopulationProportions(sortedFtrReferralsDataPoints.map(
-      (element) => ND_RACE_PROPORTIONS[element.race],
+    setStatePopulationProportions(sortedStateCensusDataPoints.map(
+      (element) => (element.proportion),
     ));
   };
 
