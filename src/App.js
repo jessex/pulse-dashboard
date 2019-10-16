@@ -109,7 +109,7 @@ const App = () => {
                 <PrivateRoute path="/snapshots" component={Snapshots} />
                 <PrivateRoute path="/revocations" component={Revocations} />
                 <PrivateRoute path="/reincarcerations" component={Reincarcerations} />
-                <PrivateRoute path="/free-through-recovery" component={FreeThroughRecovery} />
+                <PrivateRoute path="/programEvaluation/freeThroughRecovery" component={FreeThroughRecovery} />
                 <PrivateRoute path="/profile" component={Profile} />
                 <Route component={NotFound} />
               </Switch>

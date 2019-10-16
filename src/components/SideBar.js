@@ -70,7 +70,7 @@ const SideBar = () => {
         {/* ### $Sidebar Menu ### */}
         <ul className="sidebar-menu scrollable pos-r">
           <li className="nav-item mT-30 active">
-            <a className="sidebar-link" href="snapshots">
+            <a className="sidebar-link" href="/snapshots">
               <span className="icon-holder">
                 <i className="c-blue-500 ti-dashboard" />
               </span>
@@ -78,7 +78,7 @@ const SideBar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="sidebar-link" href="revocations">
+            <a className="sidebar-link" href="/revocations">
               <span className="icon-holder">
                 <i className="c-brown-500 ti-unlink" />
               </span>
@@ -86,7 +86,7 @@ const SideBar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="sidebar-link" href="reincarcerations">
+            <a className="sidebar-link" href="/reincarcerations">
               <span className="icon-holder">
                 <i className="c-red-500 ti-reload" />
               </span>
@@ -94,7 +94,7 @@ const SideBar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="sidebar-link" href="free-through-recovery">
+            <a className="sidebar-link" href="/programEvaluation/freeThroughRecovery">
               <span className="icon-holder">
                 <i className="c-green-500 ti-location-arrow" />
               </span>
