@@ -18,16 +18,11 @@
 import React, { useState } from 'react';
 
 import { useAuth0 } from '../react-auth0-spa';
-import { capitalizeWords, replaceAll } from '../assets/scripts/utils/strings';
+import { capitalizeWords, normalizeAppPathToTitle, replaceAll } from '../assets/scripts/utils/strings';
 import { canShowAuthenticatedView, isDemoMode, getDemoUser } from '../utils/viewAuthentication';
 
 const TopBar = (props) => {
-  const noDash = replaceAll(props.pathname, '-', ' ');
-  let noSlash = replaceAll(noDash, '/', '');
-  if (!noSlash) {
-    noSlash = 'Home';
-  }
-  const normalizedPath = capitalizeWords(noSlash);
+  const normalizedPath = normalizeAppPathToTitle(props.pathname);
 
   const [isOpen, setIsOpen] = useState(false);
   const {
