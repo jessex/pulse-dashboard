@@ -35,7 +35,7 @@ const FtrReferralCountByMonth = (props) => {
     const dataPoints = [];
     if (countsByMonth) {
       countsByMonth.forEach((data) => {
-        const { year, month, referral_count: count } = data;
+        const { year, month, count } = data;
         dataPoints.push({ year, month, count });
       });
     }

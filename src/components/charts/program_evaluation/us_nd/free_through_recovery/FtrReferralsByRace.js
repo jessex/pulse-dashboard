@@ -44,7 +44,7 @@ const FtrReferralsByRace = (props) => {
     if (ftrReferralsByRace) {
       ftrReferralsByRace.forEach((data) => {
         const { race_or_ethnicity: race } = data;
-        const count = toInt(data.referral_count, 10);
+        const count = toInt(data.count, 10);
         ftrReferralDataPoints.push({ race: raceValueToHumanReadable(race), count });
       });
     }

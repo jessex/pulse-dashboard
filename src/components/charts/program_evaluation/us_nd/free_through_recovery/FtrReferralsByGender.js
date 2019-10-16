@@ -41,7 +41,7 @@ const FtrReferralsByGender = (props) => {
       ftrReferralsByGender.forEach((data) => {
         let { gender } = data;
         gender = genderValueToHumanReadable(gender);
-        const count = toInt(data.referral_count, 10);
+        const count = toInt(data.count, 10);
         ftrReferralDataPoints.push({ gender, count });
       });
     }

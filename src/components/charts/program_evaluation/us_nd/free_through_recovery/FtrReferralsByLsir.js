@@ -41,8 +41,9 @@ const FtrReferralsByLsir = (props) => {
     const ftrReferralDataPoints = {};
     if (ftrReferralsByLsir) {
       ftrReferralsByLsir.forEach((data) => {
-        const { lsir_score: lsir } = data;
-        const count = toInt(data.referral_count, 10);
+        let { lsir_score: lsir } = data;
+        lsir = lsir.replace('_', '-');
+        const count = toInt(data.count, 10);
         ftrReferralDataPoints[lsir] = count;
         totalFtrReferrals += count;
       });
@@ -52,7 +53,8 @@ const FtrReferralsByLsir = (props) => {
     const supervisionDataPoints = {};
     if (supervisionPopulationByLsir) {
       supervisionPopulationByLsir.forEach((data) => {
-        const { lsir_score: lsir } = data;
+        let { lsir_score: lsir } = data;
+        lsir = lsir.replace('_', '-');
         const count = toInt(data.count);
         supervisionDataPoints[lsir] = count;
         totalSupervisionPopulation += count;

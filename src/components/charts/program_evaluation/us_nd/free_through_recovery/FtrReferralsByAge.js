@@ -41,8 +41,8 @@ const FtrReferralsByAge = (props) => {
     const ftrReferralDataPoints = {};
     if (ftrReferralsByAge) {
       ftrReferralsByAge.forEach((data) => {
-        const { age } = data;
-        const count = toInt(data.referral_count, 10);
+        const { age_bucket: age } = data;
+        const count = toInt(data.count, 10);
         ftrReferralDataPoints[age] = count;
         totalFtrReferrals += count;
       });
@@ -52,7 +52,7 @@ const FtrReferralsByAge = (props) => {
     const supervisionDataPoints = {};
     if (supervisionPopulationByAge) {
       supervisionPopulationByAge.forEach((data) => {
-        const { age } = data;
+        const { age_bucket: age } = data;
         const count = toInt(data.count);
         supervisionDataPoints[age] = count;
         totalSupervisionPopulation += count;
