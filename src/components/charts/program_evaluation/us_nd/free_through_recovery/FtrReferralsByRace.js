@@ -18,10 +18,10 @@
 import React, { useState, useEffect } from 'react';
 
 import { HorizontalBar } from 'react-chartjs-2';
-import { COLORS_FIVE_VALUES, COLORS } from '../../../assets/scripts/constants/colors';
-import { sortByLabel } from '../../../utils/dataOrganizing';
-import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
-import { raceValueToHumanReadable, toInt } from '../../../utils/variableConversion';
+import { COLORS_FIVE_VALUES, COLORS } from '../../../../../assets/scripts/constants/colors';
+import { sortByLabel } from '../../../../../utils/dataOrganizing';
+import { configureDownloadButtons } from '../../../../../assets/scripts/utils/downloads';
+import { raceValueToHumanReadable, toInt } from '../../../../../utils/variableConversion';
 
 const ND_RACE_PROPORTIONS = {
   'American Indian Alaskan Native': 5.5,
