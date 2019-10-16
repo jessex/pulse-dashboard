@@ -96,7 +96,7 @@ const SideBar = () => {
           <li className="nav-item">
             <a className="sidebar-link" href="free-through-recovery">
               <span className="icon-holder">
-                <i className="c-red-500 ti-location-arrow" />
+                <i className="c-green-500 ti-location-arrow" />
               </span>
               <span className="title">Free Through Recovery</span>
             </a>

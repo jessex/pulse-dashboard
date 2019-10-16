@@ -121,7 +121,7 @@ function fetchMetricsFromLocal(stateCode, metricType) {
   const files = FILES_BY_METRIC_TYPE[metricType];
   files.forEach((filename) => {
     const fileKey = filename.replace('.json', '');
-    const filePath = path.resolve(__dirname, `./demoData/${filename}`);
+    const filePath = path.resolve(__dirname, `./demo_data/${filename}`);
 
     promises.push(asyncReadFile(filePath).then((contents) => ({ fileKey, contents })));
   });
@@ -140,7 +140,7 @@ function fetchMetricsFromLocal(stateCode, metricType) {
  * expired beyond the configured TTL. If not, then fetches the metrics for that type from the
  * appropriate files and invokes the callback only once all files have been retrieved.
  *
- * If we are in demo mode, then fetches the files from a static directory, /server/core/demoData/.
+ * If we are in demo mode, then fetches the files from a static directory, /server/core/demo_data/.
  * Otherwise, fetches from Google Cloud Storage.
  */
 function fetchMetrics(stateCode, metricType, isDemo, callback) {
