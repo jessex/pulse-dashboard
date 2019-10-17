@@ -35,7 +35,7 @@ const FtrReferralsByAge = (props) => {
     const { ftrReferralsByAge } = props;
     const { supervisionPopulationByAge } = props;
 
-    const ageBucketLabels = ['<25', '25-29', '30-34', '35-39', '40<'];
+    const ageBucketLabels = ['18-24', '25-29', '30-34', '35-39', '40+'];
 
     let totalFtrReferrals = 0;
     const ftrReferralDataPoints = {};
