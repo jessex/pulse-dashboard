@@ -100,7 +100,13 @@ const FreeThroughRecovery = () => {
                     <div>
                       <ul>
                         <li>
-                          METHODOLOGY HERE
+                          Referral counts include the number of people who were
+                          referred to Free Through Recovery.
+                        </li>
+                        <li>
+                          Referrals are included based on the date the person
+                          was referred to the program, regardless of when or if
+                          they began participating in Free Through Recovery.
                         </li>
                       </ul>
                     </div>
@@ -154,7 +160,11 @@ const FreeThroughRecovery = () => {
                     <div>
                       <ul>
                         <li>
-                          METHODOLOGY HERE
+                          People with multiple races/ethnicities are counted once for each race/ethnicity.
+                        </li>
+                        <li>
+                          The referral population counts people who were referred to Free Through
+                          Recovery at any point during the time period.
                         </li>
                         <li>
                           The supervision population counts people on probation or parole in North
@@ -225,7 +235,18 @@ const FreeThroughRecovery = () => {
                     <div>
                       <ul>
                         <li>
-                          METHODOLOGY
+                          Each person’s LSI-R score is based off of the most
+                          recent LSI-R assessment performed for that person.
+                        </li>
+                        <li>
+                          The referral population counts people who were
+                          referred to Free Through Recovery at any point during
+                          the time period.
+                        </li>
+                        <li>
+                          The supervision population counts people on probation
+                          or parole in North Dakota at any point during the time
+                          period.
                         </li>
                       </ul>
                     </div>
@@ -288,7 +309,14 @@ const FreeThroughRecovery = () => {
                     <div>
                       <ul>
                         <li>
-                          METHODOLOGY
+                          The referral population counts people who were
+                          referred to Free Through Recovery at any point during
+                          the time period.
+                        </li>
+                        <li>
+                          The supervision population counts people on
+                          probation or parole in North Dakota at any point
+                          during the time period.
                         </li>
                       </ul>
                     </div>
@@ -350,9 +378,16 @@ const FreeThroughRecovery = () => {
                   <div className="collapse" id="collapseMethodologyFtrReferralsByAge" aria-labelledby="methodologyHeadingFtrReferralsByAge" data-parent="#methodologyFtrReferralsByAge">
                     <div>
                       <ul>
-                        <li>
-                          METHODOLOGY
-                        </li>
+                      <li>
+                        The referral population counts people who were
+                        referred to Free Through Recovery at any point during
+                        the time period.
+                      </li>
+                      <li>
+                        The supervision population counts people on
+                        probation or parole in North Dakota at any point
+                        during the time period.
+                      </li>
                       </ul>
                     </div>
                   </div>
