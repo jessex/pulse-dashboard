@@ -35,13 +35,20 @@ const FtrReferralsByAge = (props) => {
     const { ftrReferralsByAge } = props;
     const { supervisionPopulationByAge } = props;
 
-    const ageBucketLabels = ['18-24', '25-29', '30-34', '35-39', '40+'];
+    const ageBucketLabels = ['Under 25', '25-29', '30-34', '35-39', '40 and over'];
 
     let totalFtrReferrals = 0;
     const ftrReferralDataPoints = {};
     if (ftrReferralsByAge) {
       ftrReferralsByAge.forEach((data) => {
-        const { age_bucket: age } = data;
+        let { age_bucket: age } = data;
+
+        if (age === '0-24') {
+          age = 'Under 25';
+        } else if (age === '40+') {
+          age = '40 and over';
+        }
+
         const count = toInt(data.count, 10);
         ftrReferralDataPoints[age] = count;
         totalFtrReferrals += count;
@@ -52,7 +59,14 @@ const FtrReferralsByAge = (props) => {
     const supervisionDataPoints = {};
     if (supervisionPopulationByAge) {
       supervisionPopulationByAge.forEach((data) => {
-        const { age_bucket: age } = data;
+        let { age_bucket: age } = data;
+
+        if (age === '0-24') {
+          age = 'Under 25';
+        } else if (age === '40+') {
+          age = '40 and over';
+        }
+
         const count = toInt(data.count);
         supervisionDataPoints[age] = count;
         totalSupervisionPopulation += count;
