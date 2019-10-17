@@ -34,7 +34,7 @@ const FreeThroughRecovery = () => {
 
   const fetchChartData = async () => {
     try {
-      const responseData = await callMetricsApi('free-through-recovery', getTokenSilently);
+      const responseData = await callMetricsApi('programEvaluation/us_nd/freeThroughRecovery', getTokenSilently);
       setApiData(responseData);
       setAwaitingApi(false);
     } catch (error) {
