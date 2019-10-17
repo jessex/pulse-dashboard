@@ -36,16 +36,16 @@ function normalizeLabel(str) {
 }
 
 function normalizeAppPathToTitle(str) {
-  let noDash = replaceAll(str, '-', ' ');
+  let updatedString = str;
 
-  while (noDash.indexOf('/', 1) !== -1) {
-    const nextSlash = noDash.indexOf('/', 1);
-    noDash = noDash.substring(nextSlash);
+  while (updatedString.indexOf('/', 1) !== -1) {
+    const nextSlash = updatedString.indexOf('/', 1);
+    updatedString = updatedString.substring(nextSlash);
   }
 
-  let noSlash = replaceAll(noDash, '/', '');
+  const noSlash = replaceAll(updatedString, '/', '');
   if (!noSlash) {
-    noSlash = 'Snapshots';
+    return null;
   }
 
   const capitalLetters = noSlash.match(/[A-Z]/g);

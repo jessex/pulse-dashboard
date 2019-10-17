@@ -22,7 +22,11 @@ import { capitalizeWords, normalizeAppPathToTitle, replaceAll } from '../assets/
 import { canShowAuthenticatedView, isDemoMode, getDemoUser } from '../utils/viewAuthentication';
 
 const TopBar = (props) => {
-  const normalizedPath = normalizeAppPathToTitle(props.pathname);
+  let normalizedPath = normalizeAppPathToTitle(props.pathname);
+
+  if (!normalizedPath) {
+    normalizedPath = 'Snapshots';
+  }
 
   const [isOpen, setIsOpen] = useState(false);
   const {
