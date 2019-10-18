@@ -53,8 +53,7 @@ function radiusOfMarker(office, maxValue) {
 }
 
 function colorForMarker(office) {
-  return COLORS['red-standard'];
-  // return (office.revocationCount > 0) ? COLORS['red-standard'] : COLORS['grey-600'];
+  return (office.revocationCount > 0) ? COLORS['red-standard'] : COLORS['grey-400'];
 }
 
 const officeClicked = (office) => {
