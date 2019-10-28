@@ -28,7 +28,6 @@ import SideBar from './components/SideBar';
 import TopBar from './components/TopBar';
 import Footer from './components/Footer';
 import { canShowAuthenticatedView } from './utils/viewAuthentication';
-import Home from './views/Home';
 import NotFound from './views/NotFound';
 import Profile from './views/Profile';
 import FreeThroughRecovery from './views/FreeThroughRecovery';
@@ -104,7 +103,7 @@ const App = () => {
               <TopBar pathname={window.location.pathname} />
               <Switch>
                 <Route exact path="/">
-                  {canShowAuthenticatedView(isAuthenticated) ? <Redirect to="/snapshots" /> : <Home />}
+                  {<Redirect to="/snapshots" />}
                 </Route>
                 <PrivateRoute path="/snapshots" component={Snapshots} />
                 <PrivateRoute path="/revocations" component={Revocations} />
