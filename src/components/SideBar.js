@@ -53,7 +53,7 @@ const SideBar = () => {
                     </div>
                   </div>
                   <div className="col-md-9 my-auto peer peer-greed">
-                    <h5 className="lh-1 mB-0 logo-text recidiviz-dark-green-text">North Dakota</h5>
+                    <h5 className="lh-1 mB-0 logo-text recidiviz-dark-green-text">Dashboard</h5>
                   </div>
                 </div>
               </a>
