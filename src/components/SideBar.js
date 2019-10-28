@@ -45,7 +45,7 @@ const SideBar = () => {
         <div className="sidebar-logo" style={{ height: '65px' }}>
           <div className="peers ai-c fxw-nw">
             <div className="peer peer-greed">
-              <a className="sidebar-link td-n" href="https://www.recidiviz.org/">
+              <a className="sidebar-link td-n" href="/">
                 <div className="peers ai-c fxw-nw pT-15">
                   <div className="peer">
                     <div className="col-md-3 my-auto peer">
