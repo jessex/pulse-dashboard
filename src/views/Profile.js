@@ -22,6 +22,7 @@ import Highlight from '../components/Highlight';
 import Loading from '../components/Loading';
 import { useAuth0 } from '../react-auth0-spa';
 import { getDemoUser, isDemoMode } from '../utils/viewAuthentication';
+import { getStateFromEmail } from '../utils/user';
 
 const Profile = () => {
   const { loading, user } = useAuth0();
@@ -50,10 +51,8 @@ const Profile = () => {
             <Col md>
               <h2>{displayUser.name}</h2>
               <p className="lead text-muted">{displayUser.email}</p>
+              <p className="lead text-muted">{getStateFromEmail(displayUser.email)}</p>
             </Col>
-          </Row>
-          <Row>
-            <Highlight>{JSON.stringify(displayUser, null, 2)}</Highlight>
           </Row>
         </Container>
       </div>
