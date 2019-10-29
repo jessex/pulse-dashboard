@@ -15,18 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-function getStateFromEmail(email) {
-  if (email.includes('recidiviz.org')) {
-    return 'Recidiviz';
-  }
+const STATE_CODE_BY_DOMAIN = {
+  'recidiviz.org': 'Recidiviz',
+  'nd.gov': 'North Dakota',
+};
 
-  if (email.includes('nd.gov')) {
-    return 'North Dakota';
-  }
-
-  return '';
+function getUserStateCode(user) {
+  const emailSplit = user.email.split('@');
+  const domain = emailSplit[emailSplit.length - 1].toLowerCase();
+  return STATE_CODE_BY_DOMAIN[domain];
 }
 
 export {
-  getStateFromEmail,
+  getUserStateCode,
 };
