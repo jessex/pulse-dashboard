@@ -127,6 +127,7 @@
   border-right: 1px solid $border-color;
   line-height: 0;
   transition: all 0.2s ease;
+  padding-left: 4px;
 
   a {
     display: inline-block;
@@ -175,6 +176,7 @@
   overflow: auto;
   padding: 0;
   position: relative;
+  padding-left: 4px;
 
   .dropdown-toggle::after {
     display: none;
@@ -187,7 +189,7 @@
       content: '';
       display: block;
       height: 8px;
-      left: -4px;
+      left: -8px;
       position: absolute;
       top: calc(50% - 4px);
       width: 8px;
@@ -402,7 +404,7 @@
         .sidebar-logo {
           border-bottom: 1px solid $border-color;
         }
-        
+
         .sidebar-menu {
           > li {
             > a {
