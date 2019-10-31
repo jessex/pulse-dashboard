@@ -101,6 +101,14 @@ const SideBar = () => {
               <span className="title">Free Through Recovery</span>
             </a>
           </li>
+          <li className="bottom-item">
+            <a className="sidebar-link" href="https://docs.google.com/forms/d/e/1FAIpQLSe-ArI6-iCsNvnato7XPd-j5wnZ952-rG4UzkUTczwaovrfHQ/viewform?usp=sf_link" target="_blank" rel="noopener noreferrer">
+              <span className="icon-holder">
+                <i className="c-grey-700 ti-comment" />
+              </span>
+              <span className="title">Feedback</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
