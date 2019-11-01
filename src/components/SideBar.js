@@ -102,7 +102,7 @@ const SideBar = () => {
             </a>
           </li>
           <li className="bottom-item">
-            <a className="sidebar-link" href="https://docs.google.com/forms/d/e/1FAIpQLSe-ArI6-iCsNvnato7XPd-j5wnZ952-rG4UzkUTczwaovrfHQ/viewform?usp=sf_link" target="_blank" rel="noopener noreferrer">
+            <a className="sidebar-link" id="feedback-link" href={process.env.REACT_APP_FEEDBACK_URL} target="_blank" rel="noopener noreferrer">
               <span className="icon-holder">
                 <i className="c-grey-700 ti-comment" />
               </span>
