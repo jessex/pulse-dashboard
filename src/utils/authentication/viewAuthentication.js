@@ -29,6 +29,9 @@ function getDemoUser() {
     picture: 'https://ui-avatars.com/api/?name=Demo+Jones&background=0D8ABC&color=fff&rounded=true',
     name: 'Demo Jones',
     email: 'notarealemail@recidiviz.org',
+    'https://dashboard.recidiviz.org/app_metadata': {
+      state_code: 'RECIDIVIZ',
+    },
   };
 }
 
@@ -46,7 +49,7 @@ function canShowAuthenticatedView(isAuthenticated) {
  */
 function isViewAvailableForUserState(user, view) {
   const stateCode = getUserStateCode(user);
-  const normalizedCode = (stateCode === 'recidiviz')
+  const normalizedCode = (stateCode.toLowerCase() === 'recidiviz')
     ? getCurrentStateForRecidivizUsers() : stateCode.toLowerCase();
 
   const permittedViews = getAvailableViewsForState(normalizedCode);
