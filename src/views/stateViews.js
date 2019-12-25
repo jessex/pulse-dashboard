@@ -20,11 +20,13 @@ import UsNdReincarcerations from './tenants/us_nd/Reincarcerations';
 import UsNdRevocations from './tenants/us_nd/Revocations';
 import UsNdSnapshots from './tenants/us_nd/Snapshots';
 
+import UsMoRevocations from './tenants/us_mo/Revocations';
 import UsMoSnapshots from './tenants/us_mo/Snapshots';
 
 const STATE_VIEW_COMPONENTS = {
   us_mo: {
     '/snapshots': UsMoSnapshots,
+    '/revocations': UsMoRevocations
   },
   us_nd: {
     '/programevaluation/freethroughrecovery': UsNdFreeThroughRecovery,

@@ -1,0 +1,87 @@
+.matrix {
+  .violation-type-label, .empty-cell {
+    display: inline-block;
+    width: 100px;
+    margin-right: 20px;
+  }
+
+  .violation-column, .cell {
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+  }
+
+  .cell {
+    background:
+      linear-gradient($border-color, $border-color) no-repeat center/1px 100%,
+      linear-gradient($border-color, $border-color) no-repeat center/100% 1px;
+  }
+
+  .violation-row {
+    position: relative;
+    line-height: 70px;
+
+    .violation-type-label {
+      background: white;
+      border-radius: 25px;
+      border: 1px solid orange;
+      color: orange;
+      line-height: 20px;
+    }
+
+    &.is-selected .violation-type-label {
+      background: orange;
+      color: white;
+    }
+
+    .total-revocations {
+      background: transparent;
+      border: 0;
+      padding: 0;
+    }
+  }
+
+  &.is-filtered {
+    .total-revocations {
+      opacity: 0.2;
+
+      &.is-selected {
+        opacity: 1;
+      }
+    }
+
+    .is-selected .total-revocations {
+      opacity: 1;
+    }
+  }
+
+  .violation-counts {
+    margin-bottom: 20px;
+  }
+
+  .violation-sum-row {
+    margin-top: 20px;
+  }
+
+  .violation-sum-column {
+    margin-left: 20px;
+  }
+
+  .violation-sum {
+    color: red;
+  }
+}
+
+.static-charts {
+  .chart-type-label {
+    background: transparent;
+    border: 0;
+    color: gray;
+    text-transform: uppercase;
+
+    &.selected {
+      color: blue;
+      text-decoration: underline;
+    }
+  }
+}
