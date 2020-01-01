@@ -16,6 +16,7 @@
 // =============================================================================
 
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 
 import Loading from '../../../components/Loading';
 import '../../../assets/styles/index.scss';
@@ -36,13 +37,26 @@ import RevocationsBySex
   from '../../../components/charts/revocations/RevocationsBySex';
 import RevocationsByRace
   from '../../../components/charts/revocations/RevocationsByRace';
-import ReviewCases
-  from '../../../components/charts/revocations/ReviewCases';
+import CaseTable
+  from '../../../components/charts/revocations/CaseTable';
 
 // TODO: replace with actual filter constants
-const DISTRICTS = ['one', 'two', 'three'];
-const CHARGE_CATEGORIES = ['a', 'b', 'c'];
-const SUPERVISION_TYPES = ['alpha', 'beta', 'gamma'];
+const DISTRICTS = [
+  { value: '', label: 'All districts'}
+];
+const CHARGE_CATEGORIES = [
+  { value: '', label: 'All'},
+  { value: 'General', label: 'General' },
+  { value: 'Sex offense', label: 'Sex offense' },
+  { value: 'Domestic Violence', label: 'Domestic Violence' },
+  { value: 'SIS/SES', label: 'SIS/SES' }
+];
+const SUPERVISION_TYPES = [
+  { value: '', label: 'All'},
+  { value: 'Probation', label: 'Probation' },
+  { value: 'Parole', label: 'Parole' },
+  { value: 'Dual supervision', label: 'Dual supervision' },
+];
 
 const CHARTS = ["District", "Risk level", "Violation", "Sex", "Race"];
 
@@ -52,7 +66,7 @@ const Revocations = () => {
   const [awaitingApi, setAwaitingApi] = useState(true);
 
   const [filters, setFilters] = useState({});
-  const [selectedChart, setSelectedChart] = useState();
+  const [selectedChart, setSelectedChart] = useState('District');
 
   const fetchChartData = async () => {
     try {
@@ -110,61 +124,96 @@ const Revocations = () => {
   }
 
   return (
-    <main className="main-content bgc-grey-100">
-      <div>
-        <div>
-          <h3>District</h3>
-          <select onChange={e => updateFilters({ district: e.target.value })}>
-            <option value=''>All districts</option>
-            {DISTRICTS.map((district, i) =>
-              <option key={i} value={district}>{district}</option>
-            )}
-          </select>
+    <main className="dashboard bgc-grey-100">
+      <div className="top-level-filters d-f">
+        <div className="top-level-filter">
+          <h4>District</h4>
+          <Select
+            options={DISTRICTS}
+            onChange={option => updateFilters({ district: option.value })}
+          />
         </div>
-        <div>
-          <h3>Charge Category</h3>
-          <select onChange={e => updateFilters({ chargeCategory: e.target.value })}>
-            <option value=''>General</option>
-            {CHARGE_CATEGORIES.map((chargeCategory, i) =>
-              <option key={i} value={chargeCategory}>{chargeCategory}</option>
-            )}
-          </select>
+        <div className="top-level-filter">
+          <h4>Charge Category</h4>
+          <Select
+            options={CHARGE_CATEGORIES}
+            onChange={option => updateFilters({ chargeCategory: option.value })}
+          />
         </div>
-        <div>
-          <h3>Supervision Type</h3>
-          <select onChange={e => updateFilters({ supervisionType: e.target.value })}>
-            <option value=''>All</option>
-            {SUPERVISION_TYPES.map((supervisionType, i) =>
-              <option key={i} value={supervisionType}>{supervisionType}</option>
-            )}
-          </select>
+        <div className="top-level-filter">
+          <h4>Supervision Type</h4>
+          <Select
+            options={SUPERVISION_TYPES}
+            onChange={option => updateFilters({ chargeCategory: option.value })}
+          />
         </div>
       </div>
-      <RevocationCountOverTime
-        revocationCountsByMonth={apiData.revocations_by_month}
-      />
-      <div className="bgc-white p-20">
-        <RevocationMatrix
-          data={apiData.revocations_matrix_cells}
-          filters={filters}
-          updateFilters={updateFilters}
+      <div className="bgc-white p-20 m-20">
+        <h4>Revocations over time</h4>
+        <RevocationCountOverTime
+          revocationCountsByMonth={apiData.revocations_by_month}
         />
       </div>
-      <div className="static-charts bgc-white p-20">
-        <div>
+      <div className="d-f">
+        <div className="bgc-white p-20 m-20">
+          <RevocationMatrix
+            data={apiData.revocations_matrix_cells}
+            filters={filters}
+            updateFilters={updateFilters}
+          />
+        </div>
+        <div className="matrix-explanation bgc-white p-20 m-20">
+          <h4>Using this chart</h4>
+          <p className="fw-600">
+            This chart shows the number of people revoked to prison from
+            probation and parole, broken down by their most severe violation
+            and the number of violation reports filed before revocation.
+          </p>
+          <div className="d-f mT-20">
+            <div className="example-icon-container">
+              <div className="example-violation-total">
+                35
+              </div>
+            </div>
+            <p className="fs-i fw-600">
+              Click on a bubble to filter the dashboard by that set of
+              revocations
+            </p>
+          </div>
+          <div className="d-f mT-20">
+            <div className="example-icon-container">
+              <div className="example-violation-type">
+                Technical
+              </div>
+            </div>
+            <p className="fs-i fw-600">
+              Click on the violation to filter the dashboard by that violation.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="static-charts d-f bgc-white m-20">
+        <div className="chart-type-labels p-20">
           {CHARTS.map((chart, i) => (
-            <button
-              key={i}
-              className={`chart-type-label ${selectedChart === chart ? 'selected' : ''}`}
-              onClick={() => setSelectedChart(chart)}
-            >
-              {chart}
-            </button>
+            <div key={i}>
+              <button
+                className={`chart-type-label ${selectedChart === chart ? 'selected' : ''}`}
+                onClick={() => setSelectedChart(chart)}
+              >
+                {chart}
+              </button>
+            </div>
           ))}
         </div>
-        {renderSelectedChart()}
+        <div className="selected-chart p-20">
+          {renderSelectedChart()}
+        </div>
       </div>
-      {/* TODO: Review cases based on violation type and count */}
+      <div className="bgc-white m-20">
+        <CaseTable
+          data={filterData(apiData.revocation_cases)}
+        />
+      </div>
     </main>
   );
 };

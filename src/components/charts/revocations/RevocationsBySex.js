@@ -19,7 +19,7 @@ import React from 'react';
 
 const RevocationsBySex = props => {
   return (
-    <h3>Revocations by sex</h3>
+    <h4>Revocations by sex</h4>
   )
 }
 

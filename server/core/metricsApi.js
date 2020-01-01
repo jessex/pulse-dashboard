@@ -83,6 +83,7 @@ const FILES_BY_METRIC_TYPE = {
     'revocations_matrix_distribution_by_race.json',
     'revocations_matrix_distribution_by_risk_level.json',
     'revocations_matrix_distribution_by_violation.json',
+    'revocation_cases.json'
   ]
 };
 

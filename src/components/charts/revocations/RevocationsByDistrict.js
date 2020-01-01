@@ -20,7 +20,7 @@ import { Bar } from 'react-chartjs-2';
 
 const RevocationsByDistrict = props => {
   return (
-    <h3>Revocations by district</h3>
+    <h4>Revocations by district</h4>
   )
 }
 

@@ -19,7 +19,7 @@ import React from 'react';
 
 const RevocationsByRace = props => {
   return (
-    <h3>Revocations by race</h3>
+    <h4>Revocations by race</h4>
   )
 }
 

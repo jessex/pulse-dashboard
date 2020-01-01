@@ -55,13 +55,14 @@ const RevocationMatrix = props => {
         key={i}
         className={`violation-row ${isSelected(violationType, "") ? 'is-selected' : ''}`}
       >
-        <button
-          key={i}
-          className="violation-type-label"
-          onClick={() => toggleFilter(violationType, "")}
-        >
-          {name}
-        </button>
+        <div className="violation-type-label">
+          <button
+            key={i}
+            onClick={() => toggleFilter(violationType, "")}
+          >
+            {name}
+          </button>
+        </div>
         {cells.map(renderCell)}
         <span className="violation-sum violation-sum-column">{sum}</span>
       </div>
@@ -82,11 +83,11 @@ const RevocationMatrix = props => {
       lineHeight: `${radius}px`,
     }
     const cellStyle = {
-      background: `rgba(250, 190, 88, ${ratio})`,
+      background: `rgba(240, 113, 50, ${ratio})`,
       width: "100%",
       height: "100%",
       borderRadius: Math.ceil(radius/2),
-      color: ratio > 0.5 ? "white" : "orange",
+      color: ratio > 0.4 ? "white" : "rgba(240, 113, 50)",
     }
 
     return (
@@ -110,21 +111,32 @@ const RevocationMatrix = props => {
   }
 
   return (
-    <div className={`matrix ${isFiltered ? 'is-filtered': ''}`}>
-      <div className="violation-counts">
-        <span className="empty-cell"></span>
-        {VIOLATION_COUNTS.map((count, i) => (
-          <span key={i} className="violation-column">{count}</span>
-        ))}
+    <div className="revocation-matrix">
+      <h4>Revocations to prison from probation and parole</h4>
+      <div className="d-f">
+        <div className="y-label">
+          Most severe violation reported during supervision term
+        </div>
+        <div className={`matrix ${isFiltered ? 'is-filtered': ''}`}>
+          <div className="violation-counts">
+            <span className="empty-cell"></span>
+            {VIOLATION_COUNTS.map((count, i) => (
+              <span key={i} className="violation-column">{count}</span>
+            ))}
+          </div>
+          {VIOLATION_TYPES.map(renderRow)}
+          <div className="violation-sum-row">
+            <span className="empty-cell"></span>
+            {VIOLATION_COUNTS.map((count, i) => (
+              <span key={i} className="violation-column violation-sum">
+                {reportedViolationsSum(count)}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
-      {VIOLATION_TYPES.map(renderRow)}
-      <div className="violation-sum-row">
-        <span className="empty-cell"></span>
-        {VIOLATION_COUNTS.map((count, i) => (
-          <span key={i} className="violation-column violation-sum">
-            {reportedViolationsSum(count)}
-          </span>
-        ))}
+      <div className="x-label">
+        Number of violation reports and notices of citations filled
       </div>
     </div>
   )

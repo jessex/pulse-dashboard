@@ -19,7 +19,7 @@ import React from 'react';
 
 const RevocationsByViolation = props => {
   return (
-    <h3>Revocations by violation</h3>
+    <h4>Revocations by violation</h4>
   )
 }
 

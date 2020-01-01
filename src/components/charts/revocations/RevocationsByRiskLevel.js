@@ -19,7 +19,7 @@ import React from 'react';
 
 const RevocationsByRiskLevel = props => {
   return (
-    <h3>Revocations by risk level</h3>
+    <h4>Revocations by risk level</h4>
   )
 }
 
