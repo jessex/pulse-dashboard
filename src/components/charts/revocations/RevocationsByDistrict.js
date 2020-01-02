@@ -15,12 +15,71 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import { COLORS } from '../../../assets/scripts/constants/colors';
+
 const RevocationsByDistrict = props => {
+  const [chartLabels, setChartLabels] = useState([]);
+  const [chartDataPoints, setChartDataPoints] = useState([]);
+
+  const processResponse = () => {
+    const districtToCount = props.data.reduce((result, { district, population_count }) => {
+      return { ...result, [district]: (result[district] || 0) + (parseInt(population_count) || 0) };
+    }, {});
+
+    setChartLabels(Object.keys(districtToCount));
+    setChartDataPoints(Object.values(districtToCount));
+  }
+
+  useEffect(() => {
+    processResponse();
+  }, [props.data]);
+
   return (
-    <h4>Revocations by district</h4>
+    <div>
+      <h4>Revocations by district</h4>
+      <Bar
+        data={{
+          labels: chartLabels,
+          datasets: [{
+            label: 'District',
+            backgroundColor: COLORS['orange-500'],
+            hoverBackgroundColor: COLORS['orange-500'],
+            hoverBorderColor: COLORS['orange-500'],
+            data: chartDataPoints,
+          }],
+        }}
+        options={{
+          legend: {
+            display: false,
+          },
+          responsive: true,
+          scales: {
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'District',
+              },
+              stacked: true,
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: '# of revocations',
+              },
+              stacked: true,
+            }],
+          },
+          tooltips: {
+            backgroundColor: COLORS['grey-800-light'],
+            mode: 'index',
+            intersect: false,
+          },
+        }}
+      />
+    </div>
   )
 }
 

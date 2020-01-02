@@ -15,11 +15,71 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Bar } from 'react-chartjs-2';
+
+import { COLORS } from '../../../assets/scripts/constants/colors';
 
 const RevocationsByRace = props => {
+  const [chartLabels, setChartLabels] = useState([]);
+  const [chartDataPoints, setChartDataPoints] = useState([]);
+
+  const processResponse = () => {
+    const raceToCount = props.data.reduce((result, { race, population_count }) => {
+      return { ...result, [race]: (result[race] || 0) + (parseInt(population_count) || 0) };
+    }, {});
+
+    setChartLabels(Object.keys(raceToCount));
+    setChartDataPoints(Object.values(raceToCount));
+  }
+
+  useEffect(() => {
+    processResponse();
+  }, [props.data]);
+
   return (
-    <h4>Revocations by race</h4>
+    <div>
+      <h4>Revocations by race</h4>
+      <Bar
+        data={{
+          labels: chartLabels,
+          datasets: [{
+            label: 'Race',
+            backgroundColor: COLORS['orange-500'],
+            hoverBackgroundColor: COLORS['orange-500'],
+            hoverBorderColor: COLORS['orange-500'],
+            data: chartDataPoints,
+          }],
+        }}
+        options={{
+          legend: {
+            display: false,
+          },
+          responsive: true,
+          scales: {
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Race',
+              },
+              stacked: true,
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: '# of revocations',
+              },
+              stacked: true,
+            }],
+          },
+          tooltips: {
+            backgroundColor: COLORS['grey-800-light'],
+            mode: 'index',
+            intersect: false,
+          },
+        }}
+      />
+    </div>
   )
 }
 

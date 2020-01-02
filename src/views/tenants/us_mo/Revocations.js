@@ -87,12 +87,13 @@ const Revocations = () => {
   }
 
   const filterData = data => {
+    // TODO: add other filters: district, charge category, and supervisionType
     return data.filter(item => {
       if (filters.violationType) {
         if (item.violation_type !== filters.violationType) return false
       }
       if (filters.reportedViolations) {
-        if (item.reported_violations !== filters.reportedViolations) return false;
+        if (parseInt(item.reported_violations) !== parseInt(filters.reportedViolations)) return false;
       }
 
       return true;
@@ -144,7 +145,7 @@ const Revocations = () => {
           <h4>Supervision Type</h4>
           <Select
             options={SUPERVISION_TYPES}
-            onChange={option => updateFilters({ chargeCategory: option.value })}
+            onChange={option => updateFilters({ supervisionType: option.value })}
           />
         </div>
       </div>
