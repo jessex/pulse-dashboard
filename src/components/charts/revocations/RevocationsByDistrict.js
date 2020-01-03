@@ -29,8 +29,10 @@ const RevocationsByDistrict = props => {
       return { ...result, [district]: (result[district] || 0) + (parseInt(population_count) || 0) };
     }, {});
 
-    setChartLabels(Object.keys(districtToCount));
-    setChartDataPoints(Object.values(districtToCount));
+    const labels = Object.keys(districtToCount);
+    const dataPoints = labels.map(district => districtToCount[district])
+    setChartLabels(labels);
+    setChartDataPoints(dataPoints);
   }
 
   useEffect(() => {

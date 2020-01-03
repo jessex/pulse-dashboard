@@ -29,8 +29,10 @@ const RevocationsBySex = props => {
       return { ...result, [gender]: (result[gender] || 0) + (parseInt(population_count) || 0) };
     }, {});
 
-    setChartLabels(Object.keys(genderToCount));
-    setChartDataPoints(Object.values(genderToCount));
+    const labels = Object.keys(genderToCount);
+    const dataPoints = labels.map(gender => genderToCount[gender])
+    setChartLabels(labels);
+    setChartDataPoints(dataPoints);
   }
 
   useEffect(() => {

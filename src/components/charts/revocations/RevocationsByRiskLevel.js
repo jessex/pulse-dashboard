@@ -29,8 +29,10 @@ const RevocationsByRiskLevel = props => {
       return { ...result, [risk_level]: (result[risk_level] || 0) + (parseInt(population_count) || 0) };
     }, {});
 
-    setChartLabels(Object.keys(riskLevelToCount));
-    setChartDataPoints(Object.values(riskLevelToCount));
+    const labels = Object.keys(riskLevelToCount);
+    const dataPoints = labels.map(riskLevel => riskLevelToCount[riskLevel])
+    setChartLabels(labels);
+    setChartDataPoints(dataPoints);
   }
 
   useEffect(() => {

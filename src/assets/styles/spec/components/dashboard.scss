@@ -19,7 +19,7 @@
 }
 
 .revocation-matrix {
-  min-width: 820px;
+  min-width: 850px;
 
   .y-label, .x-label {
     text-align: center;
@@ -156,6 +156,7 @@
 
 .static-charts {
   .chart-type-labels {
+    width: 130px;
     border-right: 1px solid $border-color;
 
     .chart-type-label {

@@ -29,8 +29,10 @@ const RevocationsByRace = props => {
       return { ...result, [race]: (result[race] || 0) + (parseInt(population_count) || 0) };
     }, {});
 
-    setChartLabels(Object.keys(raceToCount));
-    setChartDataPoints(Object.values(raceToCount));
+    const labels = Object.keys(raceToCount);
+    const dataPoints = labels.map(race => raceToCount[race])
+    setChartLabels(labels);
+    setChartDataPoints(dataPoints);
   }
 
   useEffect(() => {

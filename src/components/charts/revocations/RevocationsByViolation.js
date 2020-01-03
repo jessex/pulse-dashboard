@@ -29,8 +29,10 @@ const RevocationsByViolation = props => {
       return { ...result, [violation_observed]: (result[violation_observed] || 0) + (parseInt(total_violations) || 0) };
     }, {});
 
-    setChartLabels(Object.keys(violationToCount));
-    setChartDataPoints(Object.values(violationToCount));
+    const labels = Object.keys(violationToCount);
+    const dataPoints = labels.map(violation => violationToCount[violation])
+    setChartLabels(labels);
+    setChartDataPoints(dataPoints);
   }
 
   useEffect(() => {
