@@ -65,14 +65,35 @@ function downloadObjectAsJson(exportObj, exportName) {
   downloadjs(dataStr, filename, 'text/json');
 }
 
+function configureFilename(chartId, toggleStates) {
+  let filename = `${chartId}-${timeStamp()}`;
+
+  if (toggleStates.metricType) {
+    filename = filename.concat('-', toggleStates.metricType);
+  }
+  if (toggleStates.timeWindow) {
+    filename = filename.concat('-', toggleStates.timeWindow);
+  }
+  if (toggleStates.supervisionType) {
+    filename = filename.concat('-', toggleStates.supervisionType);
+  }
+  if (toggleStates.district) {
+    filename = filename.concat('-', toggleStates.district);
+  }
+
+  return filename;
+}
+
 function configureDownloadButtons(
   chartId, chartTitle, chartDatasets, chartLabels, chartBox,
-  exportedStructureCallback, convertValuesToNumbers, handleTimeStringLabels,
+  exportedStructureCallback, toggleStates, convertValuesToNumbers, handleTimeStringLabels,
 ) {
+  const filename = configureFilename(chartId, toggleStates);
+
   const downloadChartAsImageButton = document.getElementById(`downloadChartAsImage-${chartId}`);
   if (downloadChartAsImageButton) {
     downloadChartAsImageButton.onclick = function downloadChartImage() {
-      downloadCanvasImage(chartBox, `${chartId}-${timeStamp()}.png`, chartTitle);
+      downloadCanvasImage(chartBox, `${filename}.png`, chartTitle);
     };
   }
 
@@ -114,7 +135,6 @@ function configureDownloadButtons(
         }
       });
 
-      const filename = `${chartId}-${timeStamp()}`;
       downloadObjectAsCsv(exportData, filename);
     };
   }
