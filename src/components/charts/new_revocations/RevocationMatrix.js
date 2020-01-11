@@ -30,7 +30,34 @@ const VIOLATION_COUNTS = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
 const RevocationMatrix = props => {
   const isFiltered = props.filters.violationType || props.filters.reportedViolations;
-  const maxRevocations = props.data.reduce((max, cell) => Math.max(max, parseInt(cell.total_revocations)), 0);
+
+  const [dataMatrix, setDataMatrix] = useState();
+  const [maxRevocations, setMaxRevocations] = useState();
+
+  const processResponse = () => {
+    const matrix = props.data.reduce((result, { violation_type, reported_violations, total_revocations}) => {
+      if (!result[violation_type]) {
+        return { ...result, [violation_type]: { [reported_violations]: parseInt(total_revocations) } };
+      }
+      return {
+        ...result,
+        [violation_type]: {
+          ...result[violation_type],
+          [reported_violations]: (result[violation_type][reported_violations] || 0) + (parseInt(total_revocations) || 0)
+        }
+      }
+    }, {});
+    setDataMatrix(matrix);
+
+    const max = Object.values(matrix).reduce((result, row) => (
+      Math.max(result, Object.values(row).reduce((result, count) => Math.max(result, count), 0))
+    ), 0);
+    setMaxRevocations(max);
+  }
+
+  useEffect(() => {
+    processResponse();
+  }, [props.data]);
 
   const toggleFilter = (violationType, reportedViolations) => {
     if (isSelected(violationType, reportedViolations)) {
@@ -47,8 +74,7 @@ const RevocationMatrix = props => {
   }
 
   const renderRow = ([violationType, name], i) => {
-    const cells = props.data.filter(cell => cell.violation_type === violationType);
-    const sum = cells.reduce((sum, cell) => sum += parseInt(cell.total_revocations), 0);
+    const sum = Object.values(dataMatrix[violationType]).reduce((sum, count) => sum += count, 0);
 
     return (
       <div
@@ -57,22 +83,23 @@ const RevocationMatrix = props => {
       >
         <div className="violation-type-label">
           <button
-            key={i}
             onClick={() => toggleFilter(violationType, "")}
           >
             {name}
           </button>
         </div>
-        {cells.map(renderCell)}
+        {VIOLATION_COUNTS.map((violationCount, i) => renderCell(violationType, violationCount, i))}
         <span className="violation-sum violation-sum-column">{sum}</span>
       </div>
     )
   }
 
-  const renderCell = (cell, i) => {
+  const renderCell = (violationType, violationCount, i) => {
+    const count = dataMatrix[violationType][violationCount] || 0;
+
     const minRadius = 15;
     const maxRadius = 50;
-    const ratio = parseInt(cell.total_revocations) / maxRevocations;
+    const ratio = count / maxRevocations;
     const radius = Math.max(minRadius, Math.ceil(ratio * maxRadius));
 
     const containerStyle = {
@@ -94,11 +121,11 @@ const RevocationMatrix = props => {
       <div key={i} className="cell">
         <div style={containerStyle}>
           <button
-            className={`total-revocations ${isSelected(cell.violation_type, cell.reported_violations)  ? 'is-selected': ''}`}
-            onClick={() => toggleFilter(cell.violation_type, cell.reported_violations)}
+            className={`total-revocations ${isSelected(violationType, violationCount)  ? 'is-selected': ''}`}
+            onClick={() => toggleFilter(violationType, violationCount)}
             style={cellStyle}
           >
-            {cell.total_revocations}
+            {count}
           </button>
         </div>
       </div>
@@ -106,8 +133,12 @@ const RevocationMatrix = props => {
   }
 
   const reportedViolationsSum = (count) => {
-    const cells = props.data.filter(cell => cell.reported_violations === count);
-    return cells.reduce((sum, cell) => sum += parseInt(cell.total_revocations), 0);
+    const items = props.data.filter(item => item.reported_violations === count);
+    return items.reduce((sum, item) => sum += parseInt(item.total_revocations), 0);
+  }
+
+  if (!dataMatrix) {
+    return null;
   }
 
   return (

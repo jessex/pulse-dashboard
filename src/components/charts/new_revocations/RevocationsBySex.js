@@ -20,18 +20,25 @@ import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
 
+const CHART_LABELS = ["Overall", "Low", "Moderate", "High", "Very high"];
+const RISK_LEVELS = ["LOW", "MODERATE", "HIGH", "VERY_HIGH"];
+const GENDERS = ["FEMALE", "MALE"];
+
 const RevocationsBySex = props => {
-  const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
+
+  const getRiskLevelArrayForGender = forGender => RISK_LEVELS.map(riskLevel => (
+    props.data
+      .filter(({ gender, risk_level }) => gender == forGender && risk_level == riskLevel)
+      .reduce((result, { population_count }) => result += parseInt(population_count), 0)
+  ));
 
   const processResponse = () => {
     const genderToCount = props.data.reduce((result, { gender, population_count }) => {
       return { ...result, [gender]: (result[gender] || 0) + (parseInt(population_count) || 0) };
     }, {});
 
-    const labels = Object.keys(genderToCount);
-    const dataPoints = labels.map(gender => genderToCount[gender])
-    setChartLabels(labels);
+    const dataPoints = GENDERS.map(gender => [genderToCount[gender], ...getRiskLevelArrayForGender(gender)])
     setChartDataPoints(dataPoints);
   }
 
@@ -44,18 +51,24 @@ const RevocationsBySex = props => {
       <h4>Revocations by sex</h4>
       <Bar
         data={{
-          labels: chartLabels,
+          labels: CHART_LABELS,
           datasets: [{
-            label: 'Sex',
+            label: 'Female',
+            backgroundColor: COLORS['light-blue-500'],
+            hoverBackgroundColor: COLORS['light-blue-500'],
+            hoverBorderColor: COLORS['light-blue-500'],
+            data: chartDataPoints[0],
+          }, {
+            label: 'Male',
             backgroundColor: COLORS['orange-500'],
             hoverBackgroundColor: COLORS['orange-500'],
             hoverBorderColor: COLORS['orange-500'],
-            data: chartDataPoints,
+            data: chartDataPoints[1],
           }],
         }}
         options={{
           legend: {
-            display: false,
+            position: 'bottom',
           },
           responsive: true,
           scales: {
@@ -64,14 +77,15 @@ const RevocationsBySex = props => {
                 display: true,
                 labelString: 'Sex',
               },
-              stacked: true,
             }],
             yAxes: [{
               scaleLabel: {
                 display: true,
                 labelString: '# of revocations',
               },
-              stacked: true,
+              ticks: {
+                beginAtZero: true
+              },
             }],
           },
           tooltips: {

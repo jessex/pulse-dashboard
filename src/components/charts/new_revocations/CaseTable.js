@@ -38,7 +38,7 @@ const CaseTable = props => {
             <th>District</th>
             <th>Supervisor</th>
             <th>Officer</th>
-            <th>Supervision length</th>
+            <th>Risk level</th>
             <th>Officer rec.</th>
             <th>Violation record</th>
           </tr>
@@ -50,7 +50,7 @@ const CaseTable = props => {
               <td>{details.district}</td>
               <td>{details.supervisor}</td>
               <td>{details.officer}</td>
-              <td>{details.supervision_length}</td>
+              <td>{details.risk_level}</td>
               <td>{details.officer_recommendation}</td>
               <td>{details.violation_record}</td>
             </tr>

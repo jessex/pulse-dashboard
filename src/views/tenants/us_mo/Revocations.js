@@ -24,38 +24,34 @@ import { useAuth0 } from '../../../react-auth0-spa';
 import { callMetricsApi, awaitingResults } from '../../../utils/metricsClient';
 
 import RevocationMatrix
-  from '../../../components/charts/revocations/RevocationMatrix';
+  from '../../../components/charts/new_revocations/RevocationMatrix';
 import RevocationCountOverTime
-  from '../../../components/charts/revocations/RevocationCountOverTime';
+  from '../../../components/charts/new_revocations/RevocationsOverTime';
 import RevocationsByDistrict
-  from '../../../components/charts/revocations/RevocationsByDistrict';
+  from '../../../components/charts/new_revocations/RevocationsByDistrict';
 import RevocationsByRiskLevel
-  from '../../../components/charts/revocations/RevocationsByRiskLevel';
+  from '../../../components/charts/new_revocations/RevocationsByRiskLevel';
 import RevocationsByViolation
-  from '../../../components/charts/revocations/RevocationsByViolation';
+  from '../../../components/charts/new_revocations/RevocationsByViolation';
 import RevocationsBySex
-  from '../../../components/charts/revocations/RevocationsBySex';
+  from '../../../components/charts/new_revocations/RevocationsBySex';
 import RevocationsByRace
-  from '../../../components/charts/revocations/RevocationsByRace';
+  from '../../../components/charts/new_revocations/RevocationsByRace';
 import CaseTable
-  from '../../../components/charts/revocations/CaseTable';
+  from '../../../components/charts/new_revocations/CaseTable';
 
-// TODO: replace with actual filter constants
-const DISTRICTS = [
-  { value: '', label: 'All districts'}
-];
 const CHARGE_CATEGORIES = [
   { value: '', label: 'All'},
-  { value: 'General', label: 'General' },
-  { value: 'Sex offense', label: 'Sex offense' },
-  { value: 'Domestic Violence', label: 'Domestic Violence' },
-  { value: 'SIS/SES', label: 'SIS/SES' }
+  { value: 'GENERAL', label: 'General' },
+  { value: 'SEX_OFFENSE', label: 'Sex offense' },
+  { value: 'DOMESTIC_VIOLENCE', label: 'Domestic Violence' },
+  { value: 'SIS', label: 'SIS/SES' }
 ];
 const SUPERVISION_TYPES = [
   { value: '', label: 'All'},
-  { value: 'Probation', label: 'Probation' },
-  { value: 'Parole', label: 'Parole' },
-  { value: 'Dual supervision', label: 'Dual supervision' },
+  { value: 'PROBATION', label: 'Probation' },
+  { value: 'PAROLE', label: 'Parole' },
+  { value: 'DUAL_SUPERVISION', label: 'Dual supervision' },
 ];
 
 const CHARTS = ["District", "Risk level", "Violation", "Sex", "Race"];
@@ -65,14 +61,25 @@ const Revocations = () => {
   const [apiData, setApiData] = useState({});
   const [awaitingApi, setAwaitingApi] = useState(true);
 
+  const [districts, setDistricts] = useState([]);
   const [filters, setFilters] = useState({});
   const [selectedChart, setSelectedChart] = useState('District');
+
 
   const fetchChartData = async () => {
     try {
       const responseData = await callMetricsApi('us_mo/newRevocations', getTokenSilently);
       setApiData(responseData);
       setAwaitingApi(false);
+
+      const districtValues = [
+        ...new Set(responseData.revocations_matrix_cells.map(item => item.district))
+      ];
+      const districts = [
+        { value: '', label: 'All districts'},
+        ...districtValues.map(district => ({ value: district, label: district }))
+      ];
+      setDistricts(districts);
     } catch (error) {
       console.error(error);
     }
@@ -86,37 +93,56 @@ const Revocations = () => {
     setFilters(Object.assign({}, filters, newFilters));
   }
 
-  const filterData = data => {
-    // TODO: add other filters: district, charge category, and supervisionType
+  const applyTopLevelFilters = data => {
+    return data.filter(item => {
+      if (filters.district) {
+        if (item.district !== filters.district) return false;
+      }
+      if (filters.chargeCategory) {
+        if (item.charge_category !== filters.chargeCategory) return false;
+      }
+      if (filters.supervisionType) {
+        if (item.supervision_type !== filters.supervisionType) return false;
+      }
+      return true;
+    });
+  }
+
+  const applyMatrixFilters = data => {
     return data.filter(item => {
       if (filters.violationType) {
-        if (item.violation_type !== filters.violationType) return false
+        if (item.violation_type !== filters.violationType) return false;
       }
       if (filters.reportedViolations) {
         if (parseInt(item.reported_violations) !== parseInt(filters.reportedViolations)) return false;
       }
-
       return true;
     });
+  }
+
+  const applyAllFilters = data => {
+    data = applyTopLevelFilters(data);
+    data = applyMatrixFilters(data);
+    return data;
   };
 
   const renderSelectedChart = () => {
     switch (selectedChart) {
       case 'Risk level':
         return <RevocationsByRiskLevel
-          data={filterData(apiData.revocations_matrix_distribution_by_risk_level)} />
+          data={applyAllFilters(apiData.revocations_matrix_distribution_by_risk_level)} />
       case 'Violation':
         return <RevocationsByViolation
-          data={filterData(apiData.revocations_matrix_distribution_by_violation)} />
+          data={applyAllFilters(apiData.revocations_matrix_distribution_by_violation)} />
       case 'Sex':
         return <RevocationsBySex
-          data={filterData(apiData.revocations_matrix_distribution_by_gender)} />
+          data={applyAllFilters(apiData.revocations_matrix_distribution_by_gender)} />
       case 'Race':
         return <RevocationsByRace
-          data={filterData(apiData.revocations_matrix_distribution_by_race)} />
+          data={applyAllFilters(apiData.revocations_matrix_distribution_by_race)} />
       default:
         return <RevocationsByDistrict
-          data={filterData(apiData.revocations_matrix_distribution_by_district)} />
+          data={applyAllFilters(apiData.revocations_matrix_distribution_by_district)} />
     }
   }
 
@@ -130,7 +156,7 @@ const Revocations = () => {
         <div className="top-level-filter">
           <h4>District</h4>
           <Select
-            options={DISTRICTS}
+            options={districts}
             onChange={option => updateFilters({ district: option.value })}
           />
         </div>
@@ -152,13 +178,13 @@ const Revocations = () => {
       <div className="bgc-white p-20 m-20">
         <h4>Revocations over time</h4>
         <RevocationCountOverTime
-          revocationCountsByMonth={apiData.revocations_by_month}
+          data={applyAllFilters(apiData.revocations_matrix_by_month)}
         />
       </div>
       <div className="d-f">
         <div className="bgc-white p-20 m-20">
           <RevocationMatrix
-            data={apiData.revocations_matrix_cells}
+            data={applyTopLevelFilters(apiData.revocations_matrix_cells)}
             filters={filters}
             updateFilters={updateFilters}
           />
@@ -212,7 +238,7 @@ const Revocations = () => {
       </div>
       <div className="bgc-white m-20">
         <CaseTable
-          data={filterData(apiData.revocation_cases)}
+          data={applyAllFilters(apiData.revocations_matrix_filtered_caseload)}
         />
       </div>
     </main>

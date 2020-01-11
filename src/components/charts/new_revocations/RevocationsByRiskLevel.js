@@ -20,17 +20,24 @@ import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
 
-const RevocationsByRace = props => {
+const RISK_LEVEL_TO_LABEL = {
+  "LOW": "Low",
+  "MODERATE": "Moderate",
+  "HIGH": "High",
+  "VERY_HIGH": "Very high"
+};
+
+const RevocationsByRiskLevel = props => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   const processResponse = () => {
-    const raceToCount = props.data.reduce((result, { race, population_count }) => {
-      return { ...result, [race]: (result[race] || 0) + (parseInt(population_count) || 0) };
+    const riskLevelToCount = props.data.reduce((result, { risk_level, population_count }) => {
+      return { ...result, [risk_level]: (result[risk_level] || 0) + (parseInt(population_count) || 0) };
     }, {});
 
-    const labels = Object.keys(raceToCount);
-    const dataPoints = labels.map(race => raceToCount[race])
+    const labels = Object.values(RISK_LEVEL_TO_LABEL);
+    const dataPoints = Object.keys(RISK_LEVEL_TO_LABEL).map(riskLevel => riskLevelToCount[riskLevel])
     setChartLabels(labels);
     setChartDataPoints(dataPoints);
   }
@@ -41,12 +48,12 @@ const RevocationsByRace = props => {
 
   return (
     <div>
-      <h4>Revocations by race</h4>
+      <h4>Revocations by risk level</h4>
       <Bar
         data={{
           labels: chartLabels,
           datasets: [{
-            label: 'Race',
+            label: 'risk level',
             backgroundColor: COLORS['orange-500'],
             hoverBackgroundColor: COLORS['orange-500'],
             hoverBorderColor: COLORS['orange-500'],
@@ -62,7 +69,7 @@ const RevocationsByRace = props => {
             xAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Race',
+                labelString: 'Risk level',
               },
               stacked: true,
             }],
@@ -85,4 +92,4 @@ const RevocationsByRace = props => {
   )
 }
 
-export default RevocationsByRace;
+export default RevocationsByRiskLevel;
