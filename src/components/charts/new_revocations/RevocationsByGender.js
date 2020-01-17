@@ -19,26 +19,27 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
+import { toInt } from '../../../utils/transforms/labels';
 
-const CHART_LABELS = ["Overall", "Low", "Moderate", "High", "Very high"];
-const RISK_LEVELS = ["LOW", "MODERATE", "HIGH", "VERY_HIGH"];
-const GENDERS = ["FEMALE", "MALE"];
+const CHART_LABELS = ['Overall', 'Low Risk', 'Moderate Risk', 'High Risk', 'Very High Risk'];
+const RISK_LEVELS = ['LOW', 'MODERATE', 'HIGH', 'VERY_HIGH'];
+const GENDERS = ['FEMALE', 'MALE'];
 
-const RevocationsBySex = props => {
+const RevocationsByGender = (props) => {
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
-  const getRiskLevelArrayForGender = forGender => RISK_LEVELS.map(riskLevel => (
+  const getRiskLevelArrayForGender = (forGender) => RISK_LEVELS.map((riskLevel) => (
     props.data
-      .filter(({ gender, risk_level }) => gender == forGender && risk_level == riskLevel)
-      .reduce((result, { population_count }) => result += parseInt(population_count), 0)
+      .filter(({ gender, risk_level }) => gender === forGender && risk_level === riskLevel)
+      .reduce((result, { population_count }) => result += toInt(population_count), 0)
   ));
 
   const processResponse = () => {
     const genderToCount = props.data.reduce((result, { gender, population_count }) => {
-      return { ...result, [gender]: (result[gender] || 0) + (parseInt(population_count) || 0) };
+      return { ...result, [gender]: (result[gender] || 0) + (toInt(population_count) || 0) };
     }, {});
 
-    const dataPoints = GENDERS.map(gender => [genderToCount[gender], ...getRiskLevelArrayForGender(gender)])
+    const dataPoints = GENDERS.map((gender) => [genderToCount[gender], ...getRiskLevelArrayForGender(gender)])
     setChartDataPoints(dataPoints);
   }
 
@@ -48,7 +49,7 @@ const RevocationsBySex = props => {
 
   return (
     <div>
-      <h4>Revocations by sex</h4>
+      <h4>Revocations by gender</h4>
       <Bar
         data={{
           labels: CHART_LABELS,
@@ -75,7 +76,7 @@ const RevocationsBySex = props => {
             xAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Sex',
+                labelString: 'Gender',
               },
             }],
             yAxes: [{
@@ -84,7 +85,7 @@ const RevocationsBySex = props => {
                 labelString: '# of revocations',
               },
               ticks: {
-                beginAtZero: true
+                beginAtZero: true,
               },
             }],
           },
@@ -96,7 +97,7 @@ const RevocationsBySex = props => {
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default RevocationsBySex;
+export default RevocationsByGender;

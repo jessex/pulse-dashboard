@@ -17,105 +17,89 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { toInt } from '../../../utils/transforms/labels';
+
 // These can also be defined from the data
 const VIOLATION_TYPES = [
-  ["TECHNICAL", "Technical"],
-  ["SUBSTANCE_ABUSE", "Subs. Use"],
-  ["MUNICIPAL", "Municipal"],
-  ["ABSCONSION", "Absconsion"],
-  ["MISDEMEANOR", "Misdemeanor"],
-  ["FELONY", "Felony"]
+  ['TECHNICAL', 'Technical'],
+  ['SUBSTANCE_ABUSE', 'Subs. Use'],
+  ['MUNICIPAL', 'Municipal'],
+  ['ABSCONSION', 'Absconsion'],
+  ['MISDEMEANOR', 'Misdemeanor'],
+  ['FELONY', 'Felony'],
 ];
-const VIOLATION_COUNTS = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const VIOLATION_COUNTS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
-const RevocationMatrix = props => {
+const RevocationMatrix = (props) => {
   const isFiltered = props.filters.violationType || props.filters.reportedViolations;
 
   const [dataMatrix, setDataMatrix] = useState();
   const [maxRevocations, setMaxRevocations] = useState();
 
   const processResponse = () => {
-    const matrix = props.data.reduce((result, { violation_type, reported_violations, total_revocations}) => {
-      if (!result[violation_type]) {
-        return { ...result, [violation_type]: { [reported_violations]: parseInt(total_revocations) } };
-      }
-      return {
-        ...result,
-        [violation_type]: {
-          ...result[violation_type],
-          [reported_violations]: (result[violation_type][reported_violations] || 0) + (parseInt(total_revocations) || 0)
+    const matrix = props.data.reduce(
+      (result, { violation_type, reported_violations, total_revocations }) => {
+        if (!result[violation_type]) {
+          return { ...result, [violation_type]: { [reported_violations]: toInt(total_revocations) } };
         }
-      }
-    }, {});
+        return {
+          ...result,
+          [violation_type]: {
+            ...result[violation_type],
+            [reported_violations]: (result[violation_type][reported_violations] || 0) + (toInt(total_revocations) || 0)
+          }
+        }
+      }, {},
+    );
     setDataMatrix(matrix);
 
     const max = Object.values(matrix).reduce((result, row) => (
       Math.max(result, Object.values(row).reduce((result, count) => Math.max(result, count), 0))
     ), 0);
     setMaxRevocations(max);
-  }
+  };
 
   useEffect(() => {
     processResponse();
   }, [props.data]);
 
-  const toggleFilter = (violationType, reportedViolations) => {
-    if (isSelected(violationType, reportedViolations)) {
-      violationType = "";
-      reportedViolations = "";
-    }
-
-    props.updateFilters({ violationType, reportedViolations });
-  }
-
   const isSelected = (violationType, reportedViolations) => {
     return props.filters.violationType === violationType &&
       props.filters.reportedViolations === reportedViolations;
-  }
+  };
 
-  const renderRow = ([violationType, name], i) => {
-    const sum = Object.values(dataMatrix[violationType]).reduce((sum, count) => sum += count, 0);
+  const toggleFilter = (violationType, reportedViolations) => {
+    if (isSelected(violationType, reportedViolations)) {
+      violationType = '';
+      reportedViolations = '';
+    }
 
-    return (
-      <div
-        key={i}
-        className={`violation-row ${isSelected(violationType, "") ? 'is-selected' : ''}`}
-      >
-        <div className="violation-type-label">
-          <button
-            onClick={() => toggleFilter(violationType, "")}
-          >
-            {name}
-          </button>
-        </div>
-        {VIOLATION_COUNTS.map((violationCount, i) => renderCell(violationType, violationCount, i))}
-        <span className="violation-sum violation-sum-column">{sum}</span>
-      </div>
-    )
-  }
+    props.updateFilters({ violationType, reportedViolations });
+  };
 
   const renderCell = (violationType, violationCount, i) => {
-    const count = dataMatrix[violationType][violationCount] || 0;
+    const matrixRow = dataMatrix[violationType];
+    const cellCount = matrixRow === undefined ? 0 : matrixRow[violationCount] || 0;
 
     const minRadius = 15;
     const maxRadius = 50;
-    const ratio = count / maxRevocations;
+    const ratio = maxRevocations > 0 ? (cellCount / maxRevocations) : 0;
     const radius = Math.max(minRadius, Math.ceil(ratio * maxRadius));
 
     const containerStyle = {
-      background: "white",
-      display: "inline-block",
+      background: 'white',
+      display: 'inline-block',
       width: radius,
       height: radius,
       lineHeight: `${radius}px`,
-    }
+    };
     const cellStyle = {
       background: `rgba(240, 113, 50, ${ratio})`,
-      width: "100%",
-      height: "100%",
-      borderRadius: Math.ceil(radius/2),
-      color: ratio > 0.4 ? "white" : "rgba(240, 113, 50)",
-    }
+      width: '100%',
+      height: '100%',
+      borderRadius: Math.ceil(radius / 2),
+      color: ratio > 0.4 ? 'white' : 'rgba(240, 113, 50)',
+    };
 
     return (
       <div key={i} className="cell">
@@ -125,17 +109,39 @@ const RevocationMatrix = props => {
             onClick={() => toggleFilter(violationType, violationCount)}
             style={cellStyle}
           >
-            {count}
+            {cellCount}
           </button>
         </div>
       </div>
-    )
-  }
+    );
+  };
+
+  const renderRow = ([violationType, name], i) => {
+    const matrixRow = dataMatrix[violationType];
+    const sum = matrixRow === undefined ? 0 : Object.values(matrixRow).reduce((sum, count) => sum += count, 0);
+
+    return (
+      <div
+        key={i}
+        className={`violation-row ${isSelected(violationType, '') ? 'is-selected' : ''}`}
+      >
+        <div className="violation-type-label">
+          <button
+            onClick={() => toggleFilter(violationType, '')}
+          >
+            {name}
+          </button>
+        </div>
+        {VIOLATION_COUNTS.map((violationCount, i) => renderCell(violationType, violationCount, i))}
+        <span className="violation-sum violation-sum-column">{sum}</span>
+      </div>
+    );
+  };
 
   const reportedViolationsSum = (count) => {
-    const items = props.data.filter(item => item.reported_violations === count);
-    return items.reduce((sum, item) => sum += parseInt(item.total_revocations), 0);
-  }
+    const items = props.data.filter((item) => item.reported_violations === count);
+    return items.reduce((sum, item) => sum += toInt(item.total_revocations), 0);
+  };
 
   if (!dataMatrix) {
     return null;
@@ -148,16 +154,16 @@ const RevocationMatrix = props => {
         <div className="y-label">
           Most severe violation reported during supervision term
         </div>
-        <div className={`matrix ${isFiltered ? 'is-filtered': ''}`}>
+        <div className={`matrix ${isFiltered ? 'is-filtered' : ''}`}>
           <div className="violation-counts">
-            <span className="empty-cell"></span>
+            <span className="empty-cell" />
             {VIOLATION_COUNTS.map((count, i) => (
               <span key={i} className="violation-column">{count}</span>
             ))}
           </div>
           {VIOLATION_TYPES.map(renderRow)}
           <div className="violation-sum-row">
-            <span className="empty-cell"></span>
+            <span className="empty-cell" />
             {VIOLATION_COUNTS.map((count, i) => (
               <span key={i} className="violation-column violation-sum">
                 {reportedViolationsSum(count)}
@@ -170,7 +176,7 @@ const RevocationMatrix = props => {
         Number of violation reports and notices of citations filled
       </div>
     </div>
-  )
+  );
 };
 
 export default RevocationMatrix;

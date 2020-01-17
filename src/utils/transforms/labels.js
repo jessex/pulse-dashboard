@@ -55,10 +55,18 @@ function toInt(nonInt) {
   return parseInt(nonInt, 10);
 }
 
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+  );
+}
+
 export {
   genderValueToHumanReadable,
   raceValueToHumanReadable,
   toHtmlFriendly,
   toHumanReadable,
   toInt,
+  toTitleCase,
 };

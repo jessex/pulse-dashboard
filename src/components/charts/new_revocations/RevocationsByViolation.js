@@ -19,18 +19,19 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
+import { toInt } from '../../../utils/transforms/labels';
 
-const RevocationsByViolation = props => {
+const RevocationsByViolation = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   const processResponse = () => {
     const violationToCount = props.data.reduce((result, { violation_observed, total_violations }) => {
-      return { ...result, [violation_observed]: (result[violation_observed] || 0) + (parseInt(total_violations) || 0) };
+      return { ...result, [violation_observed]: (result[violation_observed] || 0) + (toInt(total_violations) || 0) };
     }, {});
 
     const labels = Object.keys(violationToCount);
-    const dataPoints = labels.map(violation => violationToCount[violation])
+    const dataPoints = labels.map((violation) => violationToCount[violation])
     setChartLabels(labels);
     setChartDataPoints(dataPoints);
   }
@@ -82,7 +83,7 @@ const RevocationsByViolation = props => {
         }}
       />
     </div>
-  )
-}
+  );
+};
 
 export default RevocationsByViolation;

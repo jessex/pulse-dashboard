@@ -21,6 +21,7 @@ import { Line } from 'react-chartjs-2';
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { sortFilterAndSupplementMostRecentMonths } from '../../../utils/transforms/datasets';
+import { toInt } from '../../../utils/transforms/labels';
 import { monthNamesWithYearsFromNumbers } from '../../../utils/transforms/months';
 
 const RevocationsOverTime = (props) => {
@@ -35,7 +36,7 @@ const RevocationsOverTime = (props) => {
     }
 
     const yearAndMonthToCount = props.data.reduce((result, { year, month, total_revocations }) => {
-      return { ...result, [`${year}:${month}`]: (result[`${year}:${month}`] || 0) + (parseInt(total_revocations) || 0) };
+      return { ...result, [`${year}:${month}`]: (result[`${year}:${month}`] || 0) + (toInt(total_revocations) || 0) };
     }, {});
     const chartData = Object.entries(yearAndMonthToCount).map(([yearAndMonth, count]) => {
       const [year, month] = yearAndMonth.split(':');
@@ -77,7 +78,7 @@ const RevocationsOverTime = (props) => {
         id={chartId}
         data={{
           labels: chartLabels,
-          datasets: datasets,
+          datasets,
         }}
         options={{
           maintainAspectRatio: false,
