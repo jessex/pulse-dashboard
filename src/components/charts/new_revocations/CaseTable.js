@@ -17,17 +17,69 @@
 
 import React, { useState } from 'react';
 
+import { toTitleCase, toHumanReadable, toInt } from '../../../utils/transforms/labels';
+
 const CASES_PER_PAGE = 15;
-const CaseTable = props => {
+const VIOLATION_SEVERITY = [
+  'fel', 'misd', 'absc', 'muni', 'subs', 'tech',
+];
+
+const CaseTable = (props) => {
   const [index, setIndex] = useState(0);
 
-  const updatePage = change => {
+  const updatePage = (change) => {
     setIndex(index + change);
-  }
+  };
+
+  const { data } = props;
+
+  // Sort case load first by district (ascending), second by officer name (ascending)
+  const caseLoad = data.sort((a, b) => {
+    if (toInt(a.district) > toInt(b.district)) return 1;
+    if (toInt(a.district) < toInt(b.district)) return -1;
+
+    if (a.officer.toLowerCase() > b.officer.toLowerCase()) return 1;
+    if (a.officer.toLowerCase() < b.officer.toLowerCase()) return -1;
+    return 0;
+  });
 
   const beginning = index * CASES_PER_PAGE;
-  const end = beginning + CASES_PER_PAGE < props.data.length ?
-    (beginning + CASES_PER_PAGE) : props.data.length;
+  const end = beginning + CASES_PER_PAGE < data.length
+    ? (beginning + CASES_PER_PAGE) : data.length;
+  const page = caseLoad.slice(beginning, end);
+
+  const normalizeLabel = (label) => {
+    if (!label) {
+      return '';
+    }
+    return toTitleCase(toHumanReadable(label));
+  };
+
+  const indexOf = (element, array) => {
+    for (let i = 0; i < array.length; i += 1) {
+      if (element === array[i]) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  const parseViolationRecord = (recordLabel) => {
+    if (!recordLabel) {
+      return '';
+    }
+
+    const recordParts = recordLabel.split(';');
+    const records = recordParts.map((recordPart) => {
+      const number = recordPart[0];
+      const abbreviation = recordPart.substring(1);
+      return { number, abbreviation };
+    });
+    records.sort((a, b) => indexOf(a.abbreviation, VIOLATION_SEVERITY)
+      - indexOf(b.abbreviation, VIOLATION_SEVERITY));
+
+    return records.map((record) => `${record.number} ${record.abbreviation}`).join(', ');
+  };
 
   return (
     <div className="case-table">
@@ -44,32 +96,32 @@ const CaseTable = props => {
           </tr>
         </thead>
         <tbody>
-          {props.data.slice(beginning, end).map((details, i) => (
+          {page.map((details, i) => (
             <tr key={i}>
               <td>{details.state_id}</td>
               <td>{details.district}</td>
               <td>{details.supervisor}</td>
               <td>{details.officer}</td>
-              <td>{details.risk_level}</td>
-              <td>{details.officer_recommendation}</td>
-              <td>{details.violation_record}</td>
+              <td>{normalizeLabel(details.risk_level)}</td>
+              <td>{normalizeLabel(details.officer_recommendation)}</td>
+              <td>{parseViolationRecord(details.violation_record)}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      {props.data.length > CASES_PER_PAGE &&
+      {props.data.length > CASES_PER_PAGE && (
         <div className="table-navigation">
-          {beginning != 0 &&
-            <button onClick={e => updatePage(-1)}>&#10094;</button>
+          {beginning !== 0 &&
+            <button onClick={(e) => updatePage(-1)}>&#10094;</button>
           }
-          Showing {beginning+1} {beginning+1 != end && <> - {end} </>} of {props.data.length}
+          Showing {beginning + 1} {beginning + 1 !== end && <> - {end} </>} of {props.data.length}
           {end < props.data.length &&
-            <button onClick={e => updatePage(1)}>&#10095;</button>
+            <button onClick={(e) => updatePage(1)}>&#10095;</button>
           }
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default CaseTable;

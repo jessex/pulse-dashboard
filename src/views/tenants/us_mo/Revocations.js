@@ -33,28 +33,31 @@ import RevocationsByRiskLevel
   from '../../../components/charts/new_revocations/RevocationsByRiskLevel';
 import RevocationsByViolation
   from '../../../components/charts/new_revocations/RevocationsByViolation';
-import RevocationsBySex
-  from '../../../components/charts/new_revocations/RevocationsBySex';
+import RevocationsByGender
+  from '../../../components/charts/new_revocations/RevocationsByGender';
 import RevocationsByRace
   from '../../../components/charts/new_revocations/RevocationsByRace';
 import CaseTable
   from '../../../components/charts/new_revocations/CaseTable';
 
+import { toInt } from '../../../utils/transforms/labels';
+
 const CHARGE_CATEGORIES = [
-  { value: '', label: 'All'},
+  { value: '', label: 'All' },
   { value: 'GENERAL', label: 'General' },
   { value: 'SEX_OFFENSE', label: 'Sex offense' },
   { value: 'DOMESTIC_VIOLENCE', label: 'Domestic Violence' },
-  { value: 'SIS', label: 'SIS/SES' }
+  { value: 'SIS', label: 'SIS/SES' },
 ];
 const SUPERVISION_TYPES = [
-  { value: '', label: 'All'},
+  { value: '', label: 'All' },
   { value: 'PROBATION', label: 'Probation' },
   { value: 'PAROLE', label: 'Parole' },
-  { value: 'DUAL_SUPERVISION', label: 'Dual supervision' },
+  // TODO: Enable dual supervision filtering when supported in calculation methodology
+  // { value: 'DUAL_SUPERVISION', label: 'Dual supervision' },
 ];
 
-const CHARTS = ["District", "Risk level", "Violation", "Sex", "Race"];
+const CHARTS = ['District', 'Risk level', 'Violation', 'Gender', 'Race'];
 
 const Revocations = () => {
   const { loading, user, getTokenSilently } = useAuth0();
@@ -73,13 +76,14 @@ const Revocations = () => {
       setAwaitingApi(false);
 
       const districtValues = [
-        ...new Set(responseData.revocations_matrix_cells.map(item => item.district))
+        ...new Set(responseData.revocations_matrix_cells.map((item) => item.district)),
       ];
-      const districts = [
-        { value: '', label: 'All districts'},
-        ...districtValues.map(district => ({ value: district, label: district }))
+      const districtsFromResponse = [
+        { value: '', label: 'All districts' },
+        ...districtValues.map((district) => ({ value: district, label: district })),
       ];
-      setDistricts(districts);
+      districtsFromResponse.sort((a, b) => a.label - b.label);
+      setDistricts(districtsFromResponse);
     } catch (error) {
       console.error(error);
     }
@@ -90,61 +94,100 @@ const Revocations = () => {
   }, []);
 
   const updateFilters = (newFilters) => {
-    setFilters(Object.assign({}, filters, newFilters));
-  }
+    setFilters({ ...filters, ...newFilters });
+  };
 
-  const applyTopLevelFilters = data => {
-    return data.filter(item => {
+  const nullSafeComparison = (a, b) => {
+    if (!a && !b) {
+      return true;
+    }
+    if (!a) {
+      return false;
+    }
+    if (!b) {
+      return false;
+    }
+
+    return a.toLowerCase() === b.toLowerCase();
+  };
+
+  const applyTopLevelFilters = (data) => {
+    return data.filter((item) => {
       if (filters.district) {
-        if (item.district !== filters.district) return false;
+        if (!nullSafeComparison(item.district, filters.district)) {
+          return false;
+        }
       }
       if (filters.chargeCategory) {
-        if (item.charge_category !== filters.chargeCategory) return false;
+        if (!nullSafeComparison(item.charge_category, filters.chargeCategory)) {
+          return false;
+        }
       }
       if (filters.supervisionType) {
-        if (item.supervision_type !== filters.supervisionType) return false;
+        if (!nullSafeComparison(item.supervision_type, filters.supervisionType)) {
+          return false;
+        }
       }
       return true;
     });
-  }
+  };
 
-  const applyMatrixFilters = data => {
-    return data.filter(item => {
+  const applyMatrixFilters = (data) => {
+    return data.filter((item) => {
       if (filters.violationType) {
-        if (item.violation_type !== filters.violationType) return false;
+        if (!nullSafeComparison(item.violation_type, filters.violationType)) {
+          return false;
+        }
       }
       if (filters.reportedViolations) {
-        if (parseInt(item.reported_violations) !== parseInt(filters.reportedViolations)) return false;
+        if (toInt(item.reported_violations) !== toInt(filters.reportedViolations)) {
+          return false;
+        }
       }
       return true;
     });
-  }
+  };
 
-  const applyAllFilters = data => {
-    data = applyTopLevelFilters(data);
-    data = applyMatrixFilters(data);
-    return data;
+  const applyAllFilters = (data) => {
+    let filteredData = applyTopLevelFilters(data);
+    filteredData = applyMatrixFilters(filteredData);
+    return filteredData;
   };
 
   const renderSelectedChart = () => {
     switch (selectedChart) {
       case 'Risk level':
-        return <RevocationsByRiskLevel
-          data={applyAllFilters(apiData.revocations_matrix_distribution_by_risk_level)} />
+        return (
+          <RevocationsByRiskLevel
+            data={applyAllFilters(apiData.revocations_matrix_distribution_by_risk_level)}
+          />
+        );
       case 'Violation':
-        return <RevocationsByViolation
-          data={applyAllFilters(apiData.revocations_matrix_distribution_by_violation)} />
-      case 'Sex':
-        return <RevocationsBySex
-          data={applyAllFilters(apiData.revocations_matrix_distribution_by_gender)} />
+        return (
+          <RevocationsByViolation
+            data={applyAllFilters(apiData.revocations_matrix_distribution_by_violation)}
+          />
+        );
+      case 'Gender':
+        return (
+          <RevocationsByGender
+            data={applyAllFilters(apiData.revocations_matrix_distribution_by_gender)}
+          />
+        );
       case 'Race':
-        return <RevocationsByRace
-          data={applyAllFilters(apiData.revocations_matrix_distribution_by_race)} />
+        return (
+          <RevocationsByRace
+            data={applyAllFilters(apiData.revocations_matrix_distribution_by_race)}
+          />
+        );
       default:
-        return <RevocationsByDistrict
-          data={applyAllFilters(apiData.revocations_matrix_distribution_by_district)} />
+        return (
+          <RevocationsByDistrict
+            data={applyAllFilters(apiData.revocations_matrix_distribution_by_district)}
+          />
+        );
     }
-  }
+  };
 
   if (awaitingResults(loading, user, awaitingApi)) {
     return <Loading />;
@@ -157,21 +200,21 @@ const Revocations = () => {
           <h4>District</h4>
           <Select
             options={districts}
-            onChange={option => updateFilters({ district: option.value })}
+            onChange={(option) => updateFilters({ district: option.value })}
           />
         </div>
         <div className="top-level-filter">
           <h4>Charge Category</h4>
           <Select
             options={CHARGE_CATEGORIES}
-            onChange={option => updateFilters({ chargeCategory: option.value })}
+            onChange={(option) => updateFilters({ chargeCategory: option.value })}
           />
         </div>
         <div className="top-level-filter">
           <h4>Supervision Type</h4>
           <Select
             options={SUPERVISION_TYPES}
-            onChange={option => updateFilters({ supervisionType: option.value })}
+            onChange={(option) => updateFilters({ supervisionType: option.value })}
           />
         </div>
       </div>

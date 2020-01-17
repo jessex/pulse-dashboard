@@ -19,21 +19,22 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
+import { toInt } from '../../../utils/transforms/labels';
 
-const RevocationsByDistrict = props => {
+const RevocationsByDistrict = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   const processResponse = () => {
     const districtToCount = props.data.reduce((result, { district, population_count }) => {
-      return { ...result, [district]: (result[district] || 0) + (parseInt(population_count) || 0) };
+      return { ...result, [district]: (result[district] || 0) + (toInt(population_count) || 0) };
     }, {});
 
     const labels = Object.keys(districtToCount);
-    const dataPoints = labels.map(district => districtToCount[district])
+    const dataPoints = labels.map((district) => districtToCount[district]);
     setChartLabels(labels);
     setChartDataPoints(dataPoints);
-  }
+  };
 
   useEffect(() => {
     processResponse();
@@ -82,7 +83,7 @@ const RevocationsByDistrict = props => {
         }}
       />
     </div>
-  )
-}
+  );
+};
 
 export default RevocationsByDistrict;

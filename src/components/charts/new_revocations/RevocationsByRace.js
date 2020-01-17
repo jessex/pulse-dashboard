@@ -19,27 +19,27 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
+import { toInt } from '../../../utils/transforms/labels';
 
-const CHART_LABELS = ["Overall", "Low", "Moderate", "High", "Very high"];
-const RISK_LEVELS = ["LOW", "MODERATE", "HIGH", "VERY_HIGH"];
-const RACES = ["WHITE", "BLACK", "HISPANIC", "ASIAN", "NATIVE_AMERICAN", "PACIFIC_ISLANDER"];
+const CHART_LABELS = ['Overall', 'Low Risk', 'Moderate Risk', 'High Risk', 'Very High Risk'];
+const RISK_LEVELS = ['LOW', 'MODERATE', 'HIGH', 'VERY_HIGH'];
+const RACES = ['WHITE', 'BLACK', 'HISPANIC', 'ASIAN', 'NATIVE_AMERICAN', 'PACIFIC_ISLANDER'];
 
-const RevocationsByRace = props => {
+const RevocationsByRace = (props) => {
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
-  const getRiskLevelArrayForRace = forRace => RISK_LEVELS.map(riskLevel => (
+  const getRiskLevelArrayForRace = (forRace) => RISK_LEVELS.map((riskLevel) => (
     props.data
-      .filter(({ race, risk_level }) => race == forRace && risk_level == riskLevel)
-      .reduce((result, { population_count }) => result += parseInt(population_count), 0)
+      .filter(({ race, risk_level }) => race === forRace && risk_level === riskLevel)
+      .reduce((result, { population_count }) => result += toInt(population_count), 0)
   ));
 
   const processResponse = () => {
     const raceToCount = props.data.reduce((result, { race, population_count }) => {
-      return { ...result, [race]: (result[race] || 0) + (parseInt(population_count) || 0) };
+      return { ...result, [race]: (result[race] || 0) + (toInt(population_count) || 0) };
     }, {});
 
-    const dataPoints = RACES.map(race => [raceToCount[race], ...getRiskLevelArrayForRace(race)])
-    console.log(dataPoints);
+    const dataPoints = RACES.map((race) => [raceToCount[race], ...getRiskLevelArrayForRace(race)])
     setChartDataPoints(dataPoints);
   }
 
@@ -109,7 +109,7 @@ const RevocationsByRace = props => {
                 labelString: '# of revocations',
               },
               ticks: {
-                beginAtZero: true
+                beginAtZero: true,
               },
             }],
           },
@@ -121,7 +121,7 @@ const RevocationsByRace = props => {
         }}
       />
     </div>
-  )
-}
+  );
+};
 
 export default RevocationsByRace;
