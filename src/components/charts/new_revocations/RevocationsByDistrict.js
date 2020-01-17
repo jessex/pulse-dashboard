@@ -26,13 +26,16 @@ const RevocationsByDistrict = (props) => {
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   const processResponse = () => {
-    const districtToCount = props.data.reduce((result, { district, population_count }) => {
-      return { ...result, [district]: (result[district] || 0) + (toInt(population_count) || 0) };
-    }, {});
+    const districtToCount = props.data.reduce(
+      (result, { district, population_count: populationCount }) => {
+        return { ...result, [district]: (result[district] || 0) + (toInt(populationCount) || 0) };
+      }, {},
+    );
 
     const labels = Object.keys(districtToCount);
+    const displayLabels = labels.map((label) => `District ${label}`);
     const dataPoints = labels.map((district) => districtToCount[district]);
-    setChartLabels(labels);
+    setChartLabels(displayLabels);
     setChartDataPoints(dataPoints);
   };
 
@@ -47,7 +50,7 @@ const RevocationsByDistrict = (props) => {
         data={{
           labels: chartLabels,
           datasets: [{
-            label: 'District',
+            label: 'Revocations',
             backgroundColor: COLORS['orange-500'],
             hoverBackgroundColor: COLORS['orange-500'],
             hoverBorderColor: COLORS['orange-500'],

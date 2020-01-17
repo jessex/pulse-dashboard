@@ -30,16 +30,18 @@ const RevocationsByGender = (props) => {
 
   const getRiskLevelArrayForGender = (forGender) => RISK_LEVELS.map((riskLevel) => (
     props.data
-      .filter(({ gender, risk_level }) => gender === forGender && risk_level === riskLevel)
-      .reduce((result, { population_count }) => result += toInt(population_count), 0)
+      .filter(({ gender, risk_level: dataRiskLevel }) => gender === forGender && dataRiskLevel === riskLevel)
+      .reduce((result, { population_count: populationCount }) => result += toInt(populationCount), 0)
   ));
 
   const processResponse = () => {
-    const genderToCount = props.data.reduce((result, { gender, population_count }) => {
-      return { ...result, [gender]: (result[gender] || 0) + (toInt(population_count) || 0) };
-    }, {});
+    const genderToCount = props.data.reduce(
+      (result, { gender, population_count: populationCount }) => {
+        return { ...result, [gender]: (result[gender] || 0) + (toInt(populationCount) || 0) };
+      }, {},
+    );
 
-    const dataPoints = GENDERS.map((gender) => [genderToCount[gender], ...getRiskLevelArrayForGender(gender)])
+    const dataPoints = GENDERS.map((gender) => [genderToCount[gender], ...getRiskLevelArrayForGender(gender)]);
     setChartDataPoints(dataPoints);
   }
 

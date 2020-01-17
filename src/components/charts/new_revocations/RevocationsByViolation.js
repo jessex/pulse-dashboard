@@ -19,20 +19,23 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
-import { toInt } from '../../../utils/transforms/labels';
+import { toInt, humanReadableTitleCase } from '../../../utils/transforms/labels';
 
 const RevocationsByViolation = (props) => {
   const [chartLabels, setChartLabels] = useState([]);
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   const processResponse = () => {
-    const violationToCount = props.data.reduce((result, { violation_observed, total_violations }) => {
-      return { ...result, [violation_observed]: (result[violation_observed] || 0) + (toInt(total_violations) || 0) };
-    }, {});
+    const violationToCount = props.data.reduce(
+      (result, { violation_observed: violationObserved, total_violations: totalViolations }) => {
+        return { ...result, [violationObserved]: (result[violationObserved] || 0) + (toInt(totalViolations) || 0) };
+      }, {},
+    );
 
     const labels = Object.keys(violationToCount);
-    const dataPoints = labels.map((violation) => violationToCount[violation])
-    setChartLabels(labels);
+    const displayLabels = labels.map((label) => humanReadableTitleCase(label));
+    const dataPoints = labels.map((violation) => violationToCount[violation]);
+    setChartLabels(displayLabels);
     setChartDataPoints(dataPoints);
   }
 
@@ -47,7 +50,7 @@ const RevocationsByViolation = (props) => {
         data={{
           labels: chartLabels,
           datasets: [{
-            label: 'Violation',
+            label: 'Revocations',
             backgroundColor: COLORS['orange-500'],
             hoverBackgroundColor: COLORS['orange-500'],
             hoverBorderColor: COLORS['orange-500'],

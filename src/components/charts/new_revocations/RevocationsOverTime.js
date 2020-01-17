@@ -35,9 +35,11 @@ const RevocationsOverTime = (props) => {
       return;
     }
 
-    const yearAndMonthToCount = props.data.reduce((result, { year, month, total_revocations }) => {
-      return { ...result, [`${year}:${month}`]: (result[`${year}:${month}`] || 0) + (toInt(total_revocations) || 0) };
-    }, {});
+    const yearAndMonthToCount = props.data.reduce(
+      (result, { year, month, total_revocations: totalRevocations }) => {
+        return { ...result, [`${year}:${month}`]: (result[`${year}:${month}`] || 0) + (toInt(totalRevocations) || 0) };
+      }, {},
+    );
     const chartData = Object.entries(yearAndMonthToCount).map(([yearAndMonth, count]) => {
       const [year, month] = yearAndMonth.split(':');
       return { year, month, count };

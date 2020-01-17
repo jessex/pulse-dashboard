@@ -19,7 +19,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
-import { toInt } from '../../../utils/transforms/labels';
+import { toInt, humanReadableTitleCase } from '../../../utils/transforms/labels';
 
 const RISK_LEVEL_TO_LABEL = {
   LOW: 'Low',
@@ -33,13 +33,16 @@ const RevocationsByRiskLevel = (props) => {
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   const processResponse = () => {
-    const riskLevelToCount = props.data.reduce((result, { risk_level, population_count }) => {
-      return { ...result, [risk_level]: (result[risk_level] || 0) + (toInt(population_count) || 0) };
-    }, {});
+    const riskLevelToCount = props.data.reduce(
+      (result, { risk_level: riskLevel, population_count: populationCount }) => {
+        return { ...result, [riskLevel]: (result[riskLevel] || 0) + (toInt(populationCount) || 0) };
+      }, {},
+    );
 
     const labels = Object.values(RISK_LEVEL_TO_LABEL);
+    const displayLabels = labels.map((label) => humanReadableTitleCase(label));
     const dataPoints = Object.keys(RISK_LEVEL_TO_LABEL).map((riskLevel) => riskLevelToCount[riskLevel])
-    setChartLabels(labels);
+    setChartLabels(displayLabels);
     setChartDataPoints(dataPoints);
   }
 
@@ -54,7 +57,7 @@ const RevocationsByRiskLevel = (props) => {
         data={{
           labels: chartLabels,
           datasets: [{
-            label: 'risk level',
+            label: 'Revocations',
             backgroundColor: COLORS['orange-500'],
             hoverBackgroundColor: COLORS['orange-500'],
             hoverBorderColor: COLORS['orange-500'],

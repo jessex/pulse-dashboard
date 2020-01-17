@@ -30,18 +30,20 @@ const RevocationsByRace = (props) => {
 
   const getRiskLevelArrayForRace = (forRace) => RISK_LEVELS.map((riskLevel) => (
     props.data
-      .filter(({ race, risk_level }) => race === forRace && risk_level === riskLevel)
-      .reduce((result, { population_count }) => result += toInt(population_count), 0)
+      .filter(({ race, risk_level: dataRiskLevel }) => race === forRace && dataRiskLevel === riskLevel)
+      .reduce((result, { population_count: populationCount }) => result += toInt(populationCount), 0)
   ));
 
   const processResponse = () => {
-    const raceToCount = props.data.reduce((result, { race, population_count }) => {
-      return { ...result, [race]: (result[race] || 0) + (toInt(population_count) || 0) };
-    }, {});
+    const raceToCount = props.data.reduce(
+      (result, { race, population_count: populationCount }) => {
+        return { ...result, [race]: (result[race] || 0) + (toInt(populationCount) || 0) };
+      }, {},
+    );
 
-    const dataPoints = RACES.map((race) => [raceToCount[race], ...getRiskLevelArrayForRace(race)])
+    const dataPoints = RACES.map((race) => [raceToCount[race], ...getRiskLevelArrayForRace(race)]);
     setChartDataPoints(dataPoints);
-  }
+  };
 
   useEffect(() => {
     processResponse();

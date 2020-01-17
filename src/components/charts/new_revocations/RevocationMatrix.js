@@ -28,7 +28,9 @@ const VIOLATION_TYPES = [
   ['MISDEMEANOR', 'Misdemeanor'],
   ['FELONY', 'Felony'],
 ];
+
 const VIOLATION_COUNTS = ['1', '2', '3', '4', '5', '6', '7', '8'];
+const violationCountLabel = (count) => (count === '8' ? '8+' : count);
 
 const RevocationMatrix = (props) => {
   const isFiltered = props.filters.violationType || props.filters.reportedViolations;
@@ -38,15 +40,15 @@ const RevocationMatrix = (props) => {
 
   const processResponse = () => {
     const matrix = props.data.reduce(
-      (result, { violation_type, reported_violations, total_revocations }) => {
-        if (!result[violation_type]) {
-          return { ...result, [violation_type]: { [reported_violations]: toInt(total_revocations) } };
+      (result, { violation_type: violationType, reported_violations: reportedViolations, total_revocations: totalRevocations }) => {
+        if (!result[violationType]) {
+          return { ...result, [violationType]: { [reportedViolations]: toInt(totalRevocations) } };
         }
         return {
           ...result,
-          [violation_type]: {
-            ...result[violation_type],
-            [reported_violations]: (result[violation_type][reported_violations] || 0) + (toInt(total_revocations) || 0)
+          [violationType]: {
+            ...result[violationType],
+            [reportedViolations]: (result[violationType][reportedViolations] || 0) + (toInt(totalRevocations) || 0)
           }
         }
       }, {},
@@ -158,8 +160,9 @@ const RevocationMatrix = (props) => {
           <div className="violation-counts">
             <span className="empty-cell" />
             {VIOLATION_COUNTS.map((count, i) => (
-              <span key={i} className="violation-column">{count}</span>
+              <span key={i} className="violation-column">{violationCountLabel(count)}</span>
             ))}
+            <span className="violation-sum-column top-right-total">Total</span>
           </div>
           {VIOLATION_TYPES.map(renderRow)}
           <div className="violation-sum-row">
