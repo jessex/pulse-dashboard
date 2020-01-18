@@ -17,13 +17,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
+import ExportMenu from '../ExportMenu';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
+import { configureDownloadButtons } from '../../../assets/scripts/utils/downloads';
 import { toInt } from '../../../utils/transforms/labels';
 
 const CHART_LABELS = ['Overall', 'Low Risk', 'Moderate Risk', 'High Risk', 'Very High Risk'];
 const RISK_LEVELS = ['LOW', 'MODERATE', 'HIGH', 'VERY_HIGH'];
 const GENDERS = ['FEMALE', 'MALE'];
+
+const chartId = 'revocationsByGender';
 
 const RevocationsByGender = (props) => {
   const [chartDataPoints, setChartDataPoints] = useState([]);
@@ -49,55 +53,68 @@ const RevocationsByGender = (props) => {
     processResponse();
   }, [props.data]);
 
+  const chart = (
+    <Bar
+      id={chartId}
+      data={{
+        labels: CHART_LABELS,
+        datasets: [{
+          label: 'Female',
+          backgroundColor: COLORS['light-blue-500'],
+          hoverBackgroundColor: COLORS['light-blue-500'],
+          hoverBorderColor: COLORS['light-blue-500'],
+          data: chartDataPoints[0],
+        }, {
+          label: 'Male',
+          backgroundColor: COLORS['orange-500'],
+          hoverBackgroundColor: COLORS['orange-500'],
+          hoverBorderColor: COLORS['orange-500'],
+          data: chartDataPoints[1],
+        }],
+      }}
+      options={{
+        legend: {
+          position: 'bottom',
+        },
+        responsive: true,
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Gender',
+            },
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '# of revocations',
+            },
+            ticks: {
+              beginAtZero: true,
+            },
+          }],
+        },
+        tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
+          mode: 'index',
+          intersect: false,
+        },
+      }}
+    />
+  );
+
   return (
     <div>
-      <h4>Revocations by gender</h4>
-      <Bar
-        data={{
-          labels: CHART_LABELS,
-          datasets: [{
-            label: 'Female',
-            backgroundColor: COLORS['light-blue-500'],
-            hoverBackgroundColor: COLORS['light-blue-500'],
-            hoverBorderColor: COLORS['light-blue-500'],
-            data: chartDataPoints[0],
-          }, {
-            label: 'Male',
-            backgroundColor: COLORS['orange-500'],
-            hoverBackgroundColor: COLORS['orange-500'],
-            hoverBorderColor: COLORS['orange-500'],
-            data: chartDataPoints[1],
-          }],
-        }}
-        options={{
-          legend: {
-            position: 'bottom',
-          },
-          responsive: true,
-          scales: {
-            xAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: 'Gender',
-              },
-            }],
-            yAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: '# of revocations',
-              },
-              ticks: {
-                beginAtZero: true,
-              },
-            }],
-          },
-          tooltips: {
-            backgroundColor: COLORS['grey-800-light'],
-            mode: 'index',
-            intersect: false,
-          },
-        }}
-      />
+      <h4 className="pB-20">
+        Revocations by gender
+        <ExportMenu
+          chartId={chartId}
+          chart={chart}
+          metricTitle="Revocations by gender"
+        />
+      </h4>
+
+      {chart}
     </div>
   );
 };

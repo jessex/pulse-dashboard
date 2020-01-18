@@ -236,7 +236,6 @@ const Revocations = () => {
         </div>
       </div>
       <div className="bgc-white p-20 m-20">
-        <h4>Revocations over time</h4>
         <RevocationCountOverTime
           data={applyAllFilters(apiData.revocations_matrix_by_month)}
         />

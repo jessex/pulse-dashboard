@@ -17,6 +17,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
+import ExportMenu from '../ExportMenu';
 
 import { COLORS } from '../../../assets/scripts/constants/colors';
 import { toInt } from '../../../utils/transforms/labels';
@@ -24,6 +25,8 @@ import { toInt } from '../../../utils/transforms/labels';
 const CHART_LABELS = ['Overall', 'Low Risk', 'Moderate Risk', 'High Risk', 'Very High Risk'];
 const RISK_LEVELS = ['LOW', 'MODERATE', 'HIGH', 'VERY_HIGH'];
 const RACES = ['WHITE', 'BLACK', 'HISPANIC', 'ASIAN', 'NATIVE_AMERICAN', 'PACIFIC_ISLANDER'];
+
+const chartId = 'revocationsByRace';
 
 const RevocationsByRace = (props) => {
   const [chartDataPoints, setChartDataPoints] = useState([]);
@@ -49,79 +52,92 @@ const RevocationsByRace = (props) => {
     processResponse();
   }, [props.data]);
 
+  const chart = (
+    <Bar
+      id={chartId}
+      data={{
+        labels: CHART_LABELS,
+        datasets: [{
+          label: 'Caucasian',
+          backgroundColor: COLORS['light-blue-600'],
+          hoverBackgroundColor: COLORS['light-blue-600'],
+          hoverBorderColor: COLORS['light-blue-600'],
+          data: chartDataPoints[0],
+        }, {
+          label: 'African American',
+          backgroundColor: COLORS['light-blue-500'],
+          hoverBackgroundColor: COLORS['light-blue-500'],
+          hoverBorderColor: COLORS['light-blue-500'],
+          data: chartDataPoints[1],
+        }, {
+          label: 'Hispanic',
+          backgroundColor: COLORS['light-blue-400'],
+          hoverBackgroundColor: COLORS['light-blue-400'],
+          hoverBorderColor: COLORS['light-blue-400'],
+          data: chartDataPoints[2],
+        }, {
+          label: 'Asian',
+          backgroundColor: COLORS['light-blue-300'],
+          hoverBackgroundColor: COLORS['light-blue-300'],
+          hoverBorderColor: COLORS['light-blue-300'],
+          data: chartDataPoints[3],
+        }, {
+          label: 'Native American',
+          backgroundColor: COLORS['light-blue-200'],
+          hoverBackgroundColor: COLORS['light-blue-200'],
+          hoverBorderColor: COLORS['light-blue-200'],
+          data: chartDataPoints[4],
+        }, {
+          label: 'Pacific Islander',
+          backgroundColor: COLORS['light-blue-100'],
+          hoverBackgroundColor: COLORS['light-blue-100'],
+          hoverBorderColor: COLORS['light-blue-100'],
+          data: chartDataPoints[5],
+        }],
+      }}
+      options={{
+        legend: {
+          position: 'bottom',
+        },
+        responsive: true,
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Race',
+            },
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '# of revocations',
+            },
+            ticks: {
+              beginAtZero: true,
+            },
+          }],
+        },
+        tooltips: {
+          backgroundColor: COLORS['grey-800-light'],
+          mode: 'index',
+          intersect: false,
+        },
+      }}
+    />
+  );
+
   return (
     <div>
-      <h4>Revocations by race</h4>
-      <Bar
-        data={{
-          labels: CHART_LABELS,
-          datasets: [{
-            label: 'Caucasian',
-            backgroundColor: COLORS['light-blue-600'],
-            hoverBackgroundColor: COLORS['light-blue-600'],
-            hoverBorderColor: COLORS['light-blue-600'],
-            data: chartDataPoints[0],
-          }, {
-            label: 'African American',
-            backgroundColor: COLORS['light-blue-500'],
-            hoverBackgroundColor: COLORS['light-blue-500'],
-            hoverBorderColor: COLORS['light-blue-500'],
-            data: chartDataPoints[1],
-          }, {
-            label: 'Hispanic',
-            backgroundColor: COLORS['light-blue-400'],
-            hoverBackgroundColor: COLORS['light-blue-400'],
-            hoverBorderColor: COLORS['light-blue-400'],
-            data: chartDataPoints[2],
-          }, {
-            label: 'Asian',
-            backgroundColor: COLORS['light-blue-300'],
-            hoverBackgroundColor: COLORS['light-blue-300'],
-            hoverBorderColor: COLORS['light-blue-300'],
-            data: chartDataPoints[3],
-          }, {
-            label: 'Native American',
-            backgroundColor: COLORS['light-blue-200'],
-            hoverBackgroundColor: COLORS['light-blue-200'],
-            hoverBorderColor: COLORS['light-blue-200'],
-            data: chartDataPoints[4],
-          }, {
-            label: 'Pacific Islander',
-            backgroundColor: COLORS['light-blue-100'],
-            hoverBackgroundColor: COLORS['light-blue-100'],
-            hoverBorderColor: COLORS['light-blue-100'],
-            data: chartDataPoints[5],
-          }],
-        }}
-        options={{
-          legend: {
-            position: 'bottom',
-          },
-          responsive: true,
-          scales: {
-            xAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: 'Race',
-              },
-            }],
-            yAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: '# of revocations',
-              },
-              ticks: {
-                beginAtZero: true,
-              },
-            }],
-          },
-          tooltips: {
-            backgroundColor: COLORS['grey-800-light'],
-            mode: 'index',
-            intersect: false,
-          },
-        }}
-      />
+      <h4 className="pB-20">
+        Revocations by race
+        <ExportMenu
+          chartId={chartId}
+          chart={chart}
+          metricTitle="Revocations by race"
+        />
+      </h4>
+
+      {chart}
     </div>
   );
 };

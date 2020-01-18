@@ -16,6 +16,7 @@
 // =============================================================================
 
 import React, { useState, useEffect } from 'react';
+import ExportMenu from '../ExportMenu';
 
 import { toInt } from '../../../utils/transforms/labels';
 
@@ -64,6 +65,20 @@ const RevocationMatrix = (props) => {
   useEffect(() => {
     processResponse();
   }, [props.data]);
+
+  const exportableMatrixData = () => {
+    const datasets = [];
+    Object.keys(dataMatrix).forEach((rowLabel) => {
+      const dataset = { label: rowLabel, data: [] };
+      const rowValues = dataMatrix[rowLabel] || {};
+      VIOLATION_COUNTS.forEach((columnLabel) => {
+        dataset.data.push(rowValues[columnLabel] || 0);
+      });
+
+      datasets.push(dataset);
+    });
+    return datasets;
+  };
 
   const isSelected = (violationType, reportedViolations) => {
     return props.filters.violationType === violationType &&
@@ -151,9 +166,18 @@ const RevocationMatrix = (props) => {
 
   return (
     <div className="revocation-matrix">
-      <h4>Revocations to prison from probation and parole</h4>
-      <div className="d-f">
-        <div className="y-label">
+      <h4>
+        Revocations to prison from probation and parole
+        <ExportMenu
+          chartId="revocationMatrix"
+          regularElement
+          elementDatasets={exportableMatrixData()}
+          elementLabels={VIOLATION_COUNTS.map((count) => violationCountLabel(count))}
+          metricTitle="Revocations to prison from probation and parole"
+        />
+      </h4>
+      <div id="revocationMatrix" className="d-f">
+        <div className="y-label" data-html2canvas-ignore>
           Most severe violation reported during supervision term
         </div>
         <div className={`matrix ${isFiltered ? 'is-filtered' : ''}`}>
